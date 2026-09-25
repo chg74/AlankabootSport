@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
 <meta charset="UTF-8">
 
@@ -15,1527 +16,1646 @@ content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
 <style>
 
+/* =========================================================
+   GENERAL
+========================================================= */
+
 *{
-  box-sizing:border-box;
-  font-family:'Cairo',sans-serif;
-  margin:0;
-  padding:0;
-  -webkit-tap-highlight-color:transparent;
-  user-select:none;
-  -webkit-user-select:none;
-  touch-action:manipulation;
+    box-sizing:border-box;
+    font-family:'Cairo',sans-serif;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
+    user-select:none;
+    -webkit-user-select:none;
+    touch-action:manipulation;
 }
 
 html,
 body{
-  overflow-x:hidden;
-  width:100%;
-  position:relative;
+    overflow-x:hidden;
+    width:100%;
+    position:relative;
 }
 
 body{
-  background:#080304;
-  color:#fff;
-  min-height:100vh;
+    background:#080304;
+    color:#fff;
+    min-height:100vh;
 }
+
 
 /* =========================================================
    BACKGROUND
 ========================================================= */
 
 .bg-layer{
-  position:fixed;
-  inset:0;
-  z-index:-3;
+    position:fixed;
+    inset:0;
+    z-index:-3;
 
-  background:
+    background:
     radial-gradient(
-      circle at 20% 20%,
-      rgba(220,20,30,.22) 0%,
-      transparent 45%
+        circle at 20% 20%,
+        rgba(220,20,30,.22) 0%,
+        transparent 45%
     ),
 
     radial-gradient(
-      circle at 80% 30%,
-      rgba(140,8,18,.18) 0%,
-      transparent 45%
+        circle at 80% 30%,
+        rgba(140,8,18,.18) 0%,
+        transparent 45%
     ),
 
     radial-gradient(
-      circle at 50% 90%,
-      rgba(190,15,25,.14) 0%,
-      transparent 45%
+        circle at 50% 90%,
+        rgba(190,15,25,.14) 0%,
+        transparent 45%
     ),
 
     linear-gradient(
-      135deg,
-      #080304 0%,
-      #1a0507 50%,
-      #080304 100%
+        135deg,
+        #080304 0%,
+        #1a0507 50%,
+        #080304 100%
     );
 
-  background-size:
+    background-size:
     200% 200%,
     200% 200%,
     200% 200%,
     400% 400%;
 
-  animation:bgMove 20s ease-in-out infinite;
+    animation:bgMove 20s ease-in-out infinite;
 }
 
 @keyframes bgMove{
 
-  0%,100%{
-    background-position:
-      0% 0%,
-      100% 0%,
-      50% 100%,
-      0% 50%;
-  }
+    0%,100%{
+        background-position:
+        0% 0%,
+        100% 0%,
+        50% 100%,
+        0% 50%;
+    }
 
-  33%{
-    background-position:
-      100% 50%,
-      0% 100%,
-      0% 0%,
-      100% 0%;
-  }
+    33%{
+        background-position:
+        100% 50%,
+        0% 100%,
+        0% 0%,
+        100% 0%;
+    }
 
-  66%{
-    background-position:
-      50% 100%,
-      50% 50%,
-      100% 50%,
-      50% 100%;
-  }
-
+    66%{
+        background-position:
+        50% 100%,
+        50% 50%,
+        100% 50%,
+        50% 100%;
+    }
 }
 
+
 .bg-orbs{
-  position:fixed;
-  inset:0;
-  z-index:-2;
-  pointer-events:none;
-  overflow:hidden;
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    pointer-events:none;
+    overflow:hidden;
 }
 
 .bg-orbs .orb{
-  position:absolute;
-  border-radius:50%;
-  filter:blur(70px);
-  opacity:.5;
+    position:absolute;
+    border-radius:50%;
+    filter:blur(70px);
+    opacity:.5;
 }
 
 .bg-orbs .orb1{
-  width:400px;
-  height:400px;
-  top:-100px;
-  left:-100px;
+    width:400px;
+    height:400px;
+    top:-100px;
+    left:-100px;
 
-  background:
+    background:
     radial-gradient(
-      circle,
-      rgba(220,20,30,.7) 0%,
-      transparent 70%
+        circle,
+        rgba(220,20,30,.7) 0%,
+        transparent 70%
     );
 
-  animation:orb1 18s ease-in-out infinite;
+    animation:orb1 18s ease-in-out infinite;
 }
 
 .bg-orbs .orb2{
-  width:500px;
-  height:500px;
-  bottom:-150px;
-  right:-150px;
+    width:500px;
+    height:500px;
+    bottom:-150px;
+    right:-150px;
 
-  background:
+    background:
     radial-gradient(
-      circle,
-      rgba(139,0,0,.6) 0%,
-      transparent 70%
+        circle,
+        rgba(139,0,0,.6) 0%,
+        transparent 70%
     );
 
-  animation:orb2 22s ease-in-out infinite;
+    animation:orb2 22s ease-in-out infinite;
 }
 
 .bg-orbs .orb3{
-  width:300px;
-  height:300px;
-  top:40%;
-  left:50%;
+    width:300px;
+    height:300px;
+    top:40%;
+    left:50%;
 
-  background:
+    background:
     radial-gradient(
-      circle,
-      rgba(255,71,87,.4) 0%,
-      transparent 70%
+        circle,
+        rgba(255,71,87,.4) 0%,
+        transparent 70%
     );
 
-  animation:orb3 25s ease-in-out infinite;
+    animation:orb3 25s ease-in-out infinite;
 }
 
 @keyframes orb1{
 
-  0%,100%{
-    transform:translate(0,0) scale(1);
-  }
+    0%,100%{
+        transform:translate(0,0) scale(1);
+    }
 
-  50%{
-    transform:translate(80px,60px) scale(1.2);
-  }
-
+    50%{
+        transform:translate(80px,60px) scale(1.2);
+    }
 }
 
 @keyframes orb2{
 
-  0%,100%{
-    transform:translate(0,0) scale(1);
-  }
+    0%,100%{
+        transform:translate(0,0) scale(1);
+    }
 
-  50%{
-    transform:translate(-70px,-50px) scale(1.15);
-  }
-
+    50%{
+        transform:translate(-70px,-50px) scale(1.15);
+    }
 }
 
 @keyframes orb3{
 
-  0%,100%{
-    transform:translate(-50%,-50%) scale(1);
-  }
+    0%,100%{
+        transform:translate(-50%,-50%) scale(1);
+    }
 
-  50%{
-    transform:translate(-30%,-70%) scale(1.3);
-  }
-
+    50%{
+        transform:translate(-30%,-70%) scale(1.3);
+    }
 }
 
+
 .bg-lines{
-  position:fixed;
-  inset:0;
-  z-index:-1;
-  pointer-events:none;
-  overflow:hidden;
-  opacity:.4;
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    pointer-events:none;
+    overflow:hidden;
+    opacity:.4;
 }
 
 .bg-lines span{
-  position:absolute;
-  width:2px;
-  height:200%;
-  top:-50%;
+    position:absolute;
+    width:2px;
+    height:200%;
+    top:-50%;
 
-  background:
+    background:
     linear-gradient(
-      180deg,
-      transparent,
-      rgba(220,20,30,.6),
-      transparent
+        180deg,
+        transparent,
+        rgba(220,20,30,.6),
+        transparent
     );
 
-  animation:lineFlow 10s linear infinite;
+    animation:lineFlow 10s linear infinite;
 }
 
 .bg-lines span:nth-child(1){
-  left:8%;
-  animation-delay:0s;
+    left:8%;
 }
 
 .bg-lines span:nth-child(2){
-  left:28%;
-  animation-delay:-3s;
-  animation-duration:14s;
+    left:28%;
+    animation-delay:-3s;
+    animation-duration:14s;
 }
 
 .bg-lines span:nth-child(3){
-  left:52%;
-  animation-delay:-6s;
-  animation-duration:11s;
+    left:52%;
+    animation-delay:-6s;
+    animation-duration:11s;
 }
 
 .bg-lines span:nth-child(4){
-  left:76%;
-  animation-delay:-2s;
-  animation-duration:13s;
+    left:76%;
+    animation-delay:-2s;
+    animation-duration:13s;
 }
 
 .bg-lines span:nth-child(5){
-  left:92%;
-  animation-delay:-8s;
-  animation-duration:16s;
+    left:92%;
+    animation-delay:-8s;
+    animation-duration:16s;
 }
 
 @keyframes lineFlow{
 
-  0%{
-    transform:translateY(-50%) rotate(-12deg);
-    opacity:0;
-  }
+    0%{
+        transform:translateY(-50%) rotate(-12deg);
+        opacity:0;
+    }
 
-  50%{
-    opacity:.8;
-  }
+    50%{
+        opacity:.8;
+    }
 
-  100%{
-    transform:translateY(50%) rotate(-12deg);
-    opacity:0;
-  }
-
+    100%{
+        transform:translateY(50%) rotate(-12deg);
+        opacity:0;
+    }
 }
+
 
 .bg-dots{
-  position:fixed;
-  inset:0;
-  z-index:-1;
-  pointer-events:none;
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    pointer-events:none;
 
-  background-image:
+    background-image:
     radial-gradient(
-      circle,
-      rgba(220,20,30,.15) 1px,
-      transparent 1px
+        circle,
+        rgba(220,20,30,.15) 1px,
+        transparent 1px
     );
 
-  background-size:38px 38px;
-  opacity:.4;
+    background-size:38px 38px;
+    opacity:.4;
 
-  mask-image:
+    mask-image:
     radial-gradient(
-      ellipse at center,
-      black 30%,
-      transparent 75%
+        ellipse at center,
+        black 30%,
+        transparent 75%
     );
 
-  -webkit-mask-image:
+    -webkit-mask-image:
     radial-gradient(
-      ellipse at center,
-      black 30%,
-      transparent 75%
+        ellipse at center,
+        black 30%,
+        transparent 75%
     );
 }
+
 
 /* =========================================================
    SPLASH
 ========================================================= */
 
 #splash{
-  position:fixed;
-  inset:0;
+    position:fixed;
+    inset:0;
 
-  background:
+    background:
     radial-gradient(
-      circle at 50% 45%,
-      #1e0507 0%,
-      #080304 70%
+        circle at 50% 45%,
+        #1e0507 0%,
+        #080304 70%
     );
 
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
 
-  z-index:9999;
-  transition:opacity .9s;
+    z-index:9999;
 
-  padding:20px;
-  overflow:hidden;
+    transition:opacity .9s;
+
+    padding:20px;
+    overflow:hidden;
 }
 
 #splash.hide{
-  opacity:0;
-  pointer-events:none;
+    opacity:0;
+    pointer-events:none;
 }
 
 #splash::before{
-  content:'';
+    content:'';
 
-  position:absolute;
+    position:absolute;
 
-  width:400px;
-  height:400px;
+    width:400px;
+    height:400px;
 
-  top:50%;
-  left:50%;
+    top:50%;
+    left:50%;
 
-  transform:translate(-50%,-50%);
+    transform:translate(-50%,-50%);
 
-  background:
+    background:
     radial-gradient(
-      circle,
-      rgba(220,20,30,.3),
-      transparent 65%
+        circle,
+        rgba(220,20,30,.3),
+        transparent 65%
     );
 
-  border-radius:50%;
+    border-radius:50%;
 
-  animation:splashGlow 3s ease-in-out infinite;
+    animation:splashGlow 3s ease-in-out infinite;
 
-  pointer-events:none;
+    pointer-events:none;
 }
 
 @keyframes splashGlow{
 
-  0%,100%{
-    transform:translate(-50%,-50%) scale(1);
-    opacity:.5;
-  }
+    0%,100%{
+        transform:
+        translate(-50%,-50%)
+        scale(1);
 
-  50%{
-    transform:translate(-50%,-50%) scale(1.4);
-    opacity:1;
-  }
+        opacity:.5;
+    }
 
+    50%{
+        transform:
+        translate(-50%,-50%)
+        scale(1.4);
+
+        opacity:1;
+    }
 }
 
+
 .loader{
-  position:relative;
-  width:120px;
-  height:120px;
-  margin-bottom:24px;
-  z-index:2;
+    position:relative;
+    width:120px;
+    height:120px;
+    margin-bottom:24px;
+    z-index:2;
 }
 
 .loader svg.spin{
-  width:100%;
-  height:100%;
-  animation:rot 1.8s linear infinite;
+    width:100%;
+    height:100%;
+    animation:rot 1.8s linear infinite;
 }
 
 @keyframes rot{
-  to{
-    transform:rotate(360deg);
-  }
+    to{
+        transform:rotate(360deg);
+    }
 }
 
 .loader svg.spin circle{
-  fill:none;
-  stroke-width:3;
-  stroke-linecap:round;
-  stroke:#dc1420;
+    fill:none;
+    stroke-width:3;
+    stroke-linecap:round;
+    stroke:#dc1420;
 
-  stroke-dasharray:1 200;
+    stroke-dasharray:1 200;
 
-  animation:dash 1.6s ease-in-out infinite;
+    animation:dash 1.6s ease-in-out infinite;
 }
 
 @keyframes dash{
 
-  0%{
-    stroke-dasharray:1 200;
-    stroke-dashoffset:0;
-  }
+    0%{
+        stroke-dasharray:1 200;
+        stroke-dashoffset:0;
+    }
 
-  50%{
-    stroke-dasharray:90 200;
-    stroke-dashoffset:-35;
-  }
+    50%{
+        stroke-dasharray:90 200;
+        stroke-dashoffset:-35;
+    }
 
-  100%{
-    stroke-dasharray:90 200;
-    stroke-dashoffset:-124;
-  }
-
+    100%{
+        stroke-dasharray:90 200;
+        stroke-dashoffset:-124;
+    }
 }
 
 .loader .logo-circle{
-  position:absolute;
-  inset:22px;
+    position:absolute;
+    inset:22px;
 
-  border-radius:50%;
+    border-radius:50%;
 
-  background:#0d0405;
+    background:#0d0405;
 
-  display:flex;
-  justify-content:center;
-  align-items:center;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-  padding:8px;
-  overflow:hidden;
+    padding:8px;
 
-  box-shadow:
+    overflow:hidden;
+
+    box-shadow:
     0 0 25px rgba(220,20,30,.4) inset;
 }
 
 .loader .logo-circle img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  border-radius:50%;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    border-radius:50%;
 }
 
+
 .brand-name{
-  color:#fff;
+    color:#fff;
 
-  font-size:28px;
-  font-weight:900;
+    font-size:28px;
+    font-weight:900;
 
-  letter-spacing:2.5px;
+    letter-spacing:2.5px;
 
-  margin-bottom:8px;
+    margin-bottom:8px;
 
-  text-align:center;
+    text-align:center;
 
-  z-index:2;
+    z-index:2;
 
-  background:
+    background:
     linear-gradient(
-      90deg,
-      #fff 0%,
-      #ff4757 50%,
-      #fff 100%
+        90deg,
+        #fff 0%,
+        #ff4757 50%,
+        #fff 100%
     );
 
-  background-size:200% 100%;
+    background-size:200% 100%;
 
-  -webkit-background-clip:text;
-  background-clip:text;
+    -webkit-background-clip:text;
+    background-clip:text;
 
-  -webkit-text-fill-color:transparent;
+    -webkit-text-fill-color:transparent;
 
-  animation:brandShine 3s linear infinite;
+    animation:brandShine 3s linear infinite;
 
-  filter:
+    filter:
     drop-shadow(
-      0 0 20px rgba(220,20,30,.6)
+        0 0 20px rgba(220,20,30,.6)
     );
 }
 
 @keyframes brandShine{
-  to{
-    background-position:200% 0;
-  }
+    to{
+        background-position:200% 0;
+    }
 }
 
+
 .welcome-text{
-  color:#fff;
-  font-size:18px;
-  font-weight:800;
+    color:#fff;
 
-  margin-bottom:22px;
+    font-size:18px;
+    font-weight:800;
 
-  z-index:2;
+    margin-bottom:22px;
 
-  letter-spacing:1.5px;
+    z-index:2;
 
-  text-shadow:
+    letter-spacing:1.5px;
+
+    text-shadow:
     0 0 20px rgba(220,20,30,.7);
 
-  animation:welcomeIn 1.2s ease forwards;
+    animation:welcomeIn 1.2s ease forwards;
 
-  opacity:0;
+    opacity:0;
 }
 
 @keyframes welcomeIn{
 
-  0%{
-    opacity:0;
-    transform:translateY(15px);
-  }
+    0%{
+        opacity:0;
+        transform:translateY(15px);
+    }
 
-  100%{
-    opacity:1;
-    transform:translateY(0);
-  }
-
+    100%{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
+
 
 .loading-text{
-  color:#b89fa1;
+    color:#b89fa1;
 
-  font-size:13px;
-  font-weight:600;
+    font-size:13px;
+    font-weight:600;
 
-  margin-bottom:16px;
+    margin-bottom:16px;
 
-  letter-spacing:.3px;
+    letter-spacing:.3px;
 
-  opacity:.85;
+    opacity:.85;
 
-  z-index:2;
+    z-index:2;
 }
 
+
 .loading-bar{
-  width:240px;
-  max-width:80%;
-  height:3px;
+    width:240px;
+    max-width:80%;
 
-  background:rgba(220,20,30,.15);
+    height:3px;
 
-  border-radius:3px;
-  overflow:hidden;
+    background:rgba(220,20,30,.15);
 
-  z-index:2;
+    border-radius:3px;
+
+    overflow:hidden;
+
+    z-index:2;
 }
 
 .loading-bar .fill{
-  height:100%;
-  width:0;
+    height:100%;
+    width:0;
 
-  background:
+    background:
     linear-gradient(
-      90deg,
-      #8b0000,
-      #dc1420,
-      #ff4757
+        90deg,
+        #8b0000,
+        #dc1420,
+        #ff4757
     );
 
-  animation:fill 2.6s ease forwards;
+    animation:fill 2.6s ease forwards;
 
-  border-radius:3px;
+    border-radius:3px;
 
-  box-shadow:
+    box-shadow:
     0 0 10px rgba(220,20,30,.8);
 }
 
 @keyframes fill{
-  to{
-    width:100%;
-  }
+    to{
+        width:100%;
+    }
 }
 
+
 /* =========================================================
-   APP
+   MAIN APP
 ========================================================= */
 
 #app{
-  display:none;
-  opacity:0;
-  transition:opacity .9s;
+    display:none;
 
-  min-height:100vh;
+    opacity:0;
 
-  padding:20px 16px;
+    transition:opacity .9s;
 
-  position:relative;
-  z-index:1;
+    min-height:100vh;
+
+    padding:20px 16px;
+
+    position:relative;
+
+    z-index:1;
 }
 
 #app.show{
-  display:block;
-  opacity:1;
+    display:block;
+    opacity:1;
 }
+
 
 .main-header{
-  max-width:1200px;
-  margin:0 auto 20px;
+    max-width:1200px;
 
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+    margin:0 auto 20px;
 
-  padding:14px 20px;
+    display:flex;
 
-  background:
+    justify-content:space-between;
+    align-items:center;
+
+    padding:14px 20px;
+
+    background:
     linear-gradient(
-      155deg,
-      rgba(24,5,7,.85),
-      rgba(35,10,14,.85)
+        155deg,
+        rgba(24,5,7,.85),
+        rgba(35,10,14,.85)
     );
 
-  border:
+    border:
     1px solid rgba(220,20,30,.25);
 
-  border-radius:16px;
+    border-radius:16px;
 
-  box-shadow:
+    box-shadow:
     0 10px 30px rgba(0,0,0,.5);
 
-  backdrop-filter:blur(15px);
-  -webkit-backdrop-filter:blur(15px);
+    backdrop-filter:blur(15px);
+    -webkit-backdrop-filter:blur(15px);
 }
 
+
 .header-brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
 
 .header-brand .logo-sm{
-  width:46px;
-  height:46px;
+    width:46px;
+    height:46px;
 
-  border-radius:50%;
+    border-radius:50%;
 
-  background:#0c0304;
+    background:#0c0304;
 
-  padding:5px;
+    padding:5px;
 
-  border:
+    border:
     1px solid rgba(220,20,30,.4);
 
-  object-fit:contain;
+    object-fit:contain;
 }
 
 .header-brand .text .name{
-  color:#fff;
-
-  font-size:17px;
-  font-weight:900;
-
-  letter-spacing:1px;
-  line-height:1.2;
+    color:#fff;
+    font-size:17px;
+    font-weight:900;
+    letter-spacing:1px;
+    line-height:1.2;
 }
 
 .header-brand .text .sub{
-  color:#b89fa1;
-
-  font-size:11px;
-  font-weight:600;
-
-  letter-spacing:.3px;
+    color:#b89fa1;
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:.3px;
 }
 
-.header-tg{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
 
-  background:
+.header-tg{
+    display:inline-flex;
+    align-items:center;
+
+    gap:8px;
+
+    background:
     linear-gradient(
-      135deg,
-      #0088cc,
-      #00a3e0
+        135deg,
+        #0088cc,
+        #00a3e0
     );
 
-  color:#fff;
+    color:#fff;
 
-  padding:9px 16px;
+    padding:9px 16px;
 
-  border-radius:12px;
+    border-radius:12px;
 
-  font-weight:700;
-  font-size:13px;
+    font-weight:700;
 
-  text-decoration:none;
+    font-size:13px;
 
-  box-shadow:
+    text-decoration:none;
+
+    box-shadow:
     0 6px 18px rgba(0,136,204,.4);
 
-  transition:.25s;
+    transition:.25s;
 }
 
 .header-tg:hover{
-  transform:translateY(-2px);
+    transform:translateY(-2px);
 
-  box-shadow:
+    box-shadow:
     0 10px 25px rgba(0,136,204,.6);
 }
 
 .header-tg svg{
-  width:18px;
-  height:18px;
-  fill:currentColor;
+    width:18px;
+    height:18px;
+    fill:currentColor;
 }
 
+
 .support-banner{
-  max-width:1200px;
-  margin:0 auto 20px;
+    max-width:1200px;
 
-  padding:18px 20px;
+    margin:0 auto 20px;
 
-  background:
+    padding:18px 20px;
+
+    background:
     linear-gradient(
-      135deg,
-      rgba(220,20,30,.12),
-      rgba(139,0,0,.08)
+        135deg,
+        rgba(220,20,30,.12),
+        rgba(139,0,0,.08)
     );
 
-  border:
+    border:
     1px solid rgba(220,20,30,.35);
 
-  border-radius:16px;
+    border-radius:16px;
 
-  position:relative;
-  overflow:hidden;
+    position:relative;
 
-  box-shadow:
+    overflow:hidden;
+
+    box-shadow:
     0 8px 25px rgba(0,0,0,.4);
 
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
 }
 
 .support-banner::before{
-  content:'';
+    content:'';
 
-  position:absolute;
+    position:absolute;
 
-  top:-50%;
-  right:-10%;
+    top:-50%;
+    right:-10%;
 
-  width:200px;
-  height:200px;
+    width:200px;
+    height:200px;
 
-  border-radius:50%;
+    border-radius:50%;
 
-  background:
+    background:
     radial-gradient(
-      circle,
-      rgba(220,20,30,.25),
-      transparent 70%
+        circle,
+        rgba(220,20,30,.25),
+        transparent 70%
     );
 
-  pointer-events:none;
+    pointer-events:none;
 
-  animation:supportGlow 4s ease-in-out infinite;
+    animation:supportGlow 4s ease-in-out infinite;
 }
 
+
 .support-banner .title{
-  color:#fff;
+    color:#fff;
 
-  font-size:16px;
-  font-weight:900;
+    font-size:16px;
+    font-weight:900;
 
-  margin-bottom:10px;
+    margin-bottom:10px;
 
-  display:flex;
-  align-items:center;
+    display:flex;
+    align-items:center;
 
-  gap:10px;
+    gap:10px;
 
-  letter-spacing:.3px;
+    letter-spacing:.3px;
 
-  position:relative;
-  z-index:2;
+    position:relative;
+
+    z-index:2;
 }
 
 .support-banner .title svg{
-  width:22px;
-  height:22px;
+    width:22px;
+    height:22px;
 
-  fill:#dc1420;
+    fill:#dc1420;
 
-  flex-shrink:0;
+    flex-shrink:0;
 }
 
 .support-banner .body{
-  color:#c9a5a7;
+    color:#c9a5a7;
 
-  font-size:13px;
-  line-height:1.85;
+    font-size:13px;
 
-  font-weight:600;
+    line-height:1.85;
 
-  margin-bottom:14px;
+    font-weight:600;
 
-  position:relative;
-  z-index:2;
+    margin-bottom:14px;
+
+    position:relative;
+
+    z-index:2;
 }
 
-.support-btn{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
 
-  background:
+.support-btn{
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    background:
     linear-gradient(
-      135deg,
-      #8b0000,
-      #dc1420
+        135deg,
+        #8b0000,
+        #dc1420
     );
 
-  color:#fff;
+    color:#fff;
 
-  padding:10px 22px;
+    padding:10px 22px;
 
-  border-radius:12px;
+    border-radius:12px;
 
-  font-weight:800;
-  font-size:13px;
+    font-weight:800;
 
-  text-decoration:none;
+    font-size:13px;
 
-  box-shadow:
+    text-decoration:none;
+
+    box-shadow:
     0 6px 20px rgba(220,20,30,.45);
 
-  transition:.25s;
+    transition:.25s;
 
-  letter-spacing:.4px;
+    letter-spacing:.4px;
 
-  position:relative;
-  z-index:2;
+    font-family:'Cairo',sans-serif;
+
+    position:relative;
+
+    z-index:2;
 }
 
 .support-btn:hover{
-  transform:translateY(-2px);
+    transform:translateY(-2px);
 
-  box-shadow:
+    box-shadow:
     0 10px 28px rgba(220,20,30,.7);
+
+    letter-spacing:.8px;
 }
 
 .support-btn svg{
-  width:16px;
-  height:16px;
-  fill:currentColor;
+    width:16px;
+    height:16px;
+    fill:currentColor;
 }
 
+
 .section-title{
-  max-width:1200px;
-  margin:0 auto 14px;
+    max-width:1200px;
 
-  display:flex;
-  align-items:center;
+    margin:0 auto 14px;
 
-  gap:10px;
+    display:flex;
 
-  color:#fff;
+    align-items:center;
 
-  font-size:15px;
-  font-weight:800;
+    gap:10px;
 
-  letter-spacing:.5px;
+    color:#fff;
+
+    font-size:15px;
+
+    font-weight:800;
+
+    letter-spacing:.5px;
 }
 
 .section-title::before{
-  content:'';
+    content:'';
 
-  width:4px;
-  height:20px;
+    width:4px;
+    height:20px;
 
-  border-radius:4px;
+    border-radius:4px;
 
-  background:
+    background:
     linear-gradient(
-      180deg,
-      #8b0000,
-      #dc1420
+        180deg,
+        #8b0000,
+        #dc1420
     );
 }
 
 .section-title::after{
-  content:'';
+    content:'';
 
-  flex:1;
+    flex:1;
 
-  height:1px;
+    height:1px;
 
-  background:
+    background:
     linear-gradient(
-      90deg,
-      rgba(220,20,30,.4),
-      transparent
+        90deg,
+        rgba(220,20,30,.4),
+        transparent
     );
 }
+
 
 .matches-grid{
-  display:grid;
+    display:grid;
 
-  grid-template-columns:
+    grid-template-columns:
     repeat(
-      auto-fill,
-      minmax(280px,1fr)
+        auto-fill,
+        minmax(280px,1fr)
     );
 
-  gap:16px;
+    gap:16px;
 
-  max-width:1200px;
+    max-width:1200px;
 
-  margin:0 auto;
+    margin:0 auto;
 }
 
+
 .match-tile{
-  background:
+    background:
     linear-gradient(
-      155deg,
-      rgba(24,5,7,.85),
-      rgba(35,10,14,.85)
+        155deg,
+        rgba(24,5,7,.85),
+        rgba(35,10,14,.85)
     );
 
-  border:
+    border:
     1px solid rgba(220,20,30,.22);
 
-  border-radius:16px;
+    border-radius:16px;
 
-  padding:20px;
+    padding:20px;
 
-  cursor:pointer;
+    cursor:pointer;
 
-  transition:.32s;
+    transition:.32s;
 
-  box-shadow:
+    box-shadow:
     0 10px 32px rgba(0,0,0,.55);
 
-  position:relative;
-  overflow:hidden;
+    position:relative;
 
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
+    overflow:hidden;
+
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
 }
 
 .match-tile::before{
-  content:'';
+    content:'';
 
-  position:absolute;
+    position:absolute;
 
-  top:0;
-  left:0;
-  right:0;
+    top:0;
+    left:0;
+    right:0;
 
-  height:2px;
+    height:2px;
 
-  background:
+    background:
     linear-gradient(
-      90deg,
-      #8b0000,
-      #dc1420,
-      #ff4757,
-      #dc1420,
-      #8b0000
+        90deg,
+        #8b0000,
+        #dc1420,
+        #ff4757,
+        #dc1420,
+        #8b0000
     );
 
-  background-size:200% 100%;
+    background-size:200% 100%;
 
-  opacity:.75;
+    opacity:.75;
 }
 
 .match-tile.live::before{
-  opacity:1;
-  animation:shine 2s linear infinite;
+    opacity:1;
+
+    animation:
+    shine 2s linear infinite;
 }
 
 @keyframes shine{
-  to{
-    background-position:200% 0;
-  }
+    to{
+        background-position:200% 0;
+    }
 }
 
 .match-tile:hover{
-  transform:translateY(-4px);
+    transform:translateY(-4px);
 
-  border-color:#dc1420;
+    border-color:#dc1420;
 
-  box-shadow:
+    box-shadow:
     0 14px 40px rgba(190,15,25,.28);
 }
 
+
 .match-tile .top-info{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+    display:flex;
 
-  margin-bottom:16px;
+    justify-content:space-between;
 
-  font-size:12px;
+    align-items:center;
 
-  gap:8px;
+    margin-bottom:16px;
+
+    font-size:12px;
+
+    gap:8px;
 }
 
 .match-tile .top-info .title{
-  color:#b89fa1;
-  font-weight:600;
+    color:#b89fa1;
+    font-weight:600;
 }
 
 .match-tile .top-info .time-tag{
-  color:#dc1420;
-  font-weight:700;
-  font-size:13px;
+    color:#dc1420;
+    font-weight:700;
+    font-size:13px;
 }
 
 .match-tile .top-info .live-tag{
-  background:
+    background:
     linear-gradient(
-      135deg,
-      #8b0000,
-      #dc1420
+        135deg,
+        #8b0000,
+        #dc1420
     );
 
-  color:#fff;
+    color:#fff;
 
-  padding:3px 11px;
+    padding:3px 11px;
 
-  border-radius:11px;
+    border-radius:11px;
 
-  font-weight:700;
+    font-weight:700;
 
-  font-size:10px;
+    font-size:10px;
 
-  letter-spacing:.4px;
+    letter-spacing:.4px;
 
-  display:inline-flex;
-  align-items:center;
+    display:inline-flex;
 
-  gap:4px;
+    align-items:center;
+
+    gap:4px;
 }
 
 .match-tile .top-info .live-tag::before{
-  content:'';
+    content:'';
 
-  width:5px;
-  height:5px;
+    width:5px;
+    height:5px;
 
-  border-radius:50%;
+    border-radius:50%;
 
-  background:#fff;
+    background:#fff;
 
-  animation:blink 1s infinite;
+    animation:blink 1s infinite;
 }
 
 @keyframes blink{
-  50%{
-    opacity:.25;
-  }
+    50%{
+        opacity:.25;
+    }
 }
 
-.match-tile .teams{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
 
-  gap:12px;
+.match-tile .teams{
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:12px;
 }
 
 .match-tile .team{
-  flex:1;
-  text-align:center;
+    flex:1;
+    text-align:center;
 }
 
 .match-tile .team img{
-  width:74px;
-  height:74px;
+    width:74px;
+    height:74px;
 
-  object-fit:contain;
+    object-fit:contain;
 
-  border-radius:50%;
+    border-radius:50%;
 
-  background:#0c0304;
+    background:#0c0304;
 
-  padding:6px;
+    padding:6px;
 
-  border:
+    border:
     1px solid rgba(220,20,30,.35);
 
-  transition:.32s;
+    transition:.32s;
 }
 
 .match-tile:hover .team img{
-  border-color:#dc1420;
-  transform:scale(1.06);
+    border-color:#dc1420;
+    transform:scale(1.06);
 }
 
 .match-tile .team .name{
-  margin-top:10px;
+    margin-top:10px;
 
-  font-weight:700;
+    font-weight:700;
 
-  font-size:13px;
+    font-size:13px;
 
-  color:#fff;
+    color:#fff;
 }
 
 .match-tile .vs{
-  font-weight:900;
+    font-weight:900;
 
-  color:#dc1420;
+    color:#dc1420;
 
-  font-size:16px;
+    font-size:16px;
 
-  letter-spacing:1px;
+    letter-spacing:1px;
 }
 
+
 .match-tile .watch-btn{
-  margin-top:16px;
+    margin-top:16px;
 
-  padding:11px;
+    padding:11px;
 
-  border-radius:10px;
+    border-radius:10px;
 
-  text-align:center;
+    text-align:center;
 
-  font-weight:700;
+    font-weight:700;
 
-  font-size:13px;
+    font-size:13px;
 
-  background:
+    background:
     linear-gradient(
-      90deg,
-      #8b0000,
-      #dc1420
+        90deg,
+        #8b0000,
+        #dc1420
     );
 
-  color:#fff;
+    color:#fff;
 
-  letter-spacing:.5px;
+    letter-spacing:.5px;
 
-  transition:.3s;
+    transition:.3s;
+}
+
+.match-tile:hover .watch-btn{
+    letter-spacing:1px;
 }
 
 .match-tile:not(.live) .watch-btn{
-  background:#200608;
-  color:#8a5b5e;
+    background:#200608;
+    color:#8a5b5e;
 }
 
 .match-tile:not(.live) .watch-btn::after{
-  content:' — غير متاح';
+    content:' — غير متاح';
 }
 
+
 .main-footer{
-  max-width:1200px;
+    max-width:1200px;
 
-  margin:30px auto 0;
+    margin:30px auto 0;
 
-  padding:20px;
+    padding:20px;
 
-  text-align:center;
+    text-align:center;
 
-  border-top:
+    border-top:
     1px solid rgba(220,20,30,.15);
 
-  color:#8a5b5e;
+    color:#8a5b5e;
 
-  font-size:12px;
-  font-weight:600;
+    font-size:12px;
+
+    font-weight:600;
 }
 
 .main-footer a{
-  color:#dc1420;
+    color:#dc1420;
 
-  text-decoration:none;
+    text-decoration:none;
 
-  font-weight:700;
+    font-weight:700;
 
-  margin:0 4px;
+    margin:0 4px;
+
+    transition:.2s;
 }
 
+.main-footer a:hover{
+    color:#ff4757;
+}
+
+
 /* =========================================================
-   STREAM
+   STREAM VIEW
 ========================================================= */
 
 #streamView{
-  display:none;
+    display:none;
 
-  position:fixed;
-  inset:0;
+    position:fixed;
 
-  background:#000;
+    inset:0;
 
-  z-index:100;
+    background:#000;
 
-  flex-direction:column;
+    z-index:100;
+
+    flex-direction:column;
 }
 
 #streamView.show{
-  display:flex;
+    display:flex;
 }
+
 
 .stream-topbar{
-  display:flex;
+    display:flex;
 
-  justify-content:space-between;
-  align-items:center;
+    justify-content:space-between;
 
-  padding:12px 16px;
+    align-items:center;
 
-  background:
+    padding:12px 16px;
+
+    background:
     linear-gradient(
-      180deg,
-      rgba(0,0,0,.92),
-      rgba(0,0,0,.5)
+        180deg,
+        rgba(0,0,0,.92),
+        rgba(0,0,0,.5)
     );
 
-  backdrop-filter:blur(10px);
+    backdrop-filter:blur(10px);
 
-  border-bottom:
+    border-bottom:
     1px solid rgba(220,20,30,.2);
 
-  z-index:10;
+    z-index:10;
 
-  flex-shrink:0;
+    flex-shrink:0;
 }
 
+
 .back-btn{
-  background:rgba(220,20,30,.14);
+    background:
+    rgba(220,20,30,.14);
 
-  color:#ff4757;
+    color:#ff4757;
 
-  border:
+    border:
     1px solid rgba(220,20,30,.45);
 
-  padding:7px 15px;
+    padding:7px 15px;
 
-  border-radius:18px;
+    border-radius:18px;
 
-  font-weight:700;
+    font-weight:700;
 
-  cursor:pointer;
+    cursor:pointer;
 
-  font-size:13px;
+    font-size:13px;
 
-  display:inline-flex;
+    display:inline-flex;
 
-  align-items:center;
+    align-items:center;
 
-  gap:6px;
+    gap:6px;
 
-  transition:.22s;
+    transition:.22s;
+
+    font-family:'Cairo',sans-serif;
+}
+
+.back-btn:hover{
+    background:#dc1420;
+
+    color:#fff;
+
+    border-color:#dc1420;
 }
 
 .back-btn svg{
-  width:14px;
-  height:14px;
-
-  fill:currentColor;
+    width:14px;
+    height:14px;
+    fill:currentColor;
 }
+
 
 .stream-title{
-  color:#fff;
+    color:#fff;
 
-  font-weight:700;
+    font-weight:700;
 
-  font-size:14px;
+    font-size:14px;
 
-  text-align:center;
+    text-align:center;
 
-  flex:1;
+    flex:1;
 
-  padding:0 10px;
+    padding:0 10px;
 
-  overflow:hidden;
+    overflow:hidden;
 
-  text-overflow:ellipsis;
+    text-overflow:ellipsis;
 
-  white-space:nowrap;
+    white-space:nowrap;
 }
 
+
 .stream-live{
-  background:
+    background:
     linear-gradient(
-      90deg,
-      #8b0000,
-      #dc1420
+        90deg,
+        #8b0000,
+        #dc1420
     );
 
-  color:#fff;
+    color:#fff;
 
-  padding:5px 13px;
+    padding:5px 13px;
 
-  border-radius:13px;
+    border-radius:13px;
 
-  font-size:11px;
+    font-size:11px;
 
-  font-weight:700;
+    font-weight:700;
 
-  letter-spacing:.4px;
+    letter-spacing:.4px;
 
-  display:inline-flex;
+    display:inline-flex;
 
-  align-items:center;
+    align-items:center;
 
-  gap:5px;
+    gap:5px;
 
-  box-shadow:
+    box-shadow:
     0 0 12px rgba(220,20,30,.55);
 }
 
 .stream-live::before{
-  content:'';
+    content:'';
 
-  width:6px;
-  height:6px;
+    width:6px;
+    height:6px;
 
-  border-radius:50%;
+    border-radius:50%;
 
-  background:#fff;
+    background:#fff;
 
-  animation:blink 1.2s infinite;
+    animation:blink 1.2s infinite;
 }
+
+
+.stream-player-wrap{
+    flex:1;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:16px;
+
+    min-height:0;
+
+    overflow:hidden;
+}
+
 
 /* =========================================================
    PLAYER
 ========================================================= */
 
-.stream-player-wrap{
-  flex:1;
-
-  display:flex;
-
-  justify-content:center;
-
-  align-items:center;
-
-  padding:16px;
-
-  min-height:0;
-
-  overflow:hidden;
-}
-
 .player-box{
-  position:relative;
+    position:relative;
 
-  width:100%;
+    width:100%;
 
-  max-width:1100px;
+    max-width:1100px;
 
-  aspect-ratio:16/9;
+    aspect-ratio:16/9;
 
-  background:#000;
+    background:#000;
 
-  border-radius:14px;
+    border-radius:14px;
 
-  overflow:hidden;
+    overflow:hidden;
 
-  border:
+    border:
     1px solid rgba(220,20,30,.28);
 
-  box-shadow:
+    box-shadow:
     0 22px 60px rgba(0,0,0,.85),
     0 0 45px rgba(190,15,25,.14);
 }
 
+
 .player-box:fullscreen,
 .player-box:-webkit-full-screen{
-  width:100vw !important;
-  height:100vh !important;
 
-  max-width:none !important;
-  max-height:none !important;
+    width:100vw !important;
 
-  aspect-ratio:auto !important;
+    height:100vh !important;
 
-  border-radius:0 !important;
-  border:none !important;
+    max-width:none !important;
 
-  display:flex;
+    max-height:none !important;
 
-  justify-content:center;
-  align-items:center;
+    aspect-ratio:auto !important;
 
-  background:#000;
+    border-radius:0 !important;
+
+    border:none !important;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:#000;
 }
+
+
+/* =========================================================
+   VIDEO ASPECT
+========================================================= */
 
 .video-aspect{
-  position:relative;
+    position:relative;
 
-  width:100%;
-  max-width:100%;
+    width:100%;
 
-  max-height:100%;
+    max-width:100%;
 
-  aspect-ratio:16/9;
+    max-height:100%;
 
-  display:flex;
+    aspect-ratio:16/9;
 
-  justify-content:center;
-  align-items:center;
+    display:flex;
 
-  background:#000;
+    justify-content:center;
 
-  margin:0 auto;
+    align-items:center;
+
+    background:#000;
+
+    margin:0 auto;
+
+    overflow:hidden;
 }
+
 
 .player-box:fullscreen .video-aspect,
 .player-box:-webkit-full-screen .video-aspect{
-  width:100%;
-  height:100%;
 
-  max-width:
+    width:100%;
+
+    height:100%;
+
+    max-width:
     calc(100vh * 16 / 9);
 
-  aspect-ratio:16/9;
+    aspect-ratio:16/9;
 
-  max-height:100vh;
+    max-height:100vh;
 
-  margin:0 auto;
+    margin:0 auto;
 }
+
 
 .video-aspect video{
-  width:100%;
-  height:100%;
 
-  display:block;
+    width:100%;
 
-  object-fit:contain;
+    height:100%;
 
-  background:#000;
+    display:block;
 
-  pointer-events:none;
+    object-fit:contain;
+
+    background:#000;
+
+    pointer-events:none;
 }
+
 
 /* =========================================================
-   LOGO OVERLAY
-   يغطي اللوجو الأصلي
+   قناة العنكبوت - اللوجو الجديد
+   مهم جداً:
+   هذه الطبقة فوق الفيديو وتغطي اللوجو القديم
 ========================================================= */
 
-.channel-logo{
+.channel-logo-box{
 
-  position:absolute;
+    position:absolute;
 
-  top:1.5%;
+    z-index:30;
 
-  right:1.5%;
+    top:3.5%;
 
-  left:auto;
+    right:2.5%;
 
-  width:31%;
+    width:min(54%,560px);
 
-  max-width:360px;
+    min-width:320px;
 
-  min-width:170px;
+    height:auto;
 
-  height:auto;
+    pointer-events:none;
 
-  object-fit:contain;
+    display:flex;
 
-  pointer-events:none;
+    align-items:center;
 
-  user-select:none;
+    justify-content:center;
 
-  z-index:30;
+    overflow:hidden;
 
-  filter:
+    border-radius:24px;
+
+    /*
+      طبقة تغطية قوية تمنع ظهور اللوجو القديم
+      من تحت اللوجو الجديد
+    */
+
+    background:#ffffff;
+
+    box-shadow:
+    0 4px 18px rgba(0,0,0,.75);
+
+    line-height:0;
+}
+
+
+/*
+   الصورة نفسها
+*/
+
+.channel-logo-box img{
+
+    display:block;
+
+    width:100%;
+
+    height:auto;
+
+    max-width:100%;
+
+    object-fit:contain;
+
+    pointer-events:none;
+
+    user-select:none;
+
+    -webkit-user-drag:none;
+
+    filter:
     drop-shadow(
-      0 4px 12px rgba(0,0,0,.85)
+        0 3px 8px rgba(0,0,0,.45)
     );
-
-  transition:
-    width .25s ease,
-    top .25s ease,
-    right .25s ease;
 }
 
-/* Fullscreen */
-.player-box:fullscreen .channel-logo,
-.player-box:-webkit-full-screen .channel-logo{
 
-  width:32%;
+/*
+   Fullscreen
+*/
 
-  max-width:500px;
+.player-box:fullscreen .channel-logo-box,
+.player-box:-webkit-full-screen .channel-logo-box{
 
-  min-width:220px;
+    top:3.5%;
 
-  top:2.5%;
+    right:2.5%;
 
-  right:2.5%;
+    width:min(48%,620px);
 
-  left:auto;
+    min-width:380px;
 
-  z-index:100;
+    border-radius:28px;
 }
 
-/* الشاشات الكبيرة */
-@media(min-width:1025px){
-
-  .channel-logo{
-    width:24%;
-    max-width:390px;
-
-    top:2.2%;
-    right:2.2%;
-  }
-
-  .player-box:fullscreen .channel-logo,
-  .player-box:-webkit-full-screen .channel-logo{
-
-    width:31%;
-
-    max-width:520px;
-
-    top:3%;
-
-    right:2.8%;
-  }
-
-}
 
 /* =========================================================
    CONTROLS
@@ -1543,199 +1663,226 @@ body{
 
 .custom-controls{
 
-  position:absolute;
+    position:absolute;
 
-  bottom:0;
-  left:0;
-  right:0;
+    bottom:0;
 
-  z-index:80;
+    left:0;
 
-  display:flex;
+    right:0;
 
-  align-items:center;
+    z-index:50;
 
-  gap:8px;
+    display:flex;
 
-  padding:
-    12px 14px 14px;
+    align-items:center;
 
-  background:
+    gap:8px;
+
+    padding:12px 14px 14px;
+
+    background:
     linear-gradient(
-      transparent,
-      rgba(0,0,0,.9)
+        transparent,
+        rgba(0,0,0,.88)
     );
 
-  opacity:1;
+    opacity:1;
 
-  pointer-events:auto;
+    pointer-events:auto;
 
-  transition:
-    opacity .3s ease,
-    visibility .3s ease;
+    transition:
+    opacity .25s ease,
+    transform .25s ease;
 }
 
-/* إخفاء الشريط */
-.custom-controls.controls-hidden{
-  opacity:0;
-  visibility:hidden;
-  pointer-events:none;
+
+/*
+   لما تختفي
+*/
+
+.video-aspect.controls-hidden .custom-controls{
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transform:translateY(15px);
 }
 
-/* Fullscreen */
+
+/*
+   Fullscreen controls
+*/
+
 .player-box:fullscreen .custom-controls,
 .player-box:-webkit-full-screen .custom-controls{
 
-  position:fixed;
+    position:fixed;
 
-  bottom:0;
-  left:0;
-  right:0;
+    bottom:0;
 
-  z-index:100001;
+    left:0;
+
+    right:0;
+
+    z-index:100001;
 }
 
-/* =========================================================
-   BUTTONS
-========================================================= */
 
 .ctrl-btn{
 
-  background:
+    background:
     rgba(220,20,30,.16);
 
-  color:#fff;
+    color:#fff;
 
-  border:
+    border:
     1px solid rgba(220,20,30,.3);
 
-  width:40px;
-  height:40px;
+    width:40px;
 
-  border-radius:50%;
+    height:40px;
 
-  display:flex;
+    border-radius:50%;
 
-  justify-content:center;
-  align-items:center;
+    display:flex;
 
-  cursor:pointer;
+    justify-content:center;
 
-  transition:.22s;
+    align-items:center;
 
-  padding:0;
+    cursor:pointer;
 
-  flex-shrink:0;
+    transition:.22s;
+
+    padding:0;
+
+    flex-shrink:0;
 }
 
 .ctrl-btn:hover{
 
-  background:#dc1420;
+    background:#dc1420;
 
-  border-color:#dc1420;
+    border-color:#dc1420;
 
-  transform:scale(1.06);
+    transform:scale(1.06);
 }
 
 .ctrl-btn svg{
-  width:18px;
-  height:18px;
 
-  fill:currentColor;
+    width:18px;
 
-  display:block;
+    height:18px;
+
+    fill:currentColor;
+
+    display:block;
 }
+
 
 .progress-wrap{
 
-  flex:1;
+    flex:1;
 
-  cursor:pointer;
+    cursor:pointer;
 
-  padding:8px 4px;
+    padding:8px 4px;
 
-  min-width:60px;
+    min-width:60px;
+
+    cursor:grab;
 }
+
+.progress-wrap:active{
+    cursor:grabbing;
+}
+
 
 .progress-bar{
 
-  height:3px;
+    height:3px;
 
-  background:
+    background:
     rgba(255,255,255,.22);
 
-  border-radius:3px;
+    border-radius:3px;
 
-  overflow:hidden;
+    overflow:hidden;
 
-  position:relative;
+    position:relative;
 
-  transition:height .2s;
+    transition:height .2s;
 }
 
 .progress-wrap:hover .progress-bar{
-  height:5px;
+    height:5px;
 }
+
 
 .progress-fill{
 
-  height:100%;
+    height:100%;
 
-  width:0;
+    width:0;
 
-  background:
+    background:
     linear-gradient(
-      90deg,
-      #8b0000,
-      #dc1420,
-      #ff4757
+        90deg,
+        #8b0000,
+        #dc1420,
+        #ff4757
     );
 
-  border-radius:3px;
+    border-radius:3px;
 
-  transition:width .1s;
+    transition:width .1s;
 
-  box-shadow:
+    box-shadow:
     0 0 10px rgba(220,20,30,.85);
 }
 
+
 .time-display{
 
-  color:#fff;
+    color:#fff;
 
-  font-size:12px;
+    font-size:12px;
 
-  font-weight:600;
+    font-weight:600;
 
-  white-space:nowrap;
+    white-space:nowrap;
 
-  padding:0 6px;
+    padding:0 6px;
 
-  opacity:.9;
+    opacity:.9;
 
-  display:flex;
+    display:flex;
 
-  align-items:center;
+    align-items:center;
 
-  gap:5px;
+    gap:5px;
 }
 
 .time-display .live-dot{
 
-  width:6px;
-  height:6px;
+    width:6px;
 
-  border-radius:50%;
+    height:6px;
 
-  background:#dc1420;
+    border-radius:50%;
 
-  display:inline-block;
+    background:#dc1420;
 
-  box-shadow:
+    display:inline-block;
+
+    box-shadow:
     0 0 6px rgba(220,20,30,.9);
 
-  animation:blink 1.2s infinite;
+    animation:blink 1.2s infinite;
 }
+
 
 /* =========================================================
    PLACEHOLDER
@@ -1743,124 +1890,130 @@ body{
 
 .placeholder{
 
-  position:absolute;
-  inset:0;
+    position:absolute;
 
-  display:flex;
+    inset:0;
 
-  flex-direction:column;
+    display:flex;
 
-  justify-content:center;
-  align-items:center;
+    flex-direction:column;
 
-  gap:14px;
+    justify-content:center;
 
-  background:#000;
+    align-items:center;
 
-  color:#5a3b3d;
+    gap:14px;
 
-  text-align:center;
+    background:#000;
 
-  padding:20px;
+    color:#5a3b3d;
 
-  z-index:20;
+    text-align:center;
+
+    padding:20px;
+
+    z-index:2;
 }
 
 .placeholder svg{
 
-  width:56px;
-  height:56px;
+    width:56px;
 
-  fill:#3a2224;
+    height:56px;
 
-  opacity:.7;
+    fill:#3a2224;
+
+    opacity:.7;
 }
 
 .placeholder span{
 
-  font-size:14px;
+    font-size:14px;
 
-  font-weight:600;
+    font-weight:600;
 }
 
+
 /* =========================================================
-   INFO BAR
+   MATCH INFO
 ========================================================= */
 
 .match-info-bar{
 
-  padding:16px;
+    padding:16px;
 
-  flex-shrink:0;
+    flex-shrink:0;
 
-  background:
+    background:
     linear-gradient(
-      180deg,
-      rgba(0,0,0,.4),
-      rgba(0,0,0,.92)
+        180deg,
+        rgba(0,0,0,.4),
+        rgba(0,0,0,.92)
     );
 
-  backdrop-filter:blur(10px);
+    backdrop-filter:blur(10px);
 
-  border-top:
+    border-top:
     1px solid rgba(220,20,30,.2);
 }
 
 .match-info-bar .teams-row{
 
-  display:flex;
+    display:flex;
 
-  justify-content:space-around;
+    justify-content:space-around;
 
-  align-items:center;
+    align-items:center;
 
-  max-width:640px;
+    max-width:640px;
 
-  margin:0 auto;
+    margin:0 auto;
 }
 
 .match-info-bar .team-sm{
-  text-align:center;
+    text-align:center;
 }
 
 .match-info-bar .team-sm img{
 
-  width:56px;
-  height:56px;
+    width:56px;
 
-  object-fit:contain;
+    height:56px;
 
-  border-radius:50%;
+    object-fit:contain;
 
-  background:#0c0304;
+    border-radius:50%;
 
-  padding:5px;
+    background:#0c0304;
 
-  border:
+    padding:5px;
+
+    border:
     1px solid rgba(220,20,30,.4);
 }
 
 .match-info-bar .team-sm .n{
 
-  margin-top:8px;
+    margin-top:8px;
 
-  font-size:12px;
+    font-size:12px;
 
-  font-weight:700;
+    font-weight:700;
 
-  color:#fff;
+    color:#fff;
 }
 
 .match-info-bar .vs-sm{
 
-  color:#dc1420;
+    color:#dc1420;
 
-  font-weight:900;
+    font-weight:900;
 
-  font-size:19px;
+    font-size:19px;
 
-  letter-spacing:1px;
+    letter-spacing:1px;
 }
+
 
 /* =========================================================
    TOAST
@@ -1868,48 +2021,52 @@ body{
 
 .toast{
 
-  position:fixed;
+    position:fixed;
 
-  bottom:30px;
-  left:50%;
+    bottom:30px;
 
-  transform:translateX(-50%);
+    left:50%;
 
-  background:
+    transform:translateX(-50%);
+
+    background:
     linear-gradient(
-      90deg,
-      #8b0000,
-      #dc1420
+        90deg,
+        #8b0000,
+        #dc1420
     );
 
-  color:#fff;
+    color:#fff;
 
-  padding:11px 24px;
+    padding:11px 24px;
 
-  border-radius:26px;
+    border-radius:26px;
 
-  font-weight:700;
+    font-weight:700;
 
-  font-size:13px;
+    font-size:13px;
 
-  z-index:999999;
+    z-index:999999;
 
-  opacity:0;
+    opacity:0;
 
-  transition:.3s;
+    transition:.3s;
 
-  box-shadow:
+    box-shadow:
     0 10px 30px rgba(190,15,25,.5);
 
-  pointer-events:none;
+    pointer-events:none;
+
+    font-family:'Cairo',sans-serif;
 }
 
 .toast.show{
 
-  opacity:1;
+    opacity:1;
 
-  bottom:38px;
+    bottom:38px;
 }
+
 
 /* =========================================================
    DESKTOP
@@ -1917,45 +2074,66 @@ body{
 
 @media(min-width:1025px){
 
-  .stream-player-wrap{
+    .stream-player-wrap{
 
-    padding:0;
+        padding:0;
 
-    flex:1;
+        flex:1;
 
-    min-height:0;
-  }
+        min-height:0;
+    }
 
-  .player-box{
+    .player-box{
 
-    max-width:none;
+        max-width:none;
 
-    width:100%;
-    height:100%;
+        width:100%;
 
-    aspect-ratio:unset;
+        height:100%;
 
-    border-radius:0;
+        aspect-ratio:unset;
 
-    border:none;
+        border-radius:0;
 
-    box-shadow:none;
-  }
+        border:none;
 
-  .video-aspect{
+        box-shadow:none;
+    }
 
-    position:absolute;
+    .video-aspect{
 
-    inset:0;
+        position:absolute;
 
-    max-width:none;
-  }
+        inset:0;
 
-  .match-info-bar{
-    padding:12px;
-  }
+        max-width:none;
+    }
 
+
+    /*
+       اللوجو في الكمبيوتر
+    */
+
+    .channel-logo-box{
+
+        width:min(54%,620px);
+
+        min-width:400px;
+
+        top:3.2%;
+
+        right:2.5%;
+
+        border-radius:28px;
+    }
+
+
+    .match-info-bar{
+
+        padding:12px;
+    }
 }
+
 
 /* =========================================================
    MOBILE
@@ -1963,141 +2141,201 @@ body{
 
 @media(max-width:600px){
 
-  .main-header{
+    .main-header{
 
-    padding:12px 14px;
+        padding:12px 14px;
 
-    flex-wrap:wrap;
+        flex-wrap:wrap;
 
-    gap:10px;
-  }
+        gap:10px;
+    }
 
-  .header-brand .logo-sm{
+    .header-brand .logo-sm{
 
-    width:40px;
-    height:40px;
-  }
+        width:40px;
 
-  .header-brand .text .name{
-    font-size:15px;
-  }
+        height:40px;
+    }
 
-  .header-brand .text .sub{
-    font-size:10px;
-  }
+    .header-brand .text .name{
 
-  .header-tg{
+        font-size:15px;
+    }
 
-    padding:8px 12px;
+    .header-brand .text .sub{
 
-    font-size:12px;
-  }
+        font-size:10px;
+    }
 
-  .support-banner{
-    padding:16px;
-  }
+    .header-tg{
 
-  .support-banner .title{
-    font-size:14px;
-  }
+        padding:8px 12px;
 
-  .support-banner .body{
+        font-size:12px;
+    }
 
-    font-size:12px;
+    .header-tg svg{
 
-    line-height:1.7;
-  }
+        width:16px;
 
-  .support-btn{
+        height:16px;
+    }
 
-    padding:9px 18px;
+    .support-banner{
 
-    font-size:12px;
-  }
+        padding:16px 16px;
+    }
 
-  .match-tile .team img{
+    .support-banner .title{
 
-    width:62px;
-    height:62px;
-  }
+        font-size:14px;
+    }
 
-  .channel-logo{
+    .support-banner .body{
 
-    width:34%;
+        font-size:12px;
 
-    min-width:150px;
+        line-height:1.7;
+    }
 
-    max-width:210px;
+    .support-btn{
 
-    top:2%;
+        padding:9px 18px;
 
-    right:2%;
-  }
+        font-size:12px;
+    }
 
-  .player-box:fullscreen .channel-logo,
-  .player-box:-webkit-full-screen .channel-logo{
+    .match-tile .team img{
 
-    width:35%;
+        width:62px;
 
-    min-width:170px;
+        height:62px;
+    }
 
-    max-width:300px;
 
-    top:3%;
+    /*
+       اللوجو على الهاتف
+    */
 
-    right:2.5%;
-  }
+    .channel-logo-box{
 
-  .ctrl-btn{
+        width:68%;
 
-    width:36px;
-    height:36px;
-  }
+        min-width:220px;
 
-  .ctrl-btn svg{
+        max-width:360px;
 
-    width:16px;
-    height:16px;
-  }
+        top:4%;
 
-  .time-display{
+        right:3%;
 
-    font-size:11px;
+        border-radius:20px;
+    }
 
-    padding:0 3px;
-  }
 
-  .stream-player-wrap{
-    padding:10px;
-  }
+    .player-box:fullscreen .channel-logo-box,
+    .player-box:-webkit-full-screen .channel-logo-box{
 
-  .brand-name{
-    font-size:22px;
-  }
+        width:64%;
 
-  .welcome-text{
-    font-size:16px;
-  }
+        min-width:230px;
 
+        max-width:400px;
+
+        top:4%;
+
+        right:3%;
+
+        border-radius:22px;
+    }
+
+
+    .ctrl-btn{
+
+        width:36px;
+
+        height:36px;
+    }
+
+    .ctrl-btn svg{
+
+        width:16px;
+
+        height:16px;
+    }
+
+    .time-display{
+
+        font-size:11px;
+
+        padding:0 3px;
+    }
+
+    .stream-player-wrap{
+
+        padding:10px;
+    }
+
+    .brand-name{
+
+        font-size:22px;
+    }
+
+    .welcome-text{
+
+        font-size:16px;
+    }
 }
 
+
 /* =========================================================
-   HIDE CONTROLS ON TOUCH FULLSCREEN
+   SMALL PHONES
 ========================================================= */
 
-.player-box.touch-controls-hidden .custom-controls{
+@media(max-width:380px){
 
-  opacity:0;
+    .channel-logo-box{
 
-  visibility:hidden;
+        width:70%;
 
-  pointer-events:none;
+        min-width:190px;
+
+        right:2%;
+
+        top:3%;
+    }
+
+    .player-box:fullscreen .channel-logo-box,
+    .player-box:-webkit-full-screen .channel-logo-box{
+
+        width:68%;
+
+        min-width:200px;
+
+        right:2%;
+
+        top:3%;
+    }
+
+    .ctrl-btn{
+
+        width:33px;
+
+        height:33px;
+    }
+
+    .time-display{
+
+        font-size:10px;
+    }
 }
 
 </style>
 </head>
 
+
 <body>
+
 
 <!-- =========================================================
      BACKGROUND
@@ -2106,20 +2344,27 @@ body{
 <div class="bg-layer"></div>
 
 <div class="bg-orbs">
-  <div class="orb orb1"></div>
-  <div class="orb orb2"></div>
-  <div class="orb orb3"></div>
+
+    <div class="orb orb1"></div>
+
+    <div class="orb orb2"></div>
+
+    <div class="orb orb3"></div>
+
 </div>
 
 <div class="bg-lines">
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
+
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+
 </div>
 
 <div class="bg-dots"></div>
+
 
 <!-- =========================================================
      SPLASH
@@ -2127,40 +2372,46 @@ body{
 
 <div id="splash">
 
-  <div class="loader">
+    <div class="loader">
 
-    <svg class="spin" viewBox="0 0 100 100">
-      <circle cx="50" cy="50" r="45"/>
-    </svg>
+        <svg class="spin" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45"/>
+        </svg>
 
-    <div class="logo-circle">
+        <div class="logo-circle">
 
-      <img
-        src="https://i.postimg.cc/xT8rcsT1/file-000000008bb4820ebcd371e64fff0469.png"
-        alt=""
-      >
+            <img
+            src="https://i.postimg.cc/xT8rcsT1/file-000000008bb4820ebcd371e64fff0469.png"
+            alt="">
+
+        </div>
 
     </div>
 
-  </div>
 
-  <div class="brand-name">
-    Alankaboot Sport
-  </div>
+    <div class="brand-name">
+        Alankaboot Sport
+    </div>
 
-  <div class="welcome-text">
-    أهلاً وسهلاً بك
-  </div>
 
-  <div class="loading-text">
-    جاري التحميل...
-  </div>
+    <div class="welcome-text">
+        أهلاً وسهلاً بك
+    </div>
 
-  <div class="loading-bar">
-    <div class="fill"></div>
-  </div>
+
+    <div class="loading-text">
+        جاري التحميل...
+    </div>
+
+
+    <div class="loading-bar">
+
+        <div class="fill"></div>
+
+    </div>
 
 </div>
+
 
 <!-- =========================================================
      MAIN APP
@@ -2168,118 +2419,127 @@ body{
 
 <div id="app">
 
-  <div class="main-header">
 
-    <div class="header-brand">
+    <div class="main-header">
 
-      <img
-        class="logo-sm"
-        src="https://i.postimg.cc/xT8rcsT1/file-000000008bb4820ebcd371e64fff0469.png"
-        alt=""
-      >
+        <div class="header-brand">
 
-      <div class="text">
+            <img
+            class="logo-sm"
+            src="https://i.postimg.cc/xT8rcsT1/file-000000008bb4820ebcd371e64fff0469.png"
+            alt="">
 
-        <div class="name">
-          Alankaboot Sport
+
+            <div class="text">
+
+                <div class="name">
+                    Alankaboot Sport
+                </div>
+
+                <div class="sub">
+                    البث المباشر للمباريات
+                </div>
+
+            </div>
+
         </div>
 
-        <div class="sub">
-          البث المباشر للمباريات
+
+        <a
+        class="header-tg"
+        href="https://t.me/alankabootsport"
+        target="_blank"
+        rel="noopener">
+
+            <svg viewBox="0 0 24 24">
+                <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/>
+            </svg>
+
+            قناتنا على تيليجرام
+
+        </a>
+
+    </div>
+
+
+    <div class="support-banner">
+
+        <div class="title">
+
+            <svg viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+
+            بدعمكم نستمر
+
         </div>
 
-      </div>
+
+        <div class="body">
+
+            دعمك بتعزيز القناة في هذا الرابط، قد لا يؤثر فيك،
+            لكنه يغيّر موازين الموقع.
+
+        </div>
+
+
+        <a
+        class="support-btn"
+        href="https://t.me/boost/alankabootsport"
+        target="_blank"
+        rel="noopener">
+
+            <svg viewBox="0 0 24 24">
+                <path d="M13 2L3 14h7v8l10-12h-7l0-8z"/>
+            </svg>
+
+            ادعم القناة الآن
+
+        </a>
 
     </div>
 
-    <a
-      class="header-tg"
-      href="https://t.me/alankabootsport"
-      target="_blank"
-      rel="noopener"
-    >
 
-      <svg viewBox="0 0 24 24">
-        <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/>
-      </svg>
-
-      قناتنا على تيليجرام
-
-    </a>
-
-  </div>
-
-  <div class="support-banner">
-
-    <div class="title">
-
-      <svg viewBox="0 0 24 24">
-        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-      </svg>
-
-      بدعمكم نستمر
-
+    <div class="section-title">
+        مباريات اليوم والبث المباشر
     </div>
 
-    <div class="body">
 
-      دعمك بتعزيز القناة في هذا الرابط، قد لا يؤثر فيك، لكنه يغيّر موازين الموقع.
-
-    </div>
-
-    <a
-      class="support-btn"
-      href="https://t.me/boost/alankabootsport"
-      target="_blank"
-      rel="noopener"
-    >
-
-      <svg viewBox="0 0 24 24">
-        <path d="M13 2L3 14h7v8l10-12h-7l0-8z"/>
-      </svg>
-
-      ادعم القناة الآن
-
-    </a>
-
-  </div>
-
-  <div class="section-title">
-    مباريات اليوم والبث المباشر
-  </div>
-
-  <div
+    <div
     class="matches-grid"
-    id="matchesGrid"
-  ></div>
+    id="matchesGrid"></div>
 
-  <div class="main-footer">
 
-    © 2026 Alankaboot Sport — جميع الحقوق محفوظة
+    <div class="main-footer">
 
-    <br>
+        © 2026 Alankaboot Sport — جميع الحقوق محفوظة
 
-    <a
-      href="https://t.me/alankabootsport"
-      target="_blank"
-      rel="noopener"
-    >
-      قناتنا على تيليجرام
-    </a>
+        <br>
 
-    •
+        <a
+        href="https://t.me/alankabootsport"
+        target="_blank"
+        rel="noopener">
 
-    <a
-      href="https://t.me/boost/alankabootsport"
-      target="_blank"
-      rel="noopener"
-    >
-      ادعم القناة
-    </a>
+            قناتنا على تيليجرام
 
-  </div>
+        </a>
+
+        •
+
+        <a
+        href="https://t.me/boost/alankabootsport"
+        target="_blank"
+        rel="noopener">
+
+            ادعم القناة
+
+        </a>
+
+    </div>
 
 </div>
+
 
 <!-- =========================================================
      STREAM VIEW
@@ -2287,227 +2547,257 @@ body{
 
 <div id="streamView">
 
-  <div class="stream-topbar">
 
-    <button
-      class="back-btn"
-      onclick="closeStream()"
-    >
+    <div class="stream-topbar">
 
-      <svg viewBox="0 0 24 24">
-        <path d="M15 18l-6-6 6-6"/>
-      </svg>
 
-      رجوع
+        <button
+        class="back-btn"
+        onclick="closeStream()">
 
-    </button>
-
-    <div
-      class="stream-title"
-      id="streamTitle"
-    >
-      البث المباشر
-    </div>
-
-    <div
-      class="stream-live"
-      id="streamLiveBadge"
-      style="display:none"
-    >
-      مباشر
-    </div>
-
-  </div>
-
-  <div class="stream-player-wrap">
-
-    <div
-      class="player-box"
-      id="playerBox"
-    >
-
-      <div class="video-aspect">
-
-        <video
-          id="video"
-          playsinline
-          webkit-playsinline
-        ></video>
-
-        <!--
-          اللوجو الذي يغطي شعار القناة الأصلي
-        -->
-        <img
-          class="channel-logo"
-          id="channelLogo"
-          src="https://i.postimg.cc/XvJLp6xV/elankbotsports.png"
-          alt=""
-        >
-
-        <!-- CONTROLS -->
-
-        <div
-          class="custom-controls"
-          id="customControls"
-        >
-
-          <button
-            class="ctrl-btn"
-            onclick="togglePlay();event.stopPropagation();"
-            id="playBtn"
-          >
-
-            <svg
-              id="playIcon"
-              viewBox="0 0 24 24"
-            >
-              <path d="M8 5v14l11-7z"/>
+            <svg viewBox="0 0 24 24">
+                <path d="M15 18l-6-6 6-6"/>
             </svg>
 
-          </button>
+            رجوع
 
-          <div
-            class="progress-wrap"
-            id="progressWrap"
-          >
+        </button>
 
-            <div class="progress-bar">
 
-              <div
-                class="progress-fill"
-                id="progressFill"
-              ></div>
+        <div
+        class="stream-title"
+        id="streamTitle">
 
-            </div>
+            البث المباشر
 
-          </div>
+        </div>
 
-          <span
-            class="time-display"
-            id="timeDisplay"
-          >
 
-            <span class="live-dot"></span>
+        <div
+        class="stream-live"
+        id="streamLiveBadge"
+        style="display:none">
 
             مباشر
 
-          </span>
-
-          <button
-            class="ctrl-btn"
-            onclick="toggleMute();event.stopPropagation();"
-            id="muteBtn"
-          >
-
-            <svg
-              id="volIcon"
-              viewBox="0 0 24 24"
-            >
-
-              <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-
-            </svg>
-
-          </button>
-
-          <button
-            class="ctrl-btn"
-            onclick="toggleFullscreen();event.stopPropagation();"
-            id="fsBtn"
-          >
-
-            <svg
-              id="fsIcon"
-              viewBox="0 0 24 24"
-            >
-
-              <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
-
-            </svg>
-
-          </button>
-
         </div>
-
-        <!-- PLACEHOLDER -->
-
-        <div
-          class="placeholder"
-          id="playerPlaceholder"
-        >
-
-          <svg viewBox="0 0 24 24">
-            <path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/>
-          </svg>
-
-          <span>
-            في انتظار بدء البث
-          </span>
-
-        </div>
-
-      </div>
 
     </div>
 
-  </div>
 
-  <div
+    <div class="stream-player-wrap">
+
+
+        <div
+        class="player-box"
+        id="playerBox">
+
+
+            <div
+            class="video-aspect"
+            id="videoAspect">
+
+
+                <video
+                id="video"
+                playsinline
+                webkit-playsinline>
+                </video>
+
+
+                <!-- =================================================
+                     اللوجو الجديد
+                     طبقة تغطية فوق اللوجو القديم
+                ================================================== -->
+
+                <div
+                class="channel-logo-box"
+                id="channelLogoBox">
+
+                    <img
+                    id="channelLogo"
+                    src="https://i.postimg.cc/XvJLp6xV/elankbotsports.png"
+                    alt="Alankaboot Sport">
+
+                </div>
+
+
+                <!-- =================================================
+                     CONTROLS
+                ================================================== -->
+
+                <div
+                class="custom-controls"
+                id="customControls">
+
+
+                    <button
+                    class="ctrl-btn"
+                    onclick="togglePlay()"
+                    id="playBtn">
+
+                        <svg
+                        id="playIcon"
+                        viewBox="0 0 24 24">
+
+                            <path d="M8 5v14l11-7z"/>
+
+                        </svg>
+
+                    </button>
+
+
+                    <div
+                    class="progress-wrap"
+                    id="progressWrap">
+
+                        <div class="progress-bar">
+
+                            <div
+                            class="progress-fill"
+                            id="progressFill"></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <span
+                    class="time-display"
+                    id="timeDisplay">
+
+                        <span class="live-dot"></span>
+
+                        مباشر
+
+                    </span>
+
+
+                    <button
+                    class="ctrl-btn"
+                    onclick="toggleMute()"
+                    id="muteBtn">
+
+                        <svg
+                        id="volIcon"
+                        viewBox="0 0 24 24">
+
+                            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+
+                        </svg>
+
+                    </button>
+
+
+                    <button
+                    class="ctrl-btn"
+                    onclick="toggleFullscreen()"
+                    id="fsBtn">
+
+                        <svg
+                        id="fsIcon"
+                        viewBox="0 0 24 24">
+
+                            <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+
+                        </svg>
+
+                    </button>
+
+
+                </div>
+
+
+                <!-- =================================================
+                     PLACEHOLDER
+                ================================================== -->
+
+                <div
+                class="placeholder"
+                id="playerPlaceholder">
+
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/>
+
+                    </svg>
+
+
+                    <span>
+                        في انتظار بدء البث
+                    </span>
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div
     class="match-info-bar"
     id="matchInfoBar"
-    style="display:none"
-  >
+    style="display:none">
 
-    <div class="teams-row">
 
-      <div class="team-sm">
+        <div class="teams-row">
 
-        <img
-          id="infoTeam1Img"
-          src=""
-        >
 
-        <div
-          class="n"
-          id="infoTeam1"
-        >
-          -
+            <div class="team-sm">
+
+                <img
+                id="infoTeam1Img"
+                src="">
+
+                <div
+                class="n"
+                id="infoTeam1">
+                    -
+                </div>
+
+            </div>
+
+
+            <div class="vs-sm">
+                VS
+            </div>
+
+
+            <div class="team-sm">
+
+                <img
+                id="infoTeam2Img"
+                src="">
+
+                <div
+                class="n"
+                id="infoTeam2">
+                    -
+                </div>
+
+            </div>
+
+
         </div>
-
-      </div>
-
-      <div class="vs-sm">
-        VS
-      </div>
-
-      <div class="team-sm">
-
-        <img
-          id="infoTeam2Img"
-          src=""
-        >
-
-        <div
-          class="n"
-          id="infoTeam2"
-        >
-          -
-        </div>
-
-      </div>
 
     </div>
 
-  </div>
-
 </div>
+
 
 <div
-  class="toast"
-  id="toast"
->
-  هذا المحتوى محمي
+class="toast"
+id="toast">
+
+    هذا المحتوى محمي
+
 </div>
+
 
 <script>
 
@@ -2517,44 +2807,50 @@ body{
 
 document.addEventListener('keydown',e=>{
 
-  if(
-    (e.ctrlKey || e.metaKey) &&
-    ['u','U'].includes(e.key)
-  ){
-    e.preventDefault();
-  }
+    if(
+        (e.ctrlKey || e.metaKey) &&
+        (e.key === 'u' || e.key === 'U')
+    ){
+        e.preventDefault();
+    }
 
-  if(
-    (e.ctrlKey || e.metaKey) &&
-    ['+','-','=','0'].includes(e.key)
-  ){
-    e.preventDefault();
-  }
+    if(
+        (e.ctrlKey || e.metaKey) &&
+        ['+','-','=','0'].includes(e.key)
+    ){
+        e.preventDefault();
+    }
 
-  if(
-    e.key === 'F12' ||
-    (
-      e.ctrlKey &&
-      e.shiftKey &&
-      ['I','J','C'].includes(e.key)
-    )
-  ){
-    e.preventDefault();
-  }
+    if(
+        e.key === 'F12' ||
+        (
+            e.ctrlKey &&
+            e.shiftKey &&
+            ['I','J','C'].includes(e.key)
+        )
+    ){
+        e.preventDefault();
+    }
 
 });
 
-document.addEventListener(
-  'wheel',
-  e=>{
-    if(e.ctrlKey) e.preventDefault();
-  },
-  {passive:false}
-);
 
 document.addEventListener(
-  'contextmenu',
-  e=>e.preventDefault()
+    'wheel',
+    e=>{
+        if(e.ctrlKey){
+            e.preventDefault();
+        }
+    },
+    {passive:false}
+);
+
+
+document.addEventListener(
+    'contextmenu',
+    e=>{
+        e.preventDefault();
+    }
 );
 
 
@@ -2563,90 +2859,94 @@ document.addEventListener(
 ========================================================= */
 
 const BROKER =
-  'wss://broker.emqx.io:8084/mqtt';
+'wss://broker.emqx.io:8084/mqtt';
 
 const TOPIC_CMD =
-  'kwtspta_9f3a2b1c/cmd';
+'kwtspta_9f3a2b1c/cmd';
 
 const TOPIC_DATA =
-  'kwtspta_9f3a2b1c/data';
+'kwtspta_9f3a2b1c/data';
 
 const TOPIC_HB =
-  'kwtspta_9f3a2b1c/hb';
+'kwtspta_9f3a2b1c/hb';
 
 const MY_ID =
-  'v_' +
-  Math.random()
-  .toString(36)
-  .slice(2,10);
+'v_' +
+Math.random()
+.toString(36)
+.slice(2,10);
 
 
 /* =========================================================
    ELEMENTS
 ========================================================= */
 
-const $ = id =>
-  document.getElementById(id);
+const $ =
+id =>
+document.getElementById(id);
 
 const splash =
-  $('splash');
+$('splash');
 
 const app =
-  $('app');
+$('app');
 
 const grid =
-  $('matchesGrid');
+$('matchesGrid');
 
 const streamView =
-  $('streamView');
+$('streamView');
 
 const video =
-  $('video');
+$('video');
 
 const playerBox =
-  $('playerBox');
+$('playerBox');
+
+const videoAspect =
+$('videoAspect');
 
 const placeholder =
-  $('playerPlaceholder');
+$('playerPlaceholder');
 
 const streamTitle =
-  $('streamTitle');
+$('streamTitle');
 
 const streamLiveBadge =
-  $('streamLiveBadge');
+$('streamLiveBadge');
 
 const matchInfoBar =
-  $('matchInfoBar');
+$('matchInfoBar');
 
 const customControls =
-  $('customControls');
+$('customControls');
 
 const playBtn =
-  $('playBtn');
+$('playBtn');
 
 const playIcon =
-  $('playIcon');
+$('playIcon');
 
 const muteBtn =
-  $('muteBtn');
+$('muteBtn');
 
 const volIcon =
-  $('volIcon');
+$('volIcon');
 
 const fsBtn =
-  $('fsBtn');
+$('fsBtn');
 
 const fsIcon =
-  $('fsIcon');
+$('fsIcon');
 
 const progressFill =
-  $('progressFill');
+$('progressFill');
 
 const timeDisplay =
-  $('timeDisplay');
+$('timeDisplay');
 
 const toast =
-  $('toast');
+$('toast');
 
 
 /* =========================================================
@@ -2661,6 +2961,12 @@ let matchesData = [];
 
 let isStreamViewOpen = false;
 
+let welcomeTimer = null;
+
+let controlsTimer = null;
+
+let isDraggingSeek = false;
+
 
 /* =========================================================
    TOAST
@@ -2668,13 +2974,13 @@ let isStreamViewOpen = false;
 
 function showToast(msg){
 
-  toast.textContent = msg;
+    toast.textContent = msg;
 
-  toast.classList.add('show');
+    toast.classList.add('show');
 
-  setTimeout(()=>{
-    toast.classList.remove('show');
-  },2000);
+    setTimeout(()=>{
+        toast.classList.remove('show');
+    },2000);
 
 }
 
@@ -2685,15 +2991,15 @@ function showToast(msg){
 
 setTimeout(()=>{
 
-  splash.classList.add('hide');
+    splash.classList.add('hide');
 
-  setTimeout(()=>{
+    setTimeout(()=>{
 
-    splash.style.display='none';
+        splash.style.display='none';
 
-    app.classList.add('show');
+        app.classList.add('show');
 
-  },800);
+    },800);
 
 },2800);
 
@@ -2703,79 +3009,84 @@ setTimeout(()=>{
 ========================================================= */
 
 const client =
-  mqtt.connect(
+mqtt.connect(
     BROKER,
     {
-      clientId:MY_ID
+        clientId:MY_ID
     }
-  );
+);
 
 
 client.on('connect',()=>{
 
-  client.subscribe(TOPIC_CMD);
+    client.subscribe(TOPIC_CMD);
 
-  client.subscribe(TOPIC_DATA);
-
-  client.publish(
-    TOPIC_HB,
-    JSON.stringify({
-      id:MY_ID
-    })
-  );
-
-  setInterval(()=>{
+    client.subscribe(TOPIC_DATA);
 
     client.publish(
-      TOPIC_HB,
-      JSON.stringify({
-        id:MY_ID
-      })
+        TOPIC_HB,
+        JSON.stringify({
+            id:MY_ID
+        })
     );
 
-  },5000);
+
+    setInterval(()=>{
+
+        client.publish(
+            TOPIC_HB,
+            JSON.stringify({
+                id:MY_ID
+            })
+        );
+
+    },5000);
 
 });
 
 
 client.on('message',(topic,msg)=>{
 
-  try{
+    try{
 
-    const data =
-      JSON.parse(msg.toString());
+        const data =
+        JSON.parse(
+            msg.toString()
+        );
 
-    if(topic === TOPIC_DATA){
 
-      matchesData = data;
+        if(topic === TOPIC_DATA){
 
-      renderMatches();
+            matchesData = data;
+
+            renderMatches();
+
+        }
+
+
+        if(
+            topic === TOPIC_CMD &&
+            isStreamViewOpen &&
+            currentMatchId === data.matchId
+        ){
+
+            if(data.action === 'play'){
+
+                playStream(data.url);
+
+            }
+
+            else if(data.action === 'stop'){
+
+                stopStream();
+
+            }
+
+        }
 
     }
 
-    if(
-      topic === TOPIC_CMD &&
-      isStreamViewOpen &&
-      currentMatchId === data.matchId
-    ){
-
-      if(data.action === 'play'){
-
-        playStream(data.url);
-
-      }
-
-      else if(data.action === 'stop'){
-
-        stopStream();
-
-      }
-
-    }
-
-  }
-
-  catch(e){}
+    catch(e){}
 
 });
 
@@ -2786,101 +3097,96 @@ client.on('message',(topic,msg)=>{
 
 function renderMatches(){
 
-  if(!matchesData.length){
+    if(!matchesData.length){
+
+        grid.innerHTML =
+
+        '<div style="text-align:center;color:#8a5b5e;padding:40px;grid-column:1/-1">لا توجد مباريات</div>';
+
+        return;
+    }
+
 
     grid.innerHTML =
-      `
-      <div
-        style="
-          text-align:center;
-          color:#8a5b5e;
-          padding:40px;
-          grid-column:1/-1
-        "
-      >
-        لا توجد مباريات
-      </div>
-      `;
-
-    return;
-  }
-
-
-  grid.innerHTML =
     matchesData.map((m,i)=>`
 
-      <div
+        <div
         class="match-tile ${m.live?'live':''}"
-        onclick="openMatch(${i})"
-      >
+        onclick="openMatch(${i})">
 
-        <div class="top-info">
 
-          <span class="title">
-            ${m.title || 'قناة'}
-          </span>
+            <div class="top-info">
 
-          <span class="time-tag">
-            ${m.time || ''}
-          </span>
+                <span class="title">
+                    ${m.title || 'قناة'}
+                </span>
 
-          ${
-            m.live
-            ?
-            '<span class="live-tag">مباشر</span>'
-            :
-            ''
-          }
+                <span class="time-tag">
+                    ${m.time || ''}
+                </span>
 
-        </div>
+                ${
+                    m.live
+                    ?
+                    '<span class="live-tag">مباشر</span>'
+                    :
+                    ''
+                }
 
-        <div class="teams">
-
-          <div class="team">
-
-            <img
-              src="${m.team1Img || ''}"
-              onerror="this.style.opacity=0"
-            >
-
-            <div class="name">
-              ${m.team1 || ''}
             </div>
 
-          </div>
 
-          <div class="vs">
-            VS
-          </div>
+            <div class="teams">
 
-          <div class="team">
 
-            <img
-              src="${m.team2Img || ''}"
-              onerror="this.style.opacity=0"
-            >
+                <div class="team">
 
-            <div class="name">
-              ${m.team2 || ''}
+                    <img
+                    src="${m.team1Img || ''}"
+                    onerror="this.style.opacity=0">
+
+                    <div class="name">
+                        ${m.team1 || ''}
+                    </div>
+
+                </div>
+
+
+                <div class="vs">
+                    VS
+                </div>
+
+
+                <div class="team">
+
+                    <img
+                    src="${m.team2Img || ''}"
+                    onerror="this.style.opacity=0">
+
+                    <div class="name">
+                        ${m.team2 || ''}
+                    </div>
+
+                </div>
+
+
             </div>
 
-          </div>
+
+            <div class="watch-btn">
+
+                ${
+                    m.live
+                    ?
+                    'مشاهدة الآن'
+                    :
+                    'انتظر البث'
+                }
+
+            </div>
+
 
         </div>
-
-        <div class="watch-btn">
-
-          ${
-            m.live
-            ?
-            'مشاهدة الآن'
-            :
-            'انتظر البث'
-          }
-
-        </div>
-
-      </div>
 
     `).join('');
 
@@ -2893,179 +3199,193 @@ function renderMatches(){
 
 function openMatch(i){
 
-  const m =
+    const m =
     matchesData[i];
 
-  if(!m) return;
+    if(!m){
+        return;
+    }
 
 
-  if(!m.live){
+    if(!m.live){
 
-    showToast(
-      'البث لم يبدأ بعد'
-    );
+        showToast(
+            'البث لم يبدأ بعد'
+        );
 
-    return;
-  }
+        return;
+    }
 
 
-  currentMatchId =
+    currentMatchId =
     m.id;
 
-  isStreamViewOpen =
+    isStreamViewOpen =
     true;
 
 
-  streamTitle.textContent =
+    streamTitle.textContent =
     m.title ||
     'البث المباشر';
 
 
-  $('infoTeam1Img').src =
-    m.team1Img || '';
+    $('infoTeam1Img').src =
+    m.team1Img ||
+    '';
 
-  $('infoTeam1').textContent =
-    m.team1 || '';
-
-
-  $('infoTeam2Img').src =
-    m.team2Img || '';
-
-  $('infoTeam2').textContent =
-    m.team2 || '';
+    $('infoTeam1').textContent =
+    m.team1 ||
+    '';
 
 
-  matchInfoBar.style.display =
+    $('infoTeam2Img').src =
+    m.team2Img ||
+    '';
+
+    $('infoTeam2').textContent =
+    m.team2 ||
+    '';
+
+
+    matchInfoBar.style.display =
     'block';
 
 
-  streamView.classList.add('show');
+    streamView.classList.add(
+        'show'
+    );
 
-  document.body.style.overflow =
+
+    document.body.style.overflow =
     'hidden';
 
 
-  resetWelcomeTimer();
-
-  playStream(
-    m.streamUrl
-  );
+    playStream(
+        m.streamUrl
+    );
 
 
-  history.pushState(
-    {stream:true},
-    ''
-  );
+    history.pushState(
+        {stream:true},
+        ''
+    );
 
 
-  if(window.innerWidth > 1024){
+    if(window.innerWidth > 1024){
 
-    setTimeout(()=>{
+        setTimeout(()=>{
 
-      if(
-        playerBox.requestFullscreen
-      ){
+            if(playerBox.requestFullscreen){
 
-        playerBox.requestFullscreen();
+                playerBox.requestFullscreen();
 
-      }
+            }
 
-      else if(
-        playerBox.webkitRequestFullscreen
-      ){
+            else if(
+                playerBox.webkitRequestFullscreen
+            ){
 
-        playerBox.webkitRequestFullscreen();
+                playerBox.webkitRequestFullscreen();
 
-      }
+            }
 
-    },300);
+        },300);
 
-  }
+    }
 
 }
 
 
 /* =========================================================
-   HISTORY
+   BROWSER BACK
 ========================================================= */
 
 window.addEventListener(
-  'popstate',
-  function(){
+    'popstate',
+    function(){
 
-    if(isStreamViewOpen){
+        if(isStreamViewOpen){
 
-      closeStreamUI();
+            closeStreamUI();
+
+        }
 
     }
-
-  }
 );
 
 
+/* =========================================================
+   CLOSE STREAM
+========================================================= */
+
 function closeStream(){
 
-  if(isStreamViewOpen){
+    if(isStreamViewOpen){
 
-    closeStreamUI();
+        closeStreamUI();
 
-    if(
-      history.state &&
-      history.state.stream
-    ){
 
-      history.back();
+        if(
+            history.state &&
+            history.state.stream
+        ){
+
+            history.back();
+
+        }
 
     }
-
-  }
 
 }
 
 
 function closeStreamUI(){
 
-  isStreamViewOpen =
+    isStreamViewOpen =
     false;
 
-  currentMatchId =
+    currentMatchId =
     null;
 
-  streamView.classList.remove(
-    'show'
-  );
 
-  document.body.style.overflow =
+    clearWelcomeTimer();
+
+
+    streamView.classList.remove(
+        'show'
+    );
+
+
+    document.body.style.overflow =
     '';
 
-  stopStream();
 
-  resetWelcomeTimer();
+    stopStream();
 
-  hideControls();
 
-  if(
-    document.fullscreenElement ||
-    document.webkitFullscreenElement
-  ){
-
-    if(document.exitFullscreen){
-
-      document.exitFullscreen();
-
-    }
-
-    else if(
-      document.webkitExitFullscreen
+    if(
+        document.fullscreenElement ||
+        document.webkitFullscreenElement
     ){
 
-      document.webkitExitFullscreen();
+        if(document.exitFullscreen){
+
+            document.exitFullscreen();
+
+        }
+
+        else if(
+            document.webkitExitFullscreen
+        ){
+
+            document.webkitExitFullscreen();
+
+        }
 
     }
 
-  }
 
-  updateFsIcon();
+    updateFsIcon();
 
 }
 
@@ -3076,100 +3396,109 @@ function closeStreamUI(){
 
 function playStream(url){
 
-  if(!url){
+    if(!url){
 
-    stopStream();
+        stopStream();
 
-    return;
-  }
+        return;
+    }
 
 
-  placeholder.style.display =
+    placeholder.style.display =
     'none';
 
-  streamLiveBadge.style.display =
+
+    streamLiveBadge.style.display =
     'inline-flex';
 
 
-  if(hls){
+    if(hls){
 
-    hls.destroy();
+        hls.destroy();
 
-    hls = null;
+        hls = null;
 
-  }
-
-
-  if(Hls.isSupported()){
-
-    hls =
-      new Hls({
-        lowLatencyMode:true,
-        enableWorker:true
-      });
+    }
 
 
-    hls.loadSource(url);
+    if(Hls.isSupported()){
 
-    hls.attachMedia(video);
+        hls =
+        new Hls({
 
+            lowLatencyMode:true,
 
-    hls.on(
-      Hls.Events.MANIFEST_PARSED,
-      ()=>{
+            enableWorker:true
 
-        video
-          .play()
-          .catch(()=>{});
-
-      }
-    );
+        });
 
 
-    hls.on(
-      Hls.Events.ERROR,
-      (e,d)=>{
+        hls.loadSource(url);
 
-        if(d.fatal){
+        hls.attachMedia(video);
 
-          if(
-            d.type ===
-            Hls.ErrorTypes.NETWORK_ERROR
-          ){
 
-            hls.startLoad();
+        hls.on(
+            Hls.Events.MANIFEST_PARSED,
+            ()=>{
 
-          }
+                video.play()
+                .then(()=>{
+                    startWelcomeTimer();
+                })
+                .catch(()=>{});
 
-          else if(
-            d.type ===
-            Hls.ErrorTypes.MEDIA_ERROR
-          ){
+            }
+        );
 
-            hls.recoverMediaError();
 
-          }
+        hls.on(
+            Hls.Events.ERROR,
+            (e,d)=>{
 
-        }
+                if(d.fatal){
 
-      }
-    );
+                    if(
+                        d.type ===
+                        Hls.ErrorTypes.NETWORK_ERROR
+                    ){
 
-  }
+                        hls.startLoad();
 
-  else if(
-    video.canPlayType(
-      'application/vnd.apple.mpegurl'
-    )
-  ){
+                    }
 
-    video.src = url;
+                    else if(
+                        d.type ===
+                        Hls.ErrorTypes.MEDIA_ERROR
+                    ){
 
-    video
-      .play()
-      .catch(()=>{});
+                        hls.recoverMediaError();
 
-  }
+                    }
+
+                }
+
+            }
+        );
+
+    }
+
+    else if(
+        video.canPlayType(
+            'application/vnd.apple.mpegurl'
+        )
+    ){
+
+        video.src =
+        url;
+
+        video.play()
+        .then(()=>{
+            startWelcomeTimer();
+        })
+        .catch(()=>{});
+
+    }
 
 }
 
@@ -3180,50 +3509,49 @@ function playStream(url){
 
 function stopStream(){
 
-  if(hls){
-
-    hls.destroy();
-
-    hls = null;
-
-  }
+    clearWelcomeTimer();
 
 
-  video.pause();
+    if(hls){
 
-  video.removeAttribute(
-    'src'
-  );
+        hls.destroy();
 
-  video.load();
+        hls = null;
+
+    }
 
 
-  placeholder.style.display =
+    video.pause();
+
+    video.removeAttribute(
+        'src'
+    );
+
+    video.load();
+
+
+    placeholder.style.display =
     'flex';
 
 
-  placeholder.innerHTML =
+    placeholder.innerHTML = `
 
-    `
-    <svg
-      viewBox="0 0 24 24"
-      style="
-        width:56px;
-        height:56px;
-        fill:#3a2224;
-        opacity:.7
-      "
-    >
-      <path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/>
-    </svg>
+        <svg
+        viewBox="0 0 24 24"
+        style="width:56px;height:56px;fill:#3a2224;opacity:.7">
 
-    <span>
-      تم إيقاف البث
-    </span>
+            <path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1.9-2-2-2zm0 14H3V5h18v12z"/>
+
+        </svg>
+
+        <span>
+            تم إيقاف البث
+        </span>
+
     `;
 
 
-  streamLiveBadge.style.display =
+    streamLiveBadge.style.display =
     'none';
 
 }
@@ -3235,46 +3563,48 @@ function stopStream(){
 
 function togglePlay(){
 
-  if(video.paused){
+    if(video.paused){
 
-    video
-      .play()
-      .catch(()=>{});
+        video.play()
+        .then(()=>{
+            startWelcomeTimer();
+        })
+        .catch(()=>{});
 
-  }
+    }
 
-  else{
+    else{
 
-    video.pause();
+        video.pause();
 
-  }
+    }
 
 }
 
 
 video.addEventListener(
-  'play',
-  ()=>{
+    'play',
+    ()=>{
 
-    playIcon.innerHTML =
-      `
-      <path d="M6 5h4v14H6zM14 5h4v14h-4z"/>
-      `;
+        playIcon.innerHTML =
 
-  }
+        '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>';
+
+        startWelcomeTimer();
+
+    }
 );
 
 
 video.addEventListener(
-  'pause',
-  ()=>{
+    'pause',
+    ()=>{
 
-    playIcon.innerHTML =
-      `
-      <path d="M8 5v14l11-7z"/>
-      `;
+        playIcon.innerHTML =
 
-  }
+        '<path d="M8 5v14l11-7z"/>';
+
+    }
 );
 
 
@@ -3284,24 +3614,20 @@ video.addEventListener(
 
 function toggleMute(){
 
-  video.muted =
+    video.muted =
     !video.muted;
 
 
-  volIcon.innerHTML =
+    volIcon.innerHTML =
     video.muted
 
     ?
 
-    `
-    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-    `
+    '<path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>'
 
     :
 
-    `
-    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-    `;
+    '<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>';
 
 }
 
@@ -3311,75 +3637,79 @@ function toggleMute(){
 ========================================================= */
 
 video.addEventListener(
-  'timeupdate',
-  ()=>{
+    'timeupdate',
+    ()=>{
 
-    if(
-      video.duration &&
-      isFinite(video.duration) &&
-      video.duration > 0
-    ){
+        if(
+            video.duration &&
+            isFinite(video.duration) &&
+            video.duration > 0
+        ){
 
-      progressFill.style.width =
-        (
-          video.currentTime /
-          video.duration *
-          100
-        ) + '%';
+            progressFill.style.width =
+            (
+                video.currentTime /
+                video.duration *
+                100
+            ) + '%';
 
 
-      timeDisplay.innerHTML =
-        fmt(video.currentTime) +
-        ' / ' +
-        fmt(video.duration);
+            timeDisplay.innerHTML =
+            fmt(video.currentTime) +
+            ' / ' +
+            fmt(video.duration);
+
+        }
+
+        else{
+
+            progressFill.style.width =
+            '100%';
+
+
+            timeDisplay.innerHTML =
+            '<span class="live-dot"></span> مباشر';
+
+        }
 
     }
-
-    else{
-
-      progressFill.style.width =
-        '100%';
-
-      timeDisplay.innerHTML =
-        `
-        <span class="live-dot"></span>
-        مباشر
-        `;
-
-    }
-
-  }
 );
 
 
 function fmt(s){
 
-  if(
-    !s ||
-    isNaN(s) ||
-    !isFinite(s)
-  ){
+    if(
+        !s ||
+        isNaN(s) ||
+        !isFinite(s)
+    ){
 
-    return '0:00';
+        return '0:00';
 
-  }
+    }
 
 
-  const h =
-    Math.floor(s / 3600);
-
-  const m =
+    const h =
     Math.floor(
-      (s % 3600) / 60
+        s / 3600
     );
 
-  const sec =
-    Math.floor(s % 60)
+
+    const m =
+    Math.floor(
+        (s % 3600) / 60
+    );
+
+
+    const sec =
+    Math.floor(
+        s % 60
+    )
     .toString()
     .padStart(2,'0');
 
 
-  return h > 0
+    return h > 0
 
     ?
 
@@ -3402,364 +3732,391 @@ function fmt(s){
    SEEK BAR
 ========================================================= */
 
-const progressWrap =
-  document.getElementById(
-    'progressWrap'
-  );
-
-let isDraggingSeek =
-  false;
-
-
 function getClientX(e){
 
-  return e.touches &&
-    e.touches.length > 0
+    if(
+        e.touches &&
+        e.touches.length > 0
+    ){
 
-    ?
+        return e.touches[0].clientX;
 
-    e.touches[0].clientX
+    }
 
-    :
-
-    e.clientX;
+    return e.clientX;
 
 }
 
 
 function seekVideo(e){
 
-  if(
-    !video.duration ||
-    !isFinite(video.duration)
-  ){
+    if(
+        !video.duration ||
+        !isFinite(video.duration)
+    ){
 
-    return;
-  }
+        return;
+
+    }
 
 
-  const rect =
+    const rect =
     progressWrap.getBoundingClientRect();
 
 
-  let percent =
+    let percent =
     (
-      getClientX(e) -
-      rect.left
+        getClientX(e) -
+        rect.left
     ) /
     rect.width;
 
 
-  percent =
+    percent =
     Math.max(
-      0,
-      Math.min(1,percent)
+        0,
+        Math.min(1,percent)
     );
 
 
-  video.currentTime =
+    video.currentTime =
     percent *
     video.duration;
 
 
-  progressFill.style.width =
-    (percent * 100) +
-    '%';
+    progressFill.style.width =
+    (
+        percent * 100
+    ) + '%';
 
 }
 
 
-/* MOUSE */
-
-progressWrap.addEventListener(
-  'mousedown',
-  e=>{
-
-    isDraggingSeek =
-      true;
-
-    seekVideo(e);
-
-  }
+const progressWrap =
+document.getElementById(
+    'progressWrap'
 );
 
 
-document.addEventListener(
-  'mousemove',
-  e=>{
+progressWrap.addEventListener(
+    'mousedown',
+    e=>{
 
-    if(isDraggingSeek){
+        isDraggingSeek =
+        true;
 
-      seekVideo(e);
+        seekVideo(e);
 
     }
-
-  }
 );
 
 
 document.addEventListener(
-  'mouseup',
-  ()=>{
+    'mousemove',
+    e=>{
 
-    isDraggingSeek =
-      false;
+        if(isDraggingSeek){
 
-  }
-);
+            seekVideo(e);
 
-
-/* TOUCH */
-
-progressWrap.addEventListener(
-  'touchstart',
-  e=>{
-
-    isDraggingSeek =
-      true;
-
-    seekVideo(e);
-
-  },
-  {
-    passive:false
-  }
-);
-
-
-progressWrap.addEventListener(
-  'touchmove',
-  e=>{
-
-    if(isDraggingSeek){
-
-      e.preventDefault();
-
-      seekVideo(e);
+        }
 
     }
-
-  },
-  {
-    passive:false
-  }
 );
 
 
 document.addEventListener(
-  'touchend',
-  ()=>{
+    'mouseup',
+    ()=>{
 
-    isDraggingSeek =
-      false;
+        isDraggingSeek =
+        false;
 
-  }
+    }
+);
+
+
+progressWrap.addEventListener(
+    'touchstart',
+    e=>{
+
+        isDraggingSeek =
+        true;
+
+        seekVideo(e);
+
+    },
+    {passive:false}
+);
+
+
+progressWrap.addEventListener(
+    'touchmove',
+    e=>{
+
+        if(isDraggingSeek){
+
+            e.preventDefault();
+
+            seekVideo(e);
+
+        }
+
+    },
+    {passive:false}
+);
+
+
+document.addEventListener(
+    'touchend',
+    ()=>{
+
+        isDraggingSeek =
+        false;
+
+    }
 );
 
 
 /* =========================================================
-   CONTROLS AUTO HIDE
+   CONTROLS SHOW / HIDE
 ========================================================= */
-
-let controlsTimer =
-  null;
-
-
-/* إظهار الشريط */
 
 function showControls(){
 
-  customControls.classList.remove(
-    'controls-hidden'
-  );
-
-  playerBox.classList.remove(
-    'touch-controls-hidden'
-  );
-
-  clearTimeout(
-    controlsTimer
-  );
+    videoAspect.classList.remove(
+        'controls-hidden'
+    );
 
 
-  const isFS =
-    document.fullscreenElement ||
-    document.webkitFullscreenElement;
+    clearTimeout(
+        controlsTimer
+    );
 
 
-  if(isFS){
+    /*
+       بعد 3 ثواني بدون حركة
+       يخفي الشريط تلقائياً في Fullscreen
+    */
 
-    controlsTimer =
-      setTimeout(()=>{
+    if(
+        document.fullscreenElement ||
+        document.webkitFullscreenElement
+    ){
 
-        hideControls();
+        controlsTimer =
+        setTimeout(()=>{
 
-      },2500);
+            if(
+                !video.paused
+            ){
 
-  }
+                videoAspect.classList.add(
+                    'controls-hidden'
+                );
+
+            }
+
+        },3000);
+
+    }
 
 }
 
-
-/* إخفاء الشريط */
 
 function hideControls(){
 
-  const isFS =
-    document.fullscreenElement ||
-    document.webkitFullscreenElement;
-
-
-  if(!isFS){
-
-    return;
-  }
-
-
-  customControls.classList.add(
-    'controls-hidden'
-  );
-
-  playerBox.classList.add(
-    'touch-controls-hidden'
-  );
+    videoAspect.classList.add(
+        'controls-hidden'
+    );
 
 }
 
 
+/*
+   الضغط على شاشة الفيديو
+   يظهر / يخفي الشريط
+*/
+
+videoAspect.addEventListener(
+    'click',
+    e=>{
+
+        /*
+           لو ضغط على زر من أزرار التحكم
+           لا نخفي الشريط
+        */
+
+        if(
+            e.target.closest(
+                '.custom-controls'
+            )
+        ){
+
+            showControls();
+
+            return;
+
+        }
+
+
+        if(
+            videoAspect.classList.contains(
+                'controls-hidden'
+            )
+        ){
+
+            showControls();
+
+        }
+
+        else{
+
+            hideControls();
+
+        }
+
+    }
+);
+
+
+/*
+   حركة الماوس
+*/
+
+videoAspect.addEventListener(
+    'mousemove',
+    ()=>{
+
+        showControls();
+
+    }
+);
+
+
+/*
+   اللمس
+*/
+
+videoAspect.addEventListener(
+    'touchstart',
+    ()=>{
+
+        showControls();
+
+    },
+    {passive:true}
+);
+
+
 /* =========================================================
-   CLICK VIDEO
-   في Fullscreen الضغط يظهر / يخفي الشريط
+   AI VOICE - كل 30 دقيقة
 ========================================================= */
 
-playerBox.addEventListener(
-  'click',
-  e=>{
+function speakWelcome(){
 
-    const isFS =
-      document.fullscreenElement ||
-      document.webkitFullscreenElement;
+    if(
+        !('speechSynthesis' in window)
+    ){
+
+        return;
+
+    }
 
 
-    if(!isFS){
+    /*
+       نتأكد أن البث مفتوح ويعمل
+    */
 
-      return;
+    if(
+        !isStreamViewOpen ||
+        video.paused
+    ){
+
+        return;
+
+    }
+
+
+    window.speechSynthesis.cancel();
+
+
+    const utterance =
+    new SpeechSynthesisUtterance(
+
+        'أهلاً بكم في عنكبوت سبورت، شاركوا الموقع مع أصدقائكم، ومشاهدة ممتعة.'
+
+    );
+
+
+    utterance.lang =
+    'ar-EG';
+
+    utterance.rate =
+    0.95;
+
+    utterance.pitch =
+    1;
+
+
+    window.speechSynthesis.speak(
+        utterance
+    );
+
+}
+
+
+/*
+   يبدأ عداد الـ 30 دقيقة
+   عند بدء البث
+*/
+
+function startWelcomeTimer(){
+
+    clearWelcomeTimer();
+
+
+    /*
+       أول رسالة بعد 30 دقيقة
+    */
+
+    welcomeTimer =
+    setInterval(()=>{
+
+        speakWelcome();
+
+    },30 * 60 * 1000);
+
+}
+
+
+/*
+   إلغاء العداد
+*/
+
+function clearWelcomeTimer(){
+
+    if(welcomeTimer){
+
+        clearInterval(
+            welcomeTimer
+        );
+
+        welcomeTimer =
+        null;
+
     }
 
 
     if(
-      e.target.closest(
-        '.custom-controls'
-      )
+        'speechSynthesis' in window
     ){
 
-      showControls();
-
-      return;
-    }
-
-
-    if(
-      e.target.closest(
-        '.channel-logo'
-      )
-    ){
-
-      return;
-    }
-
-
-    if(
-      customControls.classList.contains(
-        'controls-hidden'
-      )
-    ){
-
-      showControls();
+        window.speechSynthesis.cancel();
 
     }
 
-    else{
-
-      hideControls();
-
-    }
-
-  }
-);
-
-
-/* حركة الماوس */
-
-playerBox.addEventListener(
-  'mousemove',
-  ()=>{
-
-    const isFS =
-      document.fullscreenElement ||
-      document.webkitFullscreenElement;
-
-
-    if(isFS){
-
-      showControls();
-
-    }
-
-  }
-);
-
-
-/* لمس الشاشة */
-
-playerBox.addEventListener(
-  'touchstart',
-  e=>{
-
-    const isFS =
-      document.fullscreenElement ||
-      document.webkitFullscreenElement;
-
-
-    if(!isFS){
-
-      return;
-    }
-
-
-    if(
-      e.target.closest(
-        '.custom-controls'
-      )
-    ){
-
-      showControls();
-
-      return;
-    }
-
-
-    if(
-      customControls.classList.contains(
-        'controls-hidden'
-      )
-    ){
-
-      showControls();
-
-    }
-
-    else{
-
-      hideControls();
-
-    }
-
-  },
-  {
-    passive:true
-  }
-);
+}
 
 
 /* =========================================================
@@ -3768,48 +4125,48 @@ playerBox.addEventListener(
 
 function toggleFullscreen(){
 
-  const isFS =
+    const isFS =
     document.fullscreenElement ||
     document.webkitFullscreenElement;
 
 
-  if(isFS){
+    if(isFS){
 
-    if(document.exitFullscreen){
+        if(document.exitFullscreen){
 
-      document.exitFullscreen();
+            document.exitFullscreen();
 
-    }
+        }
 
-    else if(
-      document.webkitExitFullscreen
-    ){
+        else if(
+            document.webkitExitFullscreen
+        ){
 
-      document.webkitExitFullscreen();
+            document.webkitExitFullscreen();
 
-    }
-
-  }
-
-  else{
-
-    if(
-      playerBox.requestFullscreen
-    ){
-
-      playerBox.requestFullscreen();
+        }
 
     }
 
-    else if(
-      playerBox.webkitRequestFullscreen
-    ){
+    else{
 
-      playerBox.webkitRequestFullscreen();
+        if(
+            playerBox.requestFullscreen
+        ){
+
+            playerBox.requestFullscreen();
+
+        }
+
+        else if(
+            playerBox.webkitRequestFullscreen
+        ){
+
+            playerBox.webkitRequestFullscreen();
+
+        }
 
     }
-
-  }
 
 }
 
@@ -3819,199 +4176,55 @@ function toggleFullscreen(){
 ========================================================= */
 
 document.addEventListener(
-  'fullscreenchange',
-  ()=>{
+    'fullscreenchange',
+    ()=>{
 
-    updateFsIcon();
+        updateFsIcon();
 
-    showControls();
+        showControls();
 
-  }
+    }
 );
 
 
 document.addEventListener(
-  'webkitfullscreenchange',
-  ()=>{
+    'webkitfullscreenchange',
+    ()=>{
 
-    updateFsIcon();
+        updateFsIcon();
 
-    showControls();
+        showControls();
 
-  }
+    }
 );
 
 
 function updateFsIcon(){
 
-  const isFS =
+    const isFS =
     document.fullscreenElement ||
     document.webkitFullscreenElement;
 
 
-  fsIcon.innerHTML =
+    fsIcon.innerHTML =
     isFS
 
     ?
 
-    `
-    <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>
-    `
+    '<path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>'
 
     :
 
-    `
-    <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
-    `;
+    '<path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>';
 
 }
 
 
 /* =========================================================
-   VOICE WELCOME
+   START
 ========================================================= */
 
-/*
-
-  الرسالة الصوتية:
-
-  "أهلاً بكم في عنكبوت سبورت،
-   شاركوا الموقع لأصدقائكم،
-   ومشاهدة ممتعة."
-
-  يتم تشغيلها كل 30 دقيقة أثناء البث.
-
-*/
-
-const WELCOME_INTERVAL =
-  30 * 60 * 1000;
-
-let welcomeTimer =
-  null;
-
-
-function speakWelcome(){
-
-  if(
-    !isStreamViewOpen ||
-    video.paused
-  ){
-
-    return;
-  }
-
-
-  if(
-    !('speechSynthesis' in window)
-  ){
-
-    return;
-  }
-
-
-  window.speechSynthesis.cancel();
-
-
-  const utterance =
-    new SpeechSynthesisUtterance(
-      'أهلاً بكم في عنكبوت سبورت، شاركوا الموقع لأصدقائكم، ومشاهدة ممتعة.'
-    );
-
-
-  utterance.lang =
-    'ar-EG';
-
-  utterance.rate =
-    0.95;
-
-  utterance.pitch =
-    1;
-
-  utterance.volume =
-    1;
-
-
-  window.speechSynthesis.speak(
-    utterance
-  );
-
-}
-
-
-/* =========================================================
-   VOICE TIMER
-========================================================= */
-
-function resetWelcomeTimer(){
-
-  clearTimeout(
-    welcomeTimer
-  );
-
-  welcomeTimer =
-    null;
-
-
-  if(!isStreamViewOpen){
-
-    return;
-  }
-
-
-  welcomeTimer =
-    setTimeout(
-      function welcomeLoop(){
-
-        if(
-          isStreamViewOpen &&
-          !video.paused
-        ){
-
-          speakWelcome();
-
-        }
-
-
-        welcomeTimer =
-          setTimeout(
-            welcomeLoop,
-            WELCOME_INTERVAL
-          );
-
-      },
-      WELCOME_INTERVAL
-    );
-
-}
-
-
-/* عند تشغيل البث يبدأ حساب الـ30 دقيقة */
-
-video.addEventListener(
-  'play',
-  ()=>{
-
-    resetWelcomeTimer();
-
-  }
-);
-
-
-/* عند إيقاف الفيديو نوقف المؤقت */
-
-video.addEventListener(
-  'pause',
-  ()=>{
-
-    clearTimeout(
-      welcomeTimer
-    );
-
-    welcomeTimer =
-      null;
-
-  }
-);
+renderMatches();
 
 </script>
 
