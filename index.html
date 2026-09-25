@@ -243,26 +243,6 @@
     flex-direction:column}
   #streamView.show{display:flex}
 
-  /* زرار رجوع صغير على الشمال فوق */
-  .back-btn{
-    position:absolute;
-    top:10px;
-    left:10px;
-    z-index:100000;
-    background:rgba(0,0,0,.55);
-    color:#fff;
-    border:1px solid rgba(255,255,255,.3);
-    padding:4px 10px;
-    font-size:11px;
-    font-family:'Cairo',sans-serif;
-    font-weight:700;
-    border-radius:6px;
-    cursor:pointer;
-    transition:.2s;
-    letter-spacing:.3px;
-  }
-  .back-btn:hover{background:#dc1420;border-color:#dc1420}
-
   .stream-player-wrap{
     flex:1;
     display:flex;
@@ -313,21 +293,42 @@
     pointer-events:none;
   }
 
+  /* ===== زرار الرجوع (جوه البث وعلى الشمال) ===== */
+  .back-btn{
+    position: absolute;
+    top: 3%;
+    left: 2%;
+    z-index: 9999;
+    background: rgba(0,0,0,.65);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,.3);
+    padding: 3px 8px;
+    font-size: 11px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: .2s;
+    letter-spacing: .3px;
+    pointer-events: auto;
+  }
+  .back-btn:hover{ background:#dc1420; border-color:#dc1420; }
+
   /* ===== اللوجو بحجم مظبوط وخلفية سودا بسيطة على قده ===== */
   .channel-logo{
     position:absolute;
-    top:2%;
-    right:2%;
-    width:28%;
-    max-width:300px;
+    top: 5%;
+    right: 5%; /* نزلناه على الشمال شويه */
+    width:26%;
+    max-width:280px;
     height:auto;
     pointer-events:none;
     user-select:none;
     z-index:20;
-    background:#000;
-    padding:2px 4px;
-    border-radius:4px;
-    filter:drop-shadow(0 2px 6px rgba(0,0,0,.8));
+    background:#000; /* خلفية سودا بسيطة */
+    padding: 0; /* بدون هوامش زيادة */
+    border-radius: 6px;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,.8));
     transition:none;
   }
 
@@ -433,7 +434,8 @@
     .support-banner .body{font-size:12px;line-height:1.7}
     .support-btn{padding:9px 18px;font-size:12px}
     .match-tile .team img{width:62px;height:62px}
-    .channel-logo{width:32%;max-width:200px;top:2%;right:2%}
+    .channel-logo{width:32%;max-width:200px;top:5%;right:5%}
+    .back-btn{top:2%;left:2%;font-size:10px;padding:2px 6px;}
     .ctrl-btn{width:36px;height:36px}
     .ctrl-btn svg{width:16px;height:16px}
     .time-display{font-size:11px;padding:0 3px}
@@ -517,12 +519,13 @@
 
 <!-- شاشة المشاهدة -->
 <div id="streamView">
-  <button class="back-btn" onclick="closeStream()">رجوع</button>
-
   <div class="stream-player-wrap">
     <div class="player-box" id="playerBox">
-      <div class="video-aspect">
+      <div class="video-aspect" id="videoAspect">
         <video id="video" playsinline webkit-playsinline></video>
+
+        <!-- زرار الرجوع جوه البث على الشمال -->
+        <button class="back-btn" onclick="closeStream()">رجوع</button>
 
         <img class="channel-logo" id="channelLogo"
              src="https://i.postimg.cc/XvJLp6xV/elankbotsports.png" alt="">
@@ -678,44 +681,40 @@
 
     history.pushState({stream: true}, '');
 
-    // تكبير الشاشة على طول (أي مقاس - موبايل أو كمبيوتر)
+    // تكبير الشاشة على طول
     requestFs();
   }
 
   function requestFs(){
     try {
-      if (playerBox.requestFullscreen) {
-        playerBox.requestFullscreen().catch(()=>{});
-      } else if (playerBox.webkitRequestFullscreen) {
-        playerBox.webkitRequestFullscreen();
-      } else if (playerBox.msRequestFullscreen) {
-        playerBox.msRequestFullscreen();
-      }
+      if (playerBox.requestFullscreen) playerBox.requestFullscreen().catch(()=>{});
+      else if (playerBox.webkitRequestFullscreen) playerBox.webkitRequestFullscreen();
     } catch(e){}
   }
 
-  /* لو خرج من fullscreen بالغلط، نرجعه */
+  /* منع Esc من تصغير الشاشة */
   function handleFsChange(){
     const isFS = document.fullscreenElement || document.webkitFullscreenElement;
     if (isStreamViewOpen && !isFS) {
-      // حاول ترجع fullscreen بعد لحظة
+      // لو حاول يخرج، رجعه Fullscreen تاني
       setTimeout(()=>{
         if (isStreamViewOpen && !document.fullscreenElement && !document.webkitFullscreenElement){
           requestFs();
         }
-      }, 150);
+      }, 100);
     }
   }
   document.addEventListener('fullscreenchange', handleFsChange);
   document.addEventListener('webkitfullscreenchange', handleFsChange);
 
-  /* زر الرجوع في المتصفح */
+  /* زر الرجوع */
   window.addEventListener('popstate', function() {
     if (isStreamViewOpen) closeStreamUI();
   });
 
   function closeStream(){
     if (isStreamViewOpen) {
+      isStreamViewOpen = false; // علم أولاً عشان ميتمنعش الخروج
       closeStreamUI();
       if (history.state && history.state.stream) history.back();
     }
@@ -727,7 +726,6 @@
     streamView.classList.remove('show');
     document.body.style.overflow = '';
     stopStream();
-    // خروج من fullscreen
     if (document.fullscreenElement || document.webkitFullscreenElement) {
       try {
         if (document.exitFullscreen) document.exitFullscreen().catch(()=>{});
@@ -825,9 +823,8 @@
   let controlsVisible = true;
 
   playerBox.addEventListener('click', (e) => {
-    // لو الدوسة على أدوات التحكم نفسها، متعملش حاجة
     if (customControls.contains(e.target)) return;
-    // لو بنسحب على الشريط، متعملش حاجة
+    if (e.target.classList.contains('back-btn')) return; // متخفيش الشريط لما تدوس رجوع
     if (isDraggingSeek) return;
 
     if (controlsVisible) {
