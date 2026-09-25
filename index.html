@@ -14,6 +14,7 @@
   html,body{overflow-x:hidden;width:100%;position:relative}
   body{background:#080304;color:#fff;min-height:100vh;position:relative}
 
+  /* ===== الخلفية المتحركة ===== */
   .bg-layer{
     position:fixed;inset:0;z-index:-3;
     background:
@@ -63,6 +64,7 @@
     mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%);
     -webkit-mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%)}
 
+  /* ===== شاشة التحميل ===== */
   #splash{position:fixed;inset:0;
     background:radial-gradient(circle at 50% 45%,#1e0507 0%,#080304 70%);
     display:flex;flex-direction:column;justify-content:center;align-items:center;
@@ -117,6 +119,7 @@
     box-shadow:0 0 10px rgba(220,20,30,.8)}
   @keyframes fill{to{width:100%}}
 
+  /* ===== الصفحة الرئيسية ===== */
   #app{display:none;opacity:0;transition:opacity .9s;
        min-height:100vh;padding:20px 16px;position:relative;z-index:1}
   #app.show{display:block;opacity:1}
@@ -235,25 +238,62 @@
     margin:0 4px;transition:.2s}
   .main-footer a:hover{color:#ff4757}
 
+  /* ===== شاشة المشاهدة ===== */
   #streamView{display:none;position:fixed;inset:0;background:#000;z-index:100;
     flex-direction:column}
   #streamView.show{display:flex}
 
-  .stream-player-wrap{flex:1;display:flex;justify-content:center;align-items:center;
-    background:#000;padding:0;min-height:0;overflow:hidden}
+  .stream-player-wrap{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#000;
+    padding:0;
+    min-height:0;
+    overflow:hidden;
+  }
 
-  .player-box{position:relative;width:100%;height:100%;background:#000;
-    display:flex;justify-content:center;align-items:center;overflow:hidden}
+  .player-box{
+    position:relative;
+    width:100%;
+    height:100%;
+    max-width:none;
+    max-height:none;
+    background:#000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+  }
 
   .player-box:fullscreen,
-  .player-box:-webkit-full-screen{width:100vw !important;height:100vh !important;background:#000}
+  .player-box:-webkit-full-screen{
+    width:100vw !important;
+    height:100vh !important;
+    background:#000;
+  }
 
-  .video-aspect{position:relative;aspect-ratio:16/9;width:100%;
-    max-width:calc(100vh * 16 / 9);background:#000;overflow:hidden}
+  /* حاوية الفيديو: دايمًا 16:9 وتتمدد على الشاشة كلها */
+  .video-aspect{
+    position:relative;
+    aspect-ratio:16/9;
+    width:100%;
+    max-width:calc(100vh * 16 / 9);
+    background:#000;
+    overflow:hidden;
+  }
 
-  .video-aspect video{width:100%;height:100%;display:block;
-    object-fit:contain;background:#000;pointer-events:none}
+  .video-aspect video{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:contain;
+    background:#000;
+    pointer-events:none;
+  }
 
+  /* ===== زرار الرجوع (جوه البث وعلى الشمال) ===== */
   .back-btn{
     position: absolute;
     top: 3%;
@@ -270,42 +310,74 @@
     cursor: pointer;
     transition: .2s;
     letter-spacing: .3px;
+    pointer-events: auto;
   }
   .back-btn:hover{ background:#dc1420; border-color:#dc1420; }
 
+  /* ===== اللوجو بحجم مظبوط وخلفية سودا بسيطة على قده ===== */
   .channel-logo{
     position:absolute;
     top: 5%;
-    right: 5%;
+    right: 5%; /* نزلناه على الشمال شويه */
     width:26%;
     max-width:280px;
     height:auto;
     pointer-events:none;
     user-select:none;
     z-index:20;
-    background:#000;
-    padding: 0;
+    background:#000; /* خلفية سودا بسيطة */
+    padding: 0; /* بدون هوامش زيادة */
     border-radius: 6px;
     filter: drop-shadow(0 2px 6px rgba(0,0,0,.8));
+    transition:none;
   }
 
+  /* ===== شريط التحكم (بيختفي ويظهر بالدوس) ===== */
   .custom-controls{
-    position:absolute;bottom:0;left:0;right:0;z-index:15;
-    display:flex;align-items:center;gap:8px;
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    z-index:15;
+    display:flex;
+    align-items:center;
+    gap:8px;
     padding:12px 14px 14px;
     background:linear-gradient(transparent,rgba(0,0,0,.88));
-    opacity:1;pointer-events:auto;transition:opacity .3s;
+    opacity:1;
+    pointer-events:auto;
+    transition:opacity .3s;
   }
-  .custom-controls.hidden{opacity:0;pointer-events:none;}
+  .custom-controls.hidden{
+    opacity:0;
+    pointer-events:none;
+  }
 
-  .ctrl-btn{background:rgba(220,20,30,.16);color:#fff;
-    border:1px solid rgba(220,20,30,.3);width:40px;height:40px;border-radius:50%;
-    display:flex;justify-content:center;align-items:center;
-    cursor:pointer;transition:.22s;padding:0;flex-shrink:0}
+  .ctrl-btn{
+    background:rgba(220,20,30,.16);
+    color:#fff;
+    border:1px solid rgba(220,20,30,.3);
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    transition:.22s;
+    padding:0;
+    flex-shrink:0;
+  }
   .ctrl-btn:hover{background:#dc1420;border-color:#dc1420;transform:scale(1.06)}
   .ctrl-btn svg{width:18px;height:18px;fill:currentColor;display:block}
 
-  .progress-wrap{flex:1;cursor:grab;padding:12px 4px;min-width:60px;touch-action:none;}
+  .progress-wrap{
+    flex:1;
+    cursor:grab;
+    padding:12px 4px;
+    min-width:60px;
+    touch-action:none;
+  }
   .progress-wrap:active{cursor:grabbing}
   .progress-bar{height:4px;background:rgba(255,255,255,.22);
     border-radius:4px;overflow:hidden;position:relative;transition:height .2s}
@@ -327,6 +399,19 @@
     background:#000;color:#5a3b3d;text-align:center;padding:20px;z-index:2}
   .placeholder svg{width:56px;height:56px;fill:#3a2224;opacity:.7}
   .placeholder span{font-size:14px;font-weight:600}
+
+  .match-info-bar{padding:16px;flex-shrink:0;
+    background:linear-gradient(180deg,rgba(0,0,0,.4),rgba(0,0,0,.92));
+    backdrop-filter:blur(10px);
+    border-top:1px solid rgba(220,20,30,.2)}
+  .match-info-bar .teams-row{display:flex;justify-content:space-around;align-items:center;
+    max-width:640px;margin:0 auto}
+  .match-info-bar .team-sm{text-align:center}
+  .match-info-bar .team-sm img{width:56px;height:56px;object-fit:contain;
+    border-radius:50%;background:#0c0304;padding:5px;
+    border:1px solid rgba(220,20,30,.4)}
+  .match-info-bar .team-sm .n{margin-top:8px;font-size:12px;font-weight:700;color:#fff}
+  .match-info-bar .vs-sm{color:#dc1420;font-weight:900;font-size:19px;letter-spacing:1px}
 
   .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);
     background:linear-gradient(90deg,#8b0000,#dc1420);
@@ -361,6 +446,7 @@
 </head>
 <body>
 
+<!-- الخلفية المتحركة -->
 <div class="bg-layer"></div>
 <div class="bg-orbs">
   <div class="orb orb1"></div>
@@ -372,9 +458,12 @@
 </div>
 <div class="bg-dots"></div>
 
+<!-- شاشة التحميل -->
 <div id="splash">
   <div class="loader">
-    <svg class="spin" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45"/></svg>
+    <svg class="spin" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="45"/>
+    </svg>
     <div class="logo-circle">
       <img src="https://i.postimg.cc/xT8rcsT1/file-000000008bb4820ebcd371e64fff0469.png" alt="">
     </div>
@@ -385,6 +474,7 @@
   <div class="loading-bar"><div class="fill"></div></div>
 </div>
 
+<!-- الصفحة الرئيسية -->
 <div id="app">
   <div class="main-header">
     <div class="header-brand">
@@ -427,12 +517,14 @@
   </div>
 </div>
 
+<!-- شاشة المشاهدة -->
 <div id="streamView">
   <div class="stream-player-wrap">
     <div class="player-box" id="playerBox">
-      <div class="video-aspect">
+      <div class="video-aspect" id="videoAspect">
         <video id="video" playsinline webkit-playsinline></video>
 
+        <!-- زرار الرجوع جوه البث على الشمال -->
         <button class="back-btn" onclick="closeStream()">رجوع</button>
 
         <img class="channel-logo" id="channelLogo"
@@ -460,28 +552,33 @@
       </div>
     </div>
   </div>
+
+  <div class="match-info-bar" id="matchInfoBar" style="display:none">
+    <div class="teams-row">
+      <div class="team-sm">
+        <img id="infoTeam1Img" src=""><div class="n" id="infoTeam1">-</div>
+      </div>
+      <div class="vs-sm">VS</div>
+      <div class="team-sm">
+        <img id="infoTeam2Img" src=""><div class="n" id="infoTeam2">-</div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="toast" id="toast">هذا المحتوى محمي</div>
 
 <script>
-  /* ===== منع كل الاختصارات الضارة + Esc ===== */
+  /* ===== منع أدوات المطور + Ctrl+U ===== */
   document.addEventListener('keydown', e=>{
-    if((e.ctrlKey||e.metaKey) && (e.key === 'u' || e.key === 'U')) { e.preventDefault(); return false; }
-    if((e.ctrlKey||e.metaKey) && ['+','-','=','0'].includes(e.key)) { e.preventDefault(); return false; }
-    if(e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key))) { e.preventDefault(); return false; }
-    if(e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27){
-      e.preventDefault();
-      e.stopPropagation();
-      if (typeof isStreamViewOpen !== 'undefined' && isStreamViewOpen) {
-        setTimeout(requestFs, 10);
-      }
-      return false;
-    }
-  }, true);
+    if((e.ctrlKey||e.metaKey) && (e.key === 'u' || e.key === 'U')) e.preventDefault();
+    if((e.ctrlKey||e.metaKey) && ['+','-','=','0'].includes(e.key)) e.preventDefault();
+    if(e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key))) e.preventDefault();
+  });
   document.addEventListener('wheel', e=>{ if(e.ctrlKey) e.preventDefault(); },{passive:false});
   document.addEventListener('contextmenu', e=>e.preventDefault());
 
+  /* ===== MQTT ===== */
   const BROKER = 'wss://broker.emqx.io:8084/mqtt';
   const TOPIC_CMD = 'kwtspta_9f3a2b1c/cmd';
   const TOPIC_DATA = 'kwtspta_9f3a2b1c/data';
@@ -491,9 +588,10 @@
   const $ = id => document.getElementById(id);
   const splash = $('splash'), app = $('app'), grid = $('matchesGrid');
   const streamView = $('streamView'), video = $('video'), playerBox = $('playerBox');
-  const placeholder = $('playerPlaceholder'), matchInfoBar = $('matchInfoBar');
-  const customControls = $('customControls');
-  const playIcon = $('playIcon'), volIcon = $('volIcon');
+  const placeholder = $('playerPlaceholder'), streamTitle = $('streamTitle');
+  const streamLiveBadge = $('streamLiveBadge'), matchInfoBar = $('matchInfoBar');
+  const customControls = $('customControls'), playBtn = $('playBtn');
+  const playIcon = $('playIcon'), muteBtn = $('muteBtn'), volIcon = $('volIcon');
   const progressFill = $('progressFill'), timeDisplay = $('timeDisplay');
   const toast = $('toast');
 
@@ -505,6 +603,7 @@
     setTimeout(()=> toast.classList.remove('show'), 2000);
   }
 
+  /* تحميل */
   setTimeout(()=>{
     splash.classList.add('hide');
     setTimeout(()=>{
@@ -513,6 +612,7 @@
     }, 800);
   }, 2800);
 
+  /* MQTT */
   const client = mqtt.connect(BROKER, { clientId: MY_ID });
   client.on('connect', ()=>{
     client.subscribe(TOPIC_CMD);
@@ -531,6 +631,7 @@
     }catch(e){}
   });
 
+  /* عرض المباريات */
   function renderMatches(){
     if(!matchesData.length){
       grid.innerHTML = '<div style="text-align:center;color:#8a5b5e;padding:40px;grid-column:1/-1">لا توجد مباريات</div>';
@@ -559,6 +660,7 @@
     `).join('');
   }
 
+  /* فتح مباراة */
   function openMatch(i){
     const m = matchesData[i];
     if(!m) return;
@@ -577,10 +679,12 @@
     document.body.style.overflow = 'hidden';
     playStream(m.streamUrl);
 
-    // ==== الحل هنا: نحمي history.pushState عشان ميكسرش الكود ====
-    try { history.pushState({stream: true}, ''); } catch(e){}
+    history.pushState({stream: true}, '');
 
+    // تكبير الشاشة على طول
     requestFs();
+
+    // ===== تشغيل صوت الذكاء الاصطناعي فوراً =====
     setTimeout(speakWelcome, 2000);
   }
 
@@ -591,28 +695,31 @@
     } catch(e){}
   }
 
+  /* منع Esc من تصغير الشاشة */
   function handleFsChange(){
     const isFS = document.fullscreenElement || document.webkitFullscreenElement;
     if (isStreamViewOpen && !isFS) {
+      // لو حاول يخرج، رجعه Fullscreen تاني
       setTimeout(()=>{
         if (isStreamViewOpen && !document.fullscreenElement && !document.webkitFullscreenElement){
           requestFs();
         }
-      }, 80);
+      }, 100);
     }
   }
   document.addEventListener('fullscreenchange', handleFsChange);
   document.addEventListener('webkitfullscreenchange', handleFsChange);
 
+  /* زر الرجوع */
   window.addEventListener('popstate', function() {
     if (isStreamViewOpen) closeStreamUI();
   });
 
   function closeStream(){
     if (isStreamViewOpen) {
-      isStreamViewOpen = false;
+      isStreamViewOpen = false; // علم أولاً عشان ميتمنعش الخروج
       closeStreamUI();
-      try { if (history.state && history.state.stream) history.back(); } catch(e){}
+      if (history.state && history.state.stream) history.back();
     }
   }
 
@@ -630,6 +737,7 @@
     }
   }
 
+  /* تشغيل / إيقاف */
   function playStream(url){
     if(!url){ stopStream(); return; }
     placeholder.style.display = 'none';
@@ -657,6 +765,7 @@
     placeholder.innerHTML = '<svg viewBox="0 0 24 24" style="width:56px;height:56px;fill:#3a2224;opacity:.7"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg><span>تم إيقاف البث</span>';
   }
 
+  /* شريط التحكم */
   function togglePlay(){ video.paused ? video.play().catch(()=>{}) : video.pause(); }
   video.addEventListener('play', ()=>{ playIcon.innerHTML = '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>'; });
   video.addEventListener('pause', ()=>{ playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>'; });
@@ -685,6 +794,7 @@
     return h > 0 ? h+':'+m.toString().padStart(2,'0')+':'+sec : m+':'+sec;
   }
 
+  /* ===== شريط التقدم (Pointer Events) ===== */
   const progressWrap = document.getElementById('progressWrap');
   let isDraggingSeek = false;
 
@@ -712,11 +822,12 @@
   });
   progressWrap.addEventListener('pointercancel', () => { isDraggingSeek = false; });
 
+  /* ===== إخفاء / إظهار الشريط بالدوس ===== */
   let controlsVisible = true;
 
   playerBox.addEventListener('click', (e) => {
     if (customControls.contains(e.target)) return;
-    if (e.target.classList.contains('back-btn')) return;
+    if (e.target.classList.contains('back-btn')) return; // متخفيش الشريط لما تدوس رجوع
     if (isDraggingSeek) return;
 
     if (controlsVisible) {
@@ -728,18 +839,26 @@
     }
   });
 
-  /* ===== الترحيب الصوتي ===== */
+  /* ===== صوت الذكاء الاصطناعي (الترحيب) ===== */
   function speakWelcome() {
-    if (!('speechSynthesis' in window)) return;
+    if (!('speechSynthesis' in window)) {
+      console.warn('الصوت مش مدعوم في المتصفح ده');
+      return;
+    }
+
+    // إلغاء أي كلام شغال عشان ميتداخلش
     window.speechSynthesis.cancel();
 
+    // النص اللي انت عايزه بالظبط
     const text = "أهلاً بيكم في مشاهدة جميع المباريات. عبارة موقع عنكبوت سبورت. لا تنسوا تشير الأصدقائكم هذا الموقع. ومشاهدة ممتعة.";
+
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'ar-EG';
     utterance.rate = 0.9;
     utterance.pitch = 1;
     utterance.volume = 1;
 
+    // اختيار صوت عربي لو متاح
     const voices = window.speechSynthesis.getVoices();
     const arabicVoice = voices.find(v => v.lang && v.lang.startsWith('ar'));
     if (arabicVoice) utterance.voice = arabicVoice;
@@ -747,11 +866,15 @@
     window.speechSynthesis.speak(utterance);
   }
 
+  // تحميل الأصوات مسبقاً (بعض المتصفحات بتحتاج ده)
   if ('speechSynthesis' in window) {
-    window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
+    window.speechSynthesis.onvoiceschanged = () => {
+      window.speechSynthesis.getVoices();
+    };
     window.speechSynthesis.getVoices();
   }
 
+  // كل 30 دقيقة
   setInterval(speakWelcome, 1800000);
 </script>
 </body>
