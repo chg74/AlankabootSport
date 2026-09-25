@@ -301,27 +301,28 @@
   .video-frame video{width:100%;height:100%;display:block;
     object-fit:contain;background:#000;pointer-events:none}
 
-  /* ===== اللوجو ثابت وكبير جداً زي beIN ===== */
+  /* ===== اللوجو مظبوط: صغير في العادي، كبير في الفول سكرين ===== */
   .channel-logo{
     position:absolute;
-    top:2.5%;
-    right:2.5%;
-    width:30%;
-    max-width:350px;
+    top:2%;
+    right:2%;
+    width:22%;
+    max-width:180px;
     height:auto;
     pointer-events:none;
     user-select:none;
     z-index:20;
     filter:drop-shadow(0 4px 12px rgba(0,0,0,.75));
-    transition:none}
+    transition:all .3s ease;
+  }
 
   .player-box:fullscreen .channel-logo,
   .player-box:-webkit-full-screen .channel-logo{
-    position:absolute;
-    top:3%;
-    right:3%;
-    width:15%;
-    max-width:300px}
+    width:16%;
+    max-width:280px;
+    top:2.5%;
+    right:2.5%;
+  }
 
   .custom-controls{position:absolute;bottom:0;left:0;right:0;z-index:15;
     display:flex;align-items:center;gap:8px;
@@ -399,7 +400,7 @@
       border:none;
       box-shadow:none}
     .video-frame{position:absolute;inset:0}
-    .channel-logo{width:18%;max-width:320px;top:2.5%;right:2.5%}
+    .channel-logo{width:14%;max-width:220px;top:2%;right:2%}
     .match-info-bar{padding:12px}
   }
 
@@ -415,7 +416,7 @@
     .support-banner .body{font-size:12px;line-height:1.7}
     .support-btn{padding:9px 18px;font-size:12px}
     .match-tile .team img{width:62px;height:62px}
-    .channel-logo{width:32%;max-width:200px;top:3%;right:3%}
+    .channel-logo{width:28%;max-width:140px;top:3%;right:3%}
     .ctrl-btn{width:36px;height:36px}
     .ctrl-btn svg{width:16px;height:16px}
     .time-display{font-size:11px;padding:0 3px}
@@ -515,7 +516,7 @@
         <video id="video" playsinline webkit-playsinline></video>
 
         <img class="channel-logo" id="channelLogo"
-             src="https://i.postimg.cc/yNZ3BXZB/ankabout-bein-style.png" alt="">
+             src="https://i.postimg.cc/XvJLp6xV/elankbotsports.png" alt="">
 
         <div class="custom-controls" id="customControls">
           <button class="ctrl-btn" onclick="togglePlay()" id="playBtn">
@@ -670,10 +671,8 @@
     document.body.style.overflow = 'hidden';
     playStream(m.streamUrl);
 
-    // حفظ الحالة في تاريخ المتصفح
     history.pushState({stream: true}, '');
 
-    // على الكمبيوتر: خش fullscreen أوتوماتيك
     if(window.innerWidth > 1024){
       setTimeout(()=>{
         if(playerBox.requestFullscreen) playerBox.requestFullscreen();
@@ -810,4 +809,4 @@
   video.addEventListener('play', showControls);
 </script>
 </body>
-                                              </html>
+</html>
