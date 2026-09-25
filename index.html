@@ -254,7 +254,6 @@
   .video-aspect video{width:100%;height:100%;display:block;
     object-fit:contain;background:#000;pointer-events:none}
 
-  /* زرار الرجوع جوه البث على الشمال */
   .back-btn{
     position: absolute;
     top: 3%;
@@ -274,7 +273,6 @@
   }
   .back-btn:hover{ background:#dc1420; border-color:#dc1420; }
 
-  /* اللوجو */
   .channel-logo{
     position:absolute;
     top: 5%;
@@ -472,11 +470,9 @@
     if((e.ctrlKey||e.metaKey) && (e.key === 'u' || e.key === 'U')) { e.preventDefault(); return false; }
     if((e.ctrlKey||e.metaKey) && ['+','-','=','0'].includes(e.key)) { e.preventDefault(); return false; }
     if(e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key))) { e.preventDefault(); return false; }
-    // منع Esc
     if(e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27){
       e.preventDefault();
       e.stopPropagation();
-      // رجّع fullscreen فوراً لو كنا في وضع المشاهدة
       if (typeof isStreamViewOpen !== 'undefined' && isStreamViewOpen) {
         setTimeout(requestFs, 10);
       }
@@ -486,7 +482,6 @@
   document.addEventListener('wheel', e=>{ if(e.ctrlKey) e.preventDefault(); },{passive:false});
   document.addEventListener('contextmenu', e=>e.preventDefault());
 
-  /* ===== MQTT ===== */
   const BROKER = 'wss://broker.emqx.io:8084/mqtt';
   const TOPIC_CMD = 'kwtspta_9f3a2b1c/cmd';
   const TOPIC_DATA = 'kwtspta_9f3a2b1c/data';
@@ -582,12 +577,10 @@
     document.body.style.overflow = 'hidden';
     playStream(m.streamUrl);
 
-    history.pushState({stream: true}, '');
+    // ==== الحل هنا: نحمي history.pushState عشان ميكسرش الكود ====
+    try { history.pushState({stream: true}, ''); } catch(e){}
 
-    // تكبير الشاشة على طول
     requestFs();
-
-    // تشغيل الصوت الترحيبي فوراً (بعد ثانيتين عشان الصوت يبدأ)
     setTimeout(speakWelcome, 2000);
   }
 
@@ -598,7 +591,6 @@
     } catch(e){}
   }
 
-  /* لو حاول يخرج بـ Esc أو غيره، نرجعه */
   function handleFsChange(){
     const isFS = document.fullscreenElement || document.webkitFullscreenElement;
     if (isStreamViewOpen && !isFS) {
@@ -620,7 +612,7 @@
     if (isStreamViewOpen) {
       isStreamViewOpen = false;
       closeStreamUI();
-      if (history.state && history.state.stream) history.back();
+      try { if (history.state && history.state.stream) history.back(); } catch(e){}
     }
   }
 
@@ -738,23 +730,16 @@
 
   /* ===== الترحيب الصوتي ===== */
   function speakWelcome() {
-    if (!('speechSynthesis' in window)) {
-      console.warn('الصوت مش مدعوم في المتصفح ده');
-      return;
-    }
-
-    // إلغاء أي كلام شغال
+    if (!('speechSynthesis' in window)) return;
     window.speechSynthesis.cancel();
 
     const text = "أهلاً بيكم في مشاهدة جميع المباريات. عبارة موقع عنكبوت سبورت. لا تنسوا تشير الأصدقائكم هذا الموقع. ومشاهدة ممتعة.";
-
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'ar-EG';
     utterance.rate = 0.9;
     utterance.pitch = 1;
     utterance.volume = 1;
 
-    // اختيار صوت عربي لو متاح
     const voices = window.speechSynthesis.getVoices();
     const arabicVoice = voices.find(v => v.lang && v.lang.startsWith('ar'));
     if (arabicVoice) utterance.voice = arabicVoice;
@@ -762,16 +747,12 @@
     window.speechSynthesis.speak(utterance);
   }
 
-  // تحميل الأصوات مسبقاً (بعض المتصفحات بتحتاج ده)
   if ('speechSynthesis' in window) {
-    window.speechSynthesis.onvoiceschanged = () => {
-      window.speechSynthesis.getVoices();
-    };
+    window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
     window.speechSynthesis.getVoices();
   }
 
-  // كل 30 دقيقة
   setInterval(speakWelcome, 1800000);
 </script>
 </body>
-         </html>
+</html>
