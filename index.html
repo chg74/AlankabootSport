@@ -289,7 +289,7 @@
     display:flex;justify-content:center;align-items:center;
     background:#000}
 
-  /* ===== الحاوية الجديدة: تثبت الفيديو واللوجو في إطار 16:9 ===== */
+  /* ===== الحاوية المظبوطة للفيديو واللوجو ===== */
   .video-aspect{
     position:relative;
     width:100%;
@@ -313,14 +313,14 @@
   .video-aspect video{width:100%;height:100%;display:block;
     object-fit:contain;background:#000;pointer-events:none}
 
-  /* ===== اللوجو ثابت جوه الفيديو ويغطي beIN ===== */
+  /* ===== اللوجو مظبوط بالمللي على شعار beIN ===== */
   .channel-logo{
     position:absolute;
-    top:2.5%;
-    right:2.5%;
+    top:4.5%;       /* نزلناه شوية لتحت عشان يغطي */
+    right:2.5%;     /* ضبطناه على اليمين */
     left:auto;
-    width:26%;
-    max-width:280px;
+    width:28%;      /* كبرناه شوية */
+    max-width:320px;
     height:auto;
     pointer-events:none;
     user-select:none;
@@ -332,8 +332,8 @@
   .player-box:fullscreen .channel-logo,
   .player-box:-webkit-full-screen .channel-logo{
     width:32%;
-    max-width:450px;
-    top:4%;
+    max-width:400px;
+    top:5%;
     right:3%;
     left:auto;
   }
@@ -343,8 +343,8 @@
     display:flex;align-items:center;gap:8px;
     padding:12px 14px 14px;
     background:linear-gradient(transparent,rgba(0,0,0,.88));
-    opacity:1; /* ظاهر دايماً */
-    pointer-events:auto;
+    opacity:1 !important; /* ظاهر دايماً */
+    pointer-events:auto !important;
     transition:opacity .3s;}
 
   .player-box:fullscreen .custom-controls,
@@ -359,15 +359,16 @@
   .ctrl-btn:hover{background:#dc1420;border-color:#dc1420;transform:scale(1.06)}
   .ctrl-btn svg{width:18px;height:18px;fill:currentColor;display:block}
 
-  .progress-wrap{flex:1;cursor:pointer;padding:8px 4px;min-width:60px;
-    cursor:grab;}
+  /* ===== شريط التقدم ===== */
+  .progress-wrap{flex:1;cursor:pointer;padding:12px 4px;min-width:60px;
+    cursor:grab;touch-action:none;} /* touch-action:none عشان السحب */
   .progress-wrap:active{cursor:grabbing;}
-  .progress-bar{height:3px;background:rgba(255,255,255,.22);
-    border-radius:3px;overflow:hidden;position:relative;transition:height .2s}
-  .progress-wrap:hover .progress-bar{height:5px}
+  .progress-bar{height:4px;background:rgba(255,255,255,.22);
+    border-radius:4px;overflow:hidden;position:relative;transition:height .2s}
+  .progress-wrap:hover .progress-bar{height:6px}
   .progress-fill{height:100%;width:0;
     background:linear-gradient(90deg,#8b0000,#dc1420,#ff4757);
-    border-radius:3px;transition:width .1s;
+    border-radius:4px;transition:width .1s;
     box-shadow:0 0 10px rgba(220,20,30,.85)}
 
   .time-display{color:#fff;font-size:12px;font-weight:600;
@@ -416,7 +417,7 @@
       border:none;
       box-shadow:none}
     .video-aspect{position:absolute;inset:0;max-width:none}
-    .channel-logo{width:22%;max-width:350px;top:2.5%;right:2.5%;left:auto}
+    .channel-logo{width:26%;max-width:380px;top:4.5%;right:2.5%;left:auto}
     .match-info-bar{padding:12px}
   }
 
@@ -432,7 +433,7 @@
     .support-banner .body{font-size:12px;line-height:1.7}
     .support-btn{padding:9px 18px;font-size:12px}
     .match-tile .team img{width:62px;height:62px}
-    .channel-logo{width:30%;max-width:180px;top:3%;right:3%;left:auto}
+    .channel-logo{width:30%;max-width:180px;top:4.5%;right:3%;left:auto}
     .ctrl-btn{width:36px;height:36px}
     .ctrl-btn svg{width:16px;height:16px}
     .time-display{font-size:11px;padding:0 3px}
@@ -528,7 +529,7 @@
 
   <div class="stream-player-wrap">
     <div class="player-box" id="playerBox">
-      <!-- الحاوية الجديدة: الفيديو واللوجو جواها -->
+      <!-- الحاوية المظبوطة للفيديو واللوجو -->
       <div class="video-aspect">
         <video id="video" playsinline webkit-playsinline></video>
 
@@ -786,78 +787,61 @@
     return h > 0 ? h+':'+m.toString().padStart(2,'0')+':'+sec : m+':'+sec;
   }
 
-  /* ========== شريط التقدم (Drag & Drop) ========== */
+  /* ========== شريط التقدم (Pointer Events - يشمل الماوس واللمس) ========== */
   const progressWrap = document.getElementById('progressWrap');
   let isDraggingSeek = false;
-
-  function getClientX(e) {
-    return e.touches && e.touches.length > 0 ? e.touches[0].clientX : e.clientX;
-  }
 
   function seekVideo(e) {
     if (!video.duration || !isFinite(video.duration)) return;
     const rect = progressWrap.getBoundingClientRect();
-    let percent = (getClientX(e) - rect.left) / rect.width;
+    // حساب النسبة بناءً على مكان الماوس/اللمس
+    let percent = (e.clientX - rect.left) / rect.width;
     percent = Math.max(0, Math.min(1, percent));
     video.currentTime = percent * video.duration;
     progressFill.style.width = (percent * 100) + '%';
   }
 
-  // أحداث الماوس (للكمبيوتر)
-  progressWrap.addEventListener('mousedown', (e) => {
+  // أحداث Pointer (الموحدة للماوس واللمس)
+  progressWrap.addEventListener('pointerdown', (e) => {
     isDraggingSeek = true;
+    progressWrap.setPointerCapture(e.pointerId); // مهم جداً لتثبيت السحب
     seekVideo(e);
   });
 
-  document.addEventListener('mousemove', (e) => {
+  progressWrap.addEventListener('pointermove', (e) => {
     if (isDraggingSeek) seekVideo(e);
   });
 
-  document.addEventListener('mouseup', () => {
+  progressWrap.addEventListener('pointerup', (e) => {
     isDraggingSeek = false;
+    progressWrap.releasePointerCapture(e.pointerId);
   });
 
-  // أحداث اللمس (للموبايل)
-  progressWrap.addEventListener('touchstart', (e) => {
-    isDraggingSeek = true;
-    seekVideo(e);
-  }, { passive: false });
-
-  progressWrap.addEventListener('touchmove', (e) => {
-    if (isDraggingSeek) {
-      e.preventDefault(); // لمنع السكرول أثناء السحب
-      seekVideo(e);
-    }
-  }, { passive: false });
-
-  document.addEventListener('touchend', () => {
+  progressWrap.addEventListener('pointercancel', () => {
     isDraggingSeek = false;
   });
 
   /* ========== الذكاء الاصطناعي للترحيب (كل 30 دقيقة) ========== */
   function speakWelcome() {
     if ('speechSynthesis' in window) {
-      // إلغاء أي كلام شغال عشان ميتداخلش
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance("أهلاً بكم في قناة العنكبوت سبورت 1. لا تنسوا مشاركة الموقع مع أصدقائكم. مشاهدة ممتعة.");
-      utterance.lang = 'ar-EG'; // اللهجة المصرية
+      utterance.lang = 'ar-EG';
       utterance.rate = 0.95;
       utterance.pitch = 1;
       window.speechSynthesis.speak(utterance);
     }
   }
 
-  // تشغيل الترحيب مرة واحدة بعد دقيقة من بدء البث
   let welcomeTriggered = false;
   video.addEventListener('play', () => {
     if (!welcomeTriggered) {
       welcomeTriggered = true;
-      setTimeout(speakWelcome, 60000); // بعد دقيقة
+      setTimeout(speakWelcome, 60000);
     }
   });
 
-  // كل 30 دقيقة (30 * 60 * 1000 = 1800000 ms)
-  setInterval(speakWelcome, 1800000);
+  setInterval(speakWelcome, 1800000); // 30 دقيقة
 
   /* Fullscreen */
   function toggleFullscreen(){
