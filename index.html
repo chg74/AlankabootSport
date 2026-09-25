@@ -14,7 +14,7 @@
   html,body{overflow-x:hidden;width:100%;position:relative}
   body{background:#080304;color:#fff;min-height:100vh;position:relative}
 
-  /* ========== الخلفية المتحركة ========== */
+  /* ===== الخلفية المتحركة ===== */
   .bg-layer{
     position:fixed;inset:0;z-index:-3;
     background:
@@ -24,7 +24,6 @@
       linear-gradient(135deg,#080304 0%,#1a0507 50%,#080304 100%);
     background-size:200% 200%,200% 200%,200% 200%,400% 400%;
     animation:bgMove 20s ease-in-out infinite}
-
   @keyframes bgMove{
     0%,100%{background-position:0% 0%,100% 0%,50% 100%,0% 50%}
     33%{background-position:100% 50%,0% 100%,0% 0%,100% 0%}
@@ -65,13 +64,12 @@
     mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%);
     -webkit-mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%)}
 
-  /* ========== شاشة التحميل ========== */
+  /* ===== شاشة التحميل ===== */
   #splash{position:fixed;inset:0;
     background:radial-gradient(circle at 50% 45%,#1e0507 0%,#080304 70%);
     display:flex;flex-direction:column;justify-content:center;align-items:center;
     z-index:9999;transition:opacity .9s;padding:20px;overflow:hidden}
   #splash.hide{opacity:0;pointer-events:none}
-
   #splash::before{content:'';position:absolute;width:400px;height:400px;
     top:50%;left:50%;transform:translate(-50%,-50%);
     background:radial-gradient(circle,rgba(220,20,30,.3),transparent 65%);
@@ -121,7 +119,7 @@
     box-shadow:0 0 10px rgba(220,20,30,.8)}
   @keyframes fill{to{width:100%}}
 
-  /* ========== الصفحة الرئيسية ========== */
+  /* ===== الصفحة الرئيسية ===== */
   #app{display:none;opacity:0;transition:opacity .9s;
        min-height:100vh;padding:20px 16px;position:relative;z-index:1}
   #app.show{display:block;opacity:1}
@@ -240,134 +238,146 @@
     margin:0 4px;transition:.2s}
   .main-footer a:hover{color:#ff4757}
 
-  /* ========== شاشة المشاهدة ========== */
+  /* ===== شاشة المشاهدة ===== */
   #streamView{display:none;position:fixed;inset:0;background:#000;z-index:100;
     flex-direction:column}
   #streamView.show{display:flex}
 
-  .stream-topbar{display:flex;justify-content:space-between;align-items:center;
-    padding:12px 16px;
-    background:linear-gradient(180deg,rgba(0,0,0,.92),rgba(0,0,0,.5));
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid rgba(220,20,30,.2);
-    z-index:10;flex-shrink:0}
-  .back-btn{background:rgba(220,20,30,.14);color:#ff4757;
-    border:1px solid rgba(220,20,30,.45);
-    padding:7px 15px;border-radius:18px;
-    font-weight:700;cursor:pointer;font-size:13px;
-    display:inline-flex;align-items:center;gap:6px;
-    transition:.22s;font-family:'Cairo',sans-serif}
-  .back-btn:hover{background:#dc1420;color:#fff;border-color:#dc1420}
-  .back-btn svg{width:14px;height:14px;fill:currentColor}
+  /* زرار رجوع صغير على الشمال فوق */
+  .back-btn{
+    position:absolute;
+    top:10px;
+    left:10px;
+    z-index:100000;
+    background:rgba(0,0,0,.55);
+    color:#fff;
+    border:1px solid rgba(255,255,255,.3);
+    padding:4px 10px;
+    font-size:11px;
+    font-family:'Cairo',sans-serif;
+    font-weight:700;
+    border-radius:6px;
+    cursor:pointer;
+    transition:.2s;
+    letter-spacing:.3px;
+  }
+  .back-btn:hover{background:#dc1420;border-color:#dc1420}
 
-  .stream-title{color:#fff;font-weight:700;font-size:14px;
-    text-align:center;flex:1;padding:0 10px;
-    overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .stream-player-wrap{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#000;
+    padding:0;
+    min-height:0;
+    overflow:hidden;
+  }
 
-  .stream-live{background:linear-gradient(90deg,#8b0000,#dc1420);
-    color:#fff;padding:5px 13px;border-radius:13px;
-    font-size:11px;font-weight:700;letter-spacing:.4px;
-    display:inline-flex;align-items:center;gap:5px;
-    box-shadow:0 0 12px rgba(220,20,30,.55)}
-  .stream-live::before{content:'';width:6px;height:6px;border-radius:50%;
-    background:#fff;animation:blink 1.2s infinite}
-
-  .stream-player-wrap{flex:1;display:flex;justify-content:center;align-items:center;
-    padding:16px;min-height:0;overflow:hidden}
-
-  .player-box{position:relative;width:100%;max-width:1100px;aspect-ratio:16/9;
-    background:#000;border-radius:14px;overflow:hidden;
-    border:1px solid rgba(220,20,30,.28);
-    box-shadow:0 22px 60px rgba(0,0,0,.85),0 0 45px rgba(190,15,25,.14)}
+  .player-box{
+    position:relative;
+    width:100%;
+    height:100%;
+    max-width:none;
+    max-height:none;
+    background:#000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+  }
 
   .player-box:fullscreen,
   .player-box:-webkit-full-screen{
-    width:100vw !important;height:100vh !important;
-    max-width:none !important;max-height:none !important;
-    aspect-ratio:auto !important;
-    border-radius:0 !important;border:none !important;
-    display:flex;justify-content:center;align-items:center;
-    background:#000}
+    width:100vw !important;
+    height:100vh !important;
+    background:#000;
+  }
 
-  /* ===== الحاوية المظبوطة للفيديو واللوجو ===== */
+  /* حاوية الفيديو: دايمًا 16:9 وتتمدد على الشاشة كلها */
   .video-aspect{
     position:relative;
+    aspect-ratio:16/9;
     width:100%;
-    max-width:100%;
-    max-height:100%;
-    aspect-ratio:16/9;
-    display:flex;justify-content:center;align-items:center;
-    background:#000;
-    margin:0 auto;
-  }
-
-  .player-box:fullscreen .video-aspect,
-  .player-box:-webkit-full-screen .video-aspect{
-    width:100%;height:100%;
     max-width:calc(100vh * 16 / 9);
-    aspect-ratio:16/9;
-    max-height:100vh;
-    margin:0 auto;
+    background:#000;
+    overflow:hidden;
   }
 
-  .video-aspect video{width:100%;height:100%;display:block;
-    object-fit:contain;background:#000;pointer-events:none}
+  .video-aspect video{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:contain;
+    background:#000;
+    pointer-events:none;
+  }
 
-  /* ===== اللوجو مظبوط بالمللي على شعار beIN ويغطي عليه ===== */
+  /* ===== اللوجو بحجم مظبوط وخلفية سودا بسيطة على قده ===== */
   .channel-logo{
     position:absolute;
-    top:2.5%;
-    right:2.5%;
-    left:auto;
+    top:2%;
+    right:2%;
     width:28%;
-    max-width:320px;
+    max-width:300px;
     height:auto;
     pointer-events:none;
     user-select:none;
     z-index:20;
-    filter:drop-shadow(0 4px 12px rgba(0,0,0,.75));
-    transition:all .3s ease;
-    /* الخلفية السوداء دي هي اللي هتغطي على شعار beIN */
-    background: #000;
-    border-radius: 10px;
-    padding: 4px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+    background:#000;
+    padding:2px 4px;
+    border-radius:4px;
+    filter:drop-shadow(0 2px 6px rgba(0,0,0,.8));
+    transition:none;
   }
 
-  .player-box:fullscreen .channel-logo,
-  .player-box:-webkit-full-screen .channel-logo{
-    width:32%;
-    max-width:400px;
-    top:4%;
-    right:3%;
-    left:auto;
-  }
-
-  /* ===== الشريط التحكم: باين على طول ===== */
-  .custom-controls{position:absolute;bottom:0;left:0;right:0;z-index:15;
-    display:flex;align-items:center;gap:8px;
+  /* ===== شريط التحكم (بيختفي ويظهر بالدوس) ===== */
+  .custom-controls{
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    z-index:15;
+    display:flex;
+    align-items:center;
+    gap:8px;
     padding:12px 14px 14px;
     background:linear-gradient(transparent,rgba(0,0,0,.88));
-    opacity:1 !important; /* ظاهر دايماً */
-    pointer-events:auto !important;
-    transition:opacity .3s;}
+    opacity:1;
+    pointer-events:auto;
+    transition:opacity .3s;
+  }
+  .custom-controls.hidden{
+    opacity:0;
+    pointer-events:none;
+  }
 
-  .player-box:fullscreen .custom-controls,
-  .player-box:-webkit-full-screen .custom-controls{
-    position:fixed;bottom:0;left:0;right:0;z-index:100001}
-
-  .ctrl-btn{background:rgba(220,20,30,.16);color:#fff;
+  .ctrl-btn{
+    background:rgba(220,20,30,.16);
+    color:#fff;
     border:1px solid rgba(220,20,30,.3);
-    width:40px;height:40px;border-radius:50%;
-    display:flex;justify-content:center;align-items:center;
-    cursor:pointer;transition:.22s;padding:0;flex-shrink:0}
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    transition:.22s;
+    padding:0;
+    flex-shrink:0;
+  }
   .ctrl-btn:hover{background:#dc1420;border-color:#dc1420;transform:scale(1.06)}
   .ctrl-btn svg{width:18px;height:18px;fill:currentColor;display:block}
 
-  /* ===== شريط التقدم ===== */
-  .progress-wrap{flex:1;cursor:pointer;padding:12px 4px;min-width:60px;
-    cursor:grab;touch-action:none;} /* touch-action:none عشان السحب */
-  .progress-wrap:active{cursor:grabbing;}
+  .progress-wrap{
+    flex:1;
+    cursor:grab;
+    padding:12px 4px;
+    min-width:60px;
+    touch-action:none;
+  }
+  .progress-wrap:active{cursor:grabbing}
   .progress-bar{height:4px;background:rgba(255,255,255,.22);
     border-radius:4px;overflow:hidden;position:relative;transition:height .2s}
   .progress-wrap:hover .progress-bar{height:6px}
@@ -411,21 +421,6 @@
     pointer-events:none;font-family:'Cairo',sans-serif}
   .toast.show{opacity:1;bottom:38px}
 
-  @media(min-width:1025px){
-    .stream-player-wrap{padding:0;flex:1;min-height:0}
-    .player-box{
-      max-width:none;
-      width:100%;
-      height:100%;
-      aspect-ratio:unset;
-      border-radius:0;
-      border:none;
-      box-shadow:none}
-    .video-aspect{position:absolute;inset:0;max-width:none}
-    .channel-logo{width:25%;max-width:380px;top:3%;right:3%;left:auto}
-    .match-info-bar{padding:12px}
-  }
-
   @media(max-width:600px){
     .main-header{padding:12px 14px;flex-wrap:wrap;gap:10px}
     .header-brand .logo-sm{width:40px;height:40px}
@@ -438,11 +433,10 @@
     .support-banner .body{font-size:12px;line-height:1.7}
     .support-btn{padding:9px 18px;font-size:12px}
     .match-tile .team img{width:62px;height:62px}
-    .channel-logo{width:32%;max-width:200px;top:3%;right:3%;left:auto}
+    .channel-logo{width:32%;max-width:200px;top:2%;right:2%}
     .ctrl-btn{width:36px;height:36px}
     .ctrl-btn svg{width:16px;height:16px}
     .time-display{font-size:11px;padding:0 3px}
-    .stream-player-wrap{padding:10px}
     .brand-name{font-size:22px}
     .welcome-text{font-size:16px}
   }
@@ -523,18 +517,10 @@
 
 <!-- شاشة المشاهدة -->
 <div id="streamView">
-  <div class="stream-topbar">
-    <button class="back-btn" onclick="closeStream()">
-      <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-      رجوع
-    </button>
-    <div class="stream-title" id="streamTitle">البث المباشر</div>
-    <div class="stream-live" id="streamLiveBadge" style="display:none">مباشر</div>
-  </div>
+  <button class="back-btn" onclick="closeStream()">رجوع</button>
 
   <div class="stream-player-wrap">
     <div class="player-box" id="playerBox">
-      <!-- الحاوية المظبوطة للفيديو واللوجو -->
       <div class="video-aspect">
         <video id="video" playsinline webkit-playsinline></video>
 
@@ -553,9 +539,6 @@
           </span>
           <button class="ctrl-btn" onclick="toggleMute()" id="muteBtn">
             <svg id="volIcon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
-          </button>
-          <button class="ctrl-btn" onclick="toggleFullscreen()" id="fsBtn">
-            <svg id="fsIcon" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
           </button>
         </div>
 
@@ -583,7 +566,7 @@
 <div class="toast" id="toast">هذا المحتوى محمي</div>
 
 <script>
-  /* ========== منع أدوات المطور + منع Ctrl+U ========== */
+  /* ===== منع أدوات المطور + Ctrl+U ===== */
   document.addEventListener('keydown', e=>{
     if((e.ctrlKey||e.metaKey) && (e.key === 'u' || e.key === 'U')) e.preventDefault();
     if((e.ctrlKey||e.metaKey) && ['+','-','=','0'].includes(e.key)) e.preventDefault();
@@ -592,7 +575,7 @@
   document.addEventListener('wheel', e=>{ if(e.ctrlKey) e.preventDefault(); },{passive:false});
   document.addEventListener('contextmenu', e=>e.preventDefault());
 
-  /* ========== MQTT ========== */
+  /* ===== MQTT ===== */
   const BROKER = 'wss://broker.emqx.io:8084/mqtt';
   const TOPIC_CMD = 'kwtspta_9f3a2b1c/cmd';
   const TOPIC_DATA = 'kwtspta_9f3a2b1c/data';
@@ -606,7 +589,6 @@
   const streamLiveBadge = $('streamLiveBadge'), matchInfoBar = $('matchInfoBar');
   const customControls = $('customControls'), playBtn = $('playBtn');
   const playIcon = $('playIcon'), muteBtn = $('muteBtn'), volIcon = $('volIcon');
-  const fsBtn = $('fsBtn'), fsIcon = $('fsIcon');
   const progressFill = $('progressFill'), timeDisplay = $('timeDisplay');
   const toast = $('toast');
 
@@ -684,7 +666,6 @@
     currentMatchId = m.id;
     isStreamViewOpen = true;
 
-    streamTitle.textContent = m.title || 'البث المباشر';
     $('infoTeam1Img').src = m.team1Img || '';
     $('infoTeam1').textContent = m.team1 || '';
     $('infoTeam2Img').src = m.team2Img || '';
@@ -697,27 +678,46 @@
 
     history.pushState({stream: true}, '');
 
-    if(window.innerWidth > 1024){
+    // تكبير الشاشة على طول (أي مقاس - موبايل أو كمبيوتر)
+    requestFs();
+  }
+
+  function requestFs(){
+    try {
+      if (playerBox.requestFullscreen) {
+        playerBox.requestFullscreen().catch(()=>{});
+      } else if (playerBox.webkitRequestFullscreen) {
+        playerBox.webkitRequestFullscreen();
+      } else if (playerBox.msRequestFullscreen) {
+        playerBox.msRequestFullscreen();
+      }
+    } catch(e){}
+  }
+
+  /* لو خرج من fullscreen بالغلط، نرجعه */
+  function handleFsChange(){
+    const isFS = document.fullscreenElement || document.webkitFullscreenElement;
+    if (isStreamViewOpen && !isFS) {
+      // حاول ترجع fullscreen بعد لحظة
       setTimeout(()=>{
-        if(playerBox.requestFullscreen) playerBox.requestFullscreen();
-        else if(playerBox.webkitRequestFullscreen) playerBox.webkitRequestFullscreen();
-      }, 300);
+        if (isStreamViewOpen && !document.fullscreenElement && !document.webkitFullscreenElement){
+          requestFs();
+        }
+      }, 150);
     }
   }
+  document.addEventListener('fullscreenchange', handleFsChange);
+  document.addEventListener('webkitfullscreenchange', handleFsChange);
 
   /* زر الرجوع في المتصفح */
   window.addEventListener('popstate', function() {
-    if (isStreamViewOpen) {
-      closeStreamUI();
-    }
+    if (isStreamViewOpen) closeStreamUI();
   });
 
   function closeStream(){
     if (isStreamViewOpen) {
       closeStreamUI();
-      if (history.state && history.state.stream) {
-        history.back();
-      }
+      if (history.state && history.state.stream) history.back();
     }
   }
 
@@ -727,17 +727,19 @@
     streamView.classList.remove('show');
     document.body.style.overflow = '';
     stopStream();
-    if(document.fullscreenElement || document.webkitFullscreenElement){
-      (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+    // خروج من fullscreen
+    if (document.fullscreenElement || document.webkitFullscreenElement) {
+      try {
+        if (document.exitFullscreen) document.exitFullscreen().catch(()=>{});
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      } catch(e){}
     }
-    updateFsIcon();
   }
 
   /* تشغيل / إيقاف */
   function playStream(url){
     if(!url){ stopStream(); return; }
     placeholder.style.display = 'none';
-    streamLiveBadge.style.display = 'inline-flex';
     if(hls){ hls.destroy(); hls = null; }
     if(Hls.isSupported()){
       hls = new Hls({ lowLatencyMode:true, enableWorker:true });
@@ -760,7 +762,6 @@
     video.pause(); video.removeAttribute('src'); video.load();
     placeholder.style.display = 'flex';
     placeholder.innerHTML = '<svg viewBox="0 0 24 24" style="width:56px;height:56px;fill:#3a2224;opacity:.7"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg><span>تم إيقاف البث</span>';
-    streamLiveBadge.style.display = 'none';
   }
 
   /* شريط التحكم */
@@ -792,50 +793,53 @@
     return h > 0 ? h+':'+m.toString().padStart(2,'0')+':'+sec : m+':'+sec;
   }
 
-  /* ========== شريط التقدم (Pointer Events - يشمل الماوس واللمس) ========== */
+  /* ===== شريط التقدم (Pointer Events) ===== */
   const progressWrap = document.getElementById('progressWrap');
   let isDraggingSeek = false;
 
   function seekVideo(e) {
     if (!video.duration || !isFinite(video.duration)) return;
     const rect = progressWrap.getBoundingClientRect();
-    // حساب النسبة بناءً على مكان الماوس/اللمس
     let percent = (e.clientX - rect.left) / rect.width;
     percent = Math.max(0, Math.min(1, percent));
     video.currentTime = percent * video.duration;
     progressFill.style.width = (percent * 100) + '%';
   }
 
-  // أحداث Pointer (الموحدة للماوس واللمس)
   progressWrap.addEventListener('pointerdown', (e) => {
     isDraggingSeek = true;
-    progressWrap.setPointerCapture(e.pointerId); // مهم جداً لتثبيت السحب
+    try { progressWrap.setPointerCapture(e.pointerId); } catch(err){}
     seekVideo(e);
     e.preventDefault();
   });
-
   progressWrap.addEventListener('pointermove', (e) => {
-    if (isDraggingSeek) {
-        seekVideo(e);
-        e.preventDefault();
+    if (isDraggingSeek) { seekVideo(e); e.preventDefault(); }
+  });
+  progressWrap.addEventListener('pointerup', (e) => {
+    isDraggingSeek = false;
+    try { progressWrap.releasePointerCapture(e.pointerId); } catch(err){}
+  });
+  progressWrap.addEventListener('pointercancel', () => { isDraggingSeek = false; });
+
+  /* ===== إخفاء / إظهار الشريط بالدوس ===== */
+  let controlsVisible = true;
+
+  playerBox.addEventListener('click', (e) => {
+    // لو الدوسة على أدوات التحكم نفسها، متعملش حاجة
+    if (customControls.contains(e.target)) return;
+    // لو بنسحب على الشريط، متعملش حاجة
+    if (isDraggingSeek) return;
+
+    if (controlsVisible) {
+      customControls.classList.add('hidden');
+      controlsVisible = false;
+    } else {
+      customControls.classList.remove('hidden');
+      controlsVisible = true;
     }
   });
 
-  progressWrap.addEventListener('pointerup', (e) => {
-    isDraggingSeek = false;
-    progressWrap.releasePointerCapture(e.pointerId);
-  });
-
-  progressWrap.addEventListener('pointercancel', () => {
-    isDraggingSeek = false;
-  });
-
-  // دعم إضافي للضغط العادي (Click)
-  progressWrap.addEventListener('click', (e) => {
-    if (!isDraggingSeek) seekVideo(e);
-  });
-
-  /* ========== الذكاء الاصطناعي للترحيب (كل 30 دقيقة) ========== */
+  /* ===== الترحيب الصوتي (بعد دقيقة، وكل 30 دقيقة) ===== */
   function speakWelcome() {
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
@@ -851,32 +855,11 @@
   video.addEventListener('play', () => {
     if (!welcomeTriggered) {
       welcomeTriggered = true;
-      setTimeout(speakWelcome, 60000); // بعد دقيقة
+      setTimeout(speakWelcome, 60000);
     }
   });
 
-  setInterval(speakWelcome, 1800000); // كل 30 دقيقة
-
-  /* Fullscreen */
-  function toggleFullscreen(){
-    const isFS = document.fullscreenElement || document.webkitFullscreenElement;
-    if(isFS){
-      if(document.exitFullscreen) document.exitFullscreen();
-      else if(document.webkitExitFullscreen) document.webkitExitFullscreen();
-    } else {
-      if(playerBox.requestFullscreen) playerBox.requestFullscreen();
-      else if(playerBox.webkitRequestFullscreen) playerBox.webkitRequestFullscreen();
-    }
-  }
-
-  document.addEventListener('fullscreenchange', updateFsIcon);
-  document.addEventListener('webkitfullscreenchange', updateFsIcon);
-  function updateFsIcon(){
-    const isFS = document.fullscreenElement || document.webkitFullscreenElement;
-    fsIcon.innerHTML = isFS
-      ? '<path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>'
-      : '<path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>';
-  }
+  setInterval(speakWelcome, 1800000);
 </script>
 </body>
 </html>
