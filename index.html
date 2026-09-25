@@ -289,25 +289,37 @@
     display:flex;justify-content:center;align-items:center;
     background:#000}
 
-  .video-frame{position:absolute;inset:0;
-    display:flex;justify-content:center;align-items:center;background:#000}
+  /* ===== الحاوية الجديدة: تثبت الفيديو واللوجو في إطار 16:9 ===== */
+  .video-aspect{
+    position:relative;
+    width:100%;
+    max-width:100%;
+    max-height:100%;
+    aspect-ratio:16/9;
+    display:flex;justify-content:center;align-items:center;
+    background:#000;
+    margin:0 auto;
+  }
 
-  .player-box:fullscreen .video-frame,
-  .player-box:-webkit-full-screen .video-frame{
-    position:relative;width:100%;
+  .player-box:fullscreen .video-aspect,
+  .player-box:-webkit-full-screen .video-aspect{
+    width:100%;height:100%;
     max-width:calc(100vh * 16 / 9);
-    aspect-ratio:16/9;height:auto;max-height:100vh;margin:0 auto}
+    aspect-ratio:16/9;
+    max-height:100vh;
+    margin:0 auto;
+  }
 
-  .video-frame video{width:100%;height:100%;display:block;
+  .video-aspect video{width:100%;height:100%;display:block;
     object-fit:contain;background:#000;pointer-events:none}
 
-  /* ===== اللوجو مظبوط ويغطي beIN ===== */
+  /* ===== اللوجو ثابت جوه الفيديو ويغطي beIN ===== */
   .channel-logo{
     position:absolute;
     top:2.5%;
     right:2.5%;
     left:auto;
-    width:24%;
+    width:26%;
     max-width:280px;
     height:auto;
     pointer-events:none;
@@ -319,20 +331,21 @@
 
   .player-box:fullscreen .channel-logo,
   .player-box:-webkit-full-screen .channel-logo{
-    width:30%;
+    width:32%;
     max-width:450px;
     top:4%;
     right:3%;
     left:auto;
   }
 
+  /* ===== الشريط التحكم: باين على طول ===== */
   .custom-controls{position:absolute;bottom:0;left:0;right:0;z-index:15;
     display:flex;align-items:center;gap:8px;
     padding:12px 14px 14px;
     background:linear-gradient(transparent,rgba(0,0,0,.88));
-    opacity:0;transition:opacity .3s;pointer-events:none}
-  .custom-controls.visible{opacity:1;pointer-events:auto}
-  .player-box:hover .custom-controls{opacity:1;pointer-events:auto}
+    opacity:1; /* ظاهر دايماً */
+    pointer-events:auto;
+    transition:opacity .3s;}
 
   .player-box:fullscreen .custom-controls,
   .player-box:-webkit-full-screen .custom-controls{
@@ -347,8 +360,8 @@
   .ctrl-btn svg{width:18px;height:18px;fill:currentColor;display:block}
 
   .progress-wrap{flex:1;cursor:pointer;padding:8px 4px;min-width:60px;
-    cursor: grab;}
-  .progress-wrap:active{cursor: grabbing;}
+    cursor:grab;}
+  .progress-wrap:active{cursor:grabbing;}
   .progress-bar{height:3px;background:rgba(255,255,255,.22);
     border-radius:3px;overflow:hidden;position:relative;transition:height .2s}
   .progress-wrap:hover .progress-bar{height:5px}
@@ -392,7 +405,6 @@
     pointer-events:none;font-family:'Cairo',sans-serif}
   .toast.show{opacity:1;bottom:38px}
 
-  /* ===== شاشة الكمبيوتر: المشغل يملأ الشاشة ===== */
   @media(min-width:1025px){
     .stream-player-wrap{padding:0;flex:1;min-height:0}
     .player-box{
@@ -403,7 +415,7 @@
       border-radius:0;
       border:none;
       box-shadow:none}
-    .video-frame{position:absolute;inset:0}
+    .video-aspect{position:absolute;inset:0;max-width:none}
     .channel-logo{width:22%;max-width:350px;top:2.5%;right:2.5%;left:auto}
     .match-info-bar{padding:12px}
   }
@@ -516,7 +528,8 @@
 
   <div class="stream-player-wrap">
     <div class="player-box" id="playerBox">
-      <div class="video-frame">
+      <!-- الحاوية الجديدة: الفيديو واللوجو جواها -->
+      <div class="video-aspect">
         <video id="video" playsinline webkit-playsinline></video>
 
         <img class="channel-logo" id="channelLogo"
@@ -812,7 +825,7 @@
 
   progressWrap.addEventListener('touchmove', (e) => {
     if (isDraggingSeek) {
-      e.preventDefault();
+      e.preventDefault(); // لمنع السكرول أثناء السحب
       seekVideo(e);
     }
   }, { passive: false });
@@ -820,6 +833,31 @@
   document.addEventListener('touchend', () => {
     isDraggingSeek = false;
   });
+
+  /* ========== الذكاء الاصطناعي للترحيب (كل 30 دقيقة) ========== */
+  function speakWelcome() {
+    if ('speechSynthesis' in window) {
+      // إلغاء أي كلام شغال عشان ميتداخلش
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance("أهلاً بكم في قناة العنكبوت سبورت 1. لا تنسوا مشاركة الموقع مع أصدقائكم. مشاهدة ممتعة.");
+      utterance.lang = 'ar-EG'; // اللهجة المصرية
+      utterance.rate = 0.95;
+      utterance.pitch = 1;
+      window.speechSynthesis.speak(utterance);
+    }
+  }
+
+  // تشغيل الترحيب مرة واحدة بعد دقيقة من بدء البث
+  let welcomeTriggered = false;
+  video.addEventListener('play', () => {
+    if (!welcomeTriggered) {
+      welcomeTriggered = true;
+      setTimeout(speakWelcome, 60000); // بعد دقيقة
+    }
+  });
+
+  // كل 30 دقيقة (30 * 60 * 1000 = 1800000 ms)
+  setInterval(speakWelcome, 1800000);
 
   /* Fullscreen */
   function toggleFullscreen(){
@@ -841,19 +879,6 @@
       ? '<path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>'
       : '<path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>';
   }
-
-  /* إظهار/إخفاء الشريط */
-  let hideTimer;
-  function showControls(){
-    customControls.classList.add('visible');
-    clearTimeout(hideTimer);
-    hideTimer = setTimeout(()=>{ if(!video.paused) customControls.classList.remove('visible'); }, 4000);
-  }
-  playerBox.addEventListener('touchstart', showControls);
-  playerBox.addEventListener('click', showControls);
-  playerBox.addEventListener('mousemove', showControls);
-  video.addEventListener('pause', ()=>{ customControls.classList.add('visible'); clearTimeout(hideTimer); });
-  video.addEventListener('play', showControls);
 </script>
 </body>
 </html>
