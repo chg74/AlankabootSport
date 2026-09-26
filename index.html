@@ -14,7 +14,6 @@
   html,body{overflow-x:hidden;width:100%;position:relative}
   body{background:#080304;color:#fff;min-height:100vh;position:relative}
 
-  /* ===== الخلفية المتحركة ===== */
   .bg-layer{
     position:fixed;inset:0;z-index:-3;
     background:
@@ -64,7 +63,6 @@
     mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%);
     -webkit-mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%)}
 
-  /* ===== شاشة التحميل ===== */
   #splash{position:fixed;inset:0;
     background:radial-gradient(circle at 50% 45%,#1e0507 0%,#080304 70%);
     display:flex;flex-direction:column;justify-content:center;align-items:center;
@@ -119,7 +117,6 @@
     box-shadow:0 0 10px rgba(220,20,30,.8)}
   @keyframes fill{to{width:100%}}
 
-  /* ===== الصفحة الرئيسية ===== */
   #app{display:none;opacity:0;transition:opacity .9s;
        min-height:100vh;padding:20px 16px;position:relative;z-index:1}
   #app.show{display:block;opacity:1}
@@ -238,7 +235,6 @@
     margin:0 4px;transition:.2s}
   .main-footer a:hover{color:#ff4757}
 
-  /* ===== شاشة المشاهدة ===== */
   #streamView{display:none;position:fixed;inset:0;background:#000;z-index:100;
     flex-direction:column}
   #streamView.show{display:flex}
@@ -274,7 +270,6 @@
     background:#000;
   }
 
-  /* حاوية الفيديو: دايمًا 16:9 وتتمدد على الشاشة كلها */
   .video-aspect{
     position:relative;
     aspect-ratio:16/9;
@@ -293,7 +288,6 @@
     pointer-events:none;
   }
 
-  /* ===== زرار الرجوع (جوه البث وعلى الشمال) ===== */
   .back-btn{
     position: absolute;
     top: 3%;
@@ -314,25 +308,23 @@
   }
   .back-btn:hover{ background:#dc1420; border-color:#dc1420; }
 
-  /* ===== اللوجو بحجم مظبوط وخلفية سودا بسيطة على قده ===== */
   .channel-logo{
     position:absolute;
     top: 5%;
-    right: 5%; /* نزلناه على الشمال شويه */
+    right: 5%;
     width:26%;
     max-width:280px;
     height:auto;
     pointer-events:none;
     user-select:none;
     z-index:20;
-    background:#000; /* خلفية سودا بسيطة */
-    padding: 0; /* بدون هوامش زيادة */
+    background:#000;
+    padding: 0;
     border-radius: 6px;
     filter: drop-shadow(0 2px 6px rgba(0,0,0,.8));
     transition:none;
   }
 
-  /* ===== شريط التحكم (بيختفي ويظهر بالدوس) ===== */
   .custom-controls{
     position:absolute;
     bottom:0;
@@ -446,7 +438,6 @@
 </head>
 <body>
 
-<!-- الخلفية المتحركة -->
 <div class="bg-layer"></div>
 <div class="bg-orbs">
   <div class="orb orb1"></div>
@@ -458,7 +449,6 @@
 </div>
 <div class="bg-dots"></div>
 
-<!-- شاشة التحميل -->
 <div id="splash">
   <div class="loader">
     <svg class="spin" viewBox="0 0 100 100">
@@ -474,7 +464,6 @@
   <div class="loading-bar"><div class="fill"></div></div>
 </div>
 
-<!-- الصفحة الرئيسية -->
 <div id="app">
   <div class="main-header">
     <div class="header-brand">
@@ -517,14 +506,12 @@
   </div>
 </div>
 
-<!-- شاشة المشاهدة -->
 <div id="streamView">
   <div class="stream-player-wrap">
     <div class="player-box" id="playerBox">
       <div class="video-aspect" id="videoAspect">
         <video id="video" playsinline webkit-playsinline></video>
 
-        <!-- زرار الرجوع جوه البث على الشمال -->
         <button class="back-btn" onclick="closeStream()">رجوع</button>
 
         <img class="channel-logo" id="channelLogo"
@@ -569,6 +556,11 @@
 <div class="toast" id="toast">هذا المحتوى محمي</div>
 
 <script>
+  /* =========================================================
+     إعدادات البروكسي / التوكن
+     ========================================================= */
+  const PROXY_BASE = 'https://REPLACE-WITH-YOUR-WORKER.workers.dev';
+
   /* ===== منع أدوات المطور + Ctrl+U ===== */
   document.addEventListener('keydown', e=>{
     if((e.ctrlKey||e.metaKey) && (e.key === 'u' || e.key === 'U')) e.preventDefault();
@@ -577,6 +569,16 @@
   });
   document.addEventListener('wheel', e=>{ if(e.ctrlKey) e.preventDefault(); },{passive:false});
   document.addEventListener('contextmenu', e=>e.preventDefault());
+
+  /* ===== كتم الكونسول (خليها false لو بتعمل صيانة) ===== */
+  const SILENT = true;
+  if (SILENT) {
+    try {
+      ['log','info','warn','error','debug','table','dir','trace','group','groupEnd'].forEach(k=>{
+        if (console[k]) console[k] = function(){};
+      });
+    } catch(e){}
+  }
 
   /* ===== MQTT ===== */
   const BROKER = 'wss://broker.emqx.io:8084/mqtt';
@@ -588,8 +590,7 @@
   const $ = id => document.getElementById(id);
   const splash = $('splash'), app = $('app'), grid = $('matchesGrid');
   const streamView = $('streamView'), video = $('video'), playerBox = $('playerBox');
-  const placeholder = $('playerPlaceholder'), streamTitle = $('streamTitle');
-  const streamLiveBadge = $('streamLiveBadge'), matchInfoBar = $('matchInfoBar');
+  const placeholder = $('playerPlaceholder'), matchInfoBar = $('matchInfoBar');
   const customControls = $('customControls'), playBtn = $('playBtn');
   const playIcon = $('playIcon'), muteBtn = $('muteBtn'), volIcon = $('volIcon');
   const progressFill = $('progressFill'), timeDisplay = $('timeDisplay');
@@ -597,13 +598,17 @@
 
   let hls = null, currentMatchId = null, matchesData = [], isStreamViewOpen = false;
 
+  /* التوكن -> رابط البروكسي (الرابط الأصلي مش بيتحط في الصفحة خالص) */
+  function tokenToUrl(tok){
+    return PROXY_BASE + '/s?t=' + encodeURIComponent(tok);
+  }
+
   function showToast(msg){
     toast.textContent = msg;
     toast.classList.add('show');
     setTimeout(()=> toast.classList.remove('show'), 2000);
   }
 
-  /* تحميل */
   setTimeout(()=>{
     splash.classList.add('hide');
     setTimeout(()=>{
@@ -625,7 +630,9 @@
       const data = JSON.parse(msg.toString());
       if(topic === TOPIC_DATA){ matchesData = data; renderMatches(); }
       if(topic === TOPIC_CMD && isStreamViewOpen && currentMatchId === data.matchId){
-        if(data.action === 'play') playStream(data.url);
+        if(data.action === 'play'){
+          if(data.token) playStream(tokenToUrl(data.token));
+        }
         else if(data.action === 'stop') stopStream();
       }
     }catch(e){}
@@ -665,6 +672,7 @@
     const m = matchesData[i];
     if(!m) return;
     if(!m.live){ showToast('البث لم يبدأ بعد'); return; }
+    if(!m.streamToken){ showToast('البث غير متاح حالياً'); return; }
 
     currentMatchId = m.id;
     isStreamViewOpen = true;
@@ -677,14 +685,10 @@
 
     streamView.classList.add('show');
     document.body.style.overflow = 'hidden';
-    playStream(m.streamUrl);
+    playStream(tokenToUrl(m.streamToken));
 
     history.pushState({stream: true}, '');
-
-    // تكبير الشاشة على طول
     requestFs();
-
-    // ===== تشغيل صوت الذكاء الاصطناعي فوراً =====
     setTimeout(speakWelcome, 2000);
   }
 
@@ -695,11 +699,9 @@
     } catch(e){}
   }
 
-  /* منع Esc من تصغير الشاشة */
   function handleFsChange(){
     const isFS = document.fullscreenElement || document.webkitFullscreenElement;
     if (isStreamViewOpen && !isFS) {
-      // لو حاول يخرج، رجعه Fullscreen تاني
       setTimeout(()=>{
         if (isStreamViewOpen && !document.fullscreenElement && !document.webkitFullscreenElement){
           requestFs();
@@ -710,14 +712,13 @@
   document.addEventListener('fullscreenchange', handleFsChange);
   document.addEventListener('webkitfullscreenchange', handleFsChange);
 
-  /* زر الرجوع */
   window.addEventListener('popstate', function() {
     if (isStreamViewOpen) closeStreamUI();
   });
 
   function closeStream(){
     if (isStreamViewOpen) {
-      isStreamViewOpen = false; // علم أولاً عشان ميتمنعش الخروج
+      isStreamViewOpen = false;
       closeStreamUI();
       if (history.state && history.state.stream) history.back();
     }
@@ -743,7 +744,11 @@
     placeholder.style.display = 'none';
     if(hls){ hls.destroy(); hls = null; }
     if(Hls.isSupported()){
-      hls = new Hls({ lowLatencyMode:true, enableWorker:true });
+      hls = new Hls({
+        lowLatencyMode:true,
+        enableWorker:true,
+        xhrSetup: function(xhr){ xhr.withCredentials = false; }
+      });
       hls.loadSource(url);
       hls.attachMedia(video);
       hls.on(Hls.Events.MANIFEST_PARSED, ()=> video.play().catch(()=>{}));
@@ -794,7 +799,6 @@
     return h > 0 ? h+':'+m.toString().padStart(2,'0')+':'+sec : m+':'+sec;
   }
 
-  /* ===== شريط التقدم (Pointer Events) ===== */
   const progressWrap = document.getElementById('progressWrap');
   let isDraggingSeek = false;
 
@@ -822,12 +826,11 @@
   });
   progressWrap.addEventListener('pointercancel', () => { isDraggingSeek = false; });
 
-  /* ===== إخفاء / إظهار الشريط بالدوس ===== */
   let controlsVisible = true;
 
   playerBox.addEventListener('click', (e) => {
     if (customControls.contains(e.target)) return;
-    if (e.target.classList.contains('back-btn')) return; // متخفيش الشريط لما تدوس رجوع
+    if (e.target.classList.contains('back-btn')) return;
     if (isDraggingSeek) return;
 
     if (controlsVisible) {
@@ -839,17 +842,11 @@
     }
   });
 
-  /* ===== صوت الذكاء الاصطناعي (الترحيب) ===== */
+  /* ===== صوت الترحيب ===== */
   function speakWelcome() {
-    if (!('speechSynthesis' in window)) {
-      console.warn('الصوت مش مدعوم في المتصفح ده');
-      return;
-    }
-
-    // إلغاء أي كلام شغال عشان ميتداخلش
+    if (!('speechSynthesis' in window)) return;
     window.speechSynthesis.cancel();
 
-    // النص اللي انت عايزه بالظبط
     const text = "أهلاً بيكم في مشاهدة جميع المباريات. عبارة موقع عنكبوت سبورت. لا تنسوا تشير الأصدقائكم هذا الموقع. ومشاهدة ممتعة.";
 
     const utterance = new SpeechSynthesisUtterance(text);
@@ -858,7 +855,6 @@
     utterance.pitch = 1;
     utterance.volume = 1;
 
-    // اختيار صوت عربي لو متاح
     const voices = window.speechSynthesis.getVoices();
     const arabicVoice = voices.find(v => v.lang && v.lang.startsWith('ar'));
     if (arabicVoice) utterance.voice = arabicVoice;
@@ -866,7 +862,6 @@
     window.speechSynthesis.speak(utterance);
   }
 
-  // تحميل الأصوات مسبقاً (بعض المتصفحات بتحتاج ده)
   if ('speechSynthesis' in window) {
     window.speechSynthesis.onvoiceschanged = () => {
       window.speechSynthesis.getVoices();
@@ -874,8 +869,7 @@
     window.speechSynthesis.getVoices();
   }
 
-  // كل 30 دقيقة
   setInterval(speakWelcome, 1800000);
 </script>
 </body>
- </html>
+</html>
