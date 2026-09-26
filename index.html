@@ -274,7 +274,6 @@
     background:#000;
   }
 
-  /* حاوية الفيديو: دايمًا 16:9 وتتمدد على الشاشة كلها */
   .video-aspect{
     position:relative;
     aspect-ratio:16/9;
@@ -284,16 +283,16 @@
     overflow:hidden;
   }
 
-  .video-aspect video{
+  .video-aspect video, .video-aspect iframe{
     width:100%;
     height:100%;
     display:block;
-    object-fit:contain;
     background:#000;
-    pointer-events:none;
+    border:none;
   }
+  .video-aspect video { pointer-events:none; }
 
-  /* ===== زرار الرجوع (جوه البث وعلى الشمال) ===== */
+  /* ===== زرار الرجوع ===== */
   .back-btn{
     position: absolute;
     top: 3%;
@@ -314,25 +313,23 @@
   }
   .back-btn:hover{ background:#dc1420; border-color:#dc1420; }
 
-  /* ===== اللوجو بحجم مظبوط وخلفية سودا بسيطة على قده ===== */
   .channel-logo{
     position:absolute;
     top: 5%;
-    right: 5%; /* نزلناه على الشمال شويه */
+    right: 5%;
     width:26%;
     max-width:280px;
     height:auto;
     pointer-events:none;
     user-select:none;
     z-index:20;
-    background:#000; /* خلفية سودا بسيطة */
-    padding: 0; /* بدون هوامش زيادة */
+    background:#000;
+    padding: 0;
     border-radius: 6px;
     filter: drop-shadow(0 2px 6px rgba(0,0,0,.8));
-    transition:none;
   }
 
-  /* ===== شريط التحكم (بيختفي ويظهر بالدوس) ===== */
+  /* ===== شريط التحكم ===== */
   .custom-controls{
     position:absolute;
     bottom:0;
@@ -523,6 +520,8 @@
     <div class="player-box" id="playerBox">
       <div class="video-aspect" id="videoAspect">
         <video id="video" playsinline webkit-playsinline></video>
+        <!-- إضافة iframe لدعم روابط الصفحات العادية -->
+        <iframe id="streamIframe" allowfullscreen allow="autoplay; encrypted-media" style="display:none;"></iframe>
 
         <!-- زرار الرجوع جوه البث على الشمال -->
         <button class="back-btn" onclick="closeStream()">رجوع</button>
@@ -588,6 +587,7 @@
   const $ = id => document.getElementById(id);
   const splash = $('splash'), app = $('app'), grid = $('matchesGrid');
   const streamView = $('streamView'), video = $('video'), playerBox = $('playerBox');
+  const iframe = $('streamIframe');
   const placeholder = $('playerPlaceholder'), streamTitle = $('streamTitle');
   const streamLiveBadge = $('streamLiveBadge'), matchInfoBar = $('matchInfoBar');
   const customControls = $('customControls'), playBtn = $('playBtn');
@@ -600,7 +600,7 @@
   function showToast(msg){
     toast.textContent = msg;
     toast.classList.add('show');
-    setTimeout(()=> toast.classList.remove('show'), 2000);
+    setTimeout(()=> toast.classList.remove('show'), 3000);
   }
 
   /* تحميل */
@@ -614,19 +614,41 @@
 
   /* MQTT */
   const client = mqtt.connect(BROKER, { clientId: MY_ID });
+  
   client.on('connect', ()=>{
     client.subscribe(TOPIC_CMD);
     client.subscribe(TOPIC_DATA);
     client.publish(TOPIC_HB, JSON.stringify({id:MY_ID}));
     setInterval(()=> client.publish(TOPIC_HB, JSON.stringify({id:MY_ID})), 5000);
+    showToast('✓ متصل بالخادم بنجاح');
   });
+
+  client.on('error', (err)=>{
+    showToast('❌ فشل الاتصال بالخادم. جاري إعادة المحاولة...');
+  });
+
   client.on('message', (topic, msg)=>{
     try{
       const data = JSON.parse(msg.toString());
       if(topic === TOPIC_DATA){ matchesData = data; renderMatches(); }
-      if(topic === TOPIC_CMD && isStreamViewOpen && currentMatchId === data.matchId){
-        if(data.action === 'play') playStream(data.url);
-        else if(data.action === 'stop') stopStream();
+      
+      if(topic === TOPIC_CMD){
+        // إيقاف الكل من لوحة التحكم
+        if (data.action === 'stopAll') {
+            if (isStreamViewOpen) closeStream();
+            return;
+        }
+        
+        // التحكم في البث الحالي
+        if (isStreamViewOpen && currentMatchId === data.matchId){
+          if(data.action === 'play') {
+              // إذا كان الرابط مختلفاً، قم بتحديثه
+              playStream(data.url);
+          }
+          else if(data.action === 'stop') {
+              stopStream();
+          }
+        }
       }
     }catch(e){}
   });
@@ -684,8 +706,8 @@
     // تكبير الشاشة على طول
     requestFs();
 
-    // ===== تشغيل صوت الذكاء الاصطناعي فوراً =====
-    setTimeout(speakWelcome, 2000);
+    // ===== تشغيل صوت الذكاء الاصطناعي =====
+    speakWelcome();
   }
 
   function requestFs(){
@@ -699,7 +721,6 @@
   function handleFsChange(){
     const isFS = document.fullscreenElement || document.webkitFullscreenElement;
     if (isStreamViewOpen && !isFS) {
-      // لو حاول يخرج، رجعه Fullscreen تاني
       setTimeout(()=>{
         if (isStreamViewOpen && !document.fullscreenElement && !document.webkitFullscreenElement){
           requestFs();
@@ -717,7 +738,7 @@
 
   function closeStream(){
     if (isStreamViewOpen) {
-      isStreamViewOpen = false; // علم أولاً عشان ميتمنعش الخروج
+      isStreamViewOpen = false;
       closeStreamUI();
       if (history.state && history.state.stream) history.back();
     }
@@ -739,38 +760,87 @@
 
   /* تشغيل / إيقاف */
   function playStream(url){
-    if(!url){ stopStream(); return; }
+    if(!url){ 
+        stopStream(); 
+        showToast('❌ لا يوجد رابط بث لهذه المباراة');
+        return; 
+    }
     placeholder.style.display = 'none';
+
+    // إعادة تعيين المشغلات
     if(hls){ hls.destroy(); hls = null; }
-    if(Hls.isSupported()){
-      hls = new Hls({ lowLatencyMode:true, enableWorker:true });
-      hls.loadSource(url);
-      hls.attachMedia(video);
-      hls.on(Hls.Events.MANIFEST_PARSED, ()=> video.play().catch(()=>{}));
-      hls.on(Hls.Events.ERROR, (e,d)=>{
-        if(d.fatal){
-          if(d.type === Hls.ErrorTypes.NETWORK_ERROR) hls.startLoad();
-          else if(d.type === Hls.ErrorTypes.MEDIA_ERROR) hls.recoverMediaError();
+    video.pause(); video.removeAttribute('src'); video.load();
+    video.style.display = 'none';
+    iframe.src = 'about:blank';
+    iframe.style.display = 'none';
+
+    // فحص نوع الرابط
+    if (url.match(/\.(m3u8|mp4)(\?.*)?$/i) || url.includes('.m3u8')) {
+        // تشغيل كفيديو مباشر (m3u8)
+        video.style.display = 'block';
+        if(Hls.isSupported()){
+          hls = new Hls({ enableWorker:true });
+          hls.loadSource(url);
+          hls.attachMedia(video);
+          hls.on(Hls.Events.MANIFEST_PARSED, ()=> {
+              video.play().catch((e)=> {
+                  console.log('Autoplay blocked:', e);
+                  video.muted = true;
+                  video.play().catch(()=> showToast('اضغط لتشغيل الصوت'));
+              });
+          });
+          hls.on(Hls.Events.ERROR, (e,d)=>{
+            if(d.fatal){
+              if(d.type === Hls.ErrorTypes.NETWORK_ERROR) hls.startLoad();
+              else if(d.type === Hls.ErrorTypes.MEDIA_ERROR) hls.recoverMediaError();
+              else {
+                  hls.destroy();
+                  showStreamError('فشل تحميل البث. تأكد من صحة الرابط أو انتهاء صلاحيته.');
+              }
+            }
+          });
+        } else if(video.canPlayType('application/vnd.apple.mpegurl')){
+          video.src = url; 
+          video.play().catch(()=> {
+              video.muted = true;
+              video.play().catch(()=> showToast('اضغط لتشغيل الصوت'));
+          });
         }
-      });
-    } else if(video.canPlayType('application/vnd.apple.mpegurl')){
-      video.src = url; video.play().catch(()=>{});
+    } else {
+        // تشغيل كصفحة ويب (iframe)
+        iframe.style.display = 'block';
+        iframe.src = url;
+        showToast('يتم عرض الصفحة كاملة');
     }
   }
 
   function stopStream(){
     if(hls){ hls.destroy(); hls = null; }
     video.pause(); video.removeAttribute('src'); video.load();
+    iframe.src = 'about:blank';
+    iframe.style.display = 'none';
+    video.style.display = 'none';
+    
     placeholder.style.display = 'flex';
     placeholder.innerHTML = '<svg viewBox="0 0 24 24" style="width:56px;height:56px;fill:#3a2224;opacity:.7"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg><span>تم إيقاف البث</span>';
   }
 
+  function showStreamError(msg) {
+      placeholder.style.display = 'flex';
+      placeholder.innerHTML = `<svg viewBox="0 0 24 24" style="width:56px;height:56px;fill:#dc1420;opacity:.7"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg><span style="color:#dc1420;font-weight:700;padding:0 20px;text-align:center">${msg}</span>`;
+  }
+
   /* شريط التحكم */
-  function togglePlay(){ video.paused ? video.play().catch(()=>{}) : video.pause(); }
+  function togglePlay(){ 
+      if(video.style.display === 'none') return; // لا تفعل شيئاً إذا كان iframe
+      video.paused ? video.play().catch(()=>{}) : video.pause(); 
+  }
+  
   video.addEventListener('play', ()=>{ playIcon.innerHTML = '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>'; });
   video.addEventListener('pause', ()=>{ playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>'; });
 
   function toggleMute(){
+    if(video.style.display === 'none') return;
     video.muted = !video.muted;
     volIcon.innerHTML = video.muted
       ? '<path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>'
@@ -799,6 +869,7 @@
   let isDraggingSeek = false;
 
   function seekVideo(e) {
+    if (video.style.display === 'none') return;
     if (!video.duration || !isFinite(video.duration)) return;
     const rect = progressWrap.getBoundingClientRect();
     let percent = (e.clientX - rect.left) / rect.width;
@@ -827,7 +898,7 @@
 
   playerBox.addEventListener('click', (e) => {
     if (customControls.contains(e.target)) return;
-    if (e.target.classList.contains('back-btn')) return; // متخفيش الشريط لما تدوس رجوع
+    if (e.target.classList.contains('back-btn')) return;
     if (isDraggingSeek) return;
 
     if (controlsVisible) {
@@ -841,41 +912,30 @@
 
   /* ===== صوت الذكاء الاصطناعي (الترحيب) ===== */
   function speakWelcome() {
-    if (!('speechSynthesis' in window)) {
-      console.warn('الصوت مش مدعوم في المتصفح ده');
-      return;
+    if (!('speechSynthesis' in window)) return;
+    try {
+        window.speechSynthesis.cancel();
+        const text = "أهلاً بيكم في مشاهدة جميع المباريات. عبارة موقع عنكبوت سبورت. لا تنسوا تشير الأصدقائكم هذا الموقع. ومشاهدة ممتعة.";
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'ar-EG';
+        utterance.rate = 0.9;
+        utterance.pitch = 1;
+        utterance.volume = 1;
+
+        const voices = window.speechSynthesis.getVoices();
+        const arabicVoice = voices.find(v => v.lang && v.lang.startsWith('ar'));
+        if (arabicVoice) utterance.voice = arabicVoice;
+
+        window.speechSynthesis.speak(utterance);
+    } catch(e) {
+        console.log('Speech synthesis failed:', e);
     }
-
-    // إلغاء أي كلام شغال عشان ميتداخلش
-    window.speechSynthesis.cancel();
-
-    // النص اللي انت عايزه بالظبط
-    const text = "أهلاً بيكم في مشاهدة جميع المباريات. عبارة موقع عنكبوت سبورت. لا تنسوا تشير الأصدقائكم هذا الموقع. ومشاهدة ممتعة.";
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'ar-EG';
-    utterance.rate = 0.9;
-    utterance.pitch = 1;
-    utterance.volume = 1;
-
-    // اختيار صوت عربي لو متاح
-    const voices = window.speechSynthesis.getVoices();
-    const arabicVoice = voices.find(v => v.lang && v.lang.startsWith('ar'));
-    if (arabicVoice) utterance.voice = arabicVoice;
-
-    window.speechSynthesis.speak(utterance);
   }
 
-  // تحميل الأصوات مسبقاً (بعض المتصفحات بتحتاج ده)
   if ('speechSynthesis' in window) {
-    window.speechSynthesis.onvoiceschanged = () => {
-      window.speechSynthesis.getVoices();
-    };
+    window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
     window.speechSynthesis.getVoices();
   }
-
-  // كل 30 دقيقة
-  setInterval(speakWelcome, 1800000);
 </script>
 </body>
 </html>
