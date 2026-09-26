@@ -14,8 +14,7 @@
   html,body{overflow-x:hidden;width:100%;position:relative}
   body{background:#080304;color:#fff;min-height:100vh;position:relative}
 
-  .bg-layer{
-    position:fixed;inset:0;z-index:-3;
+  .bg-layer{position:fixed;inset:0;z-index:-3;
     background:
       radial-gradient(circle at 20% 20%,rgba(220,20,30,.22) 0%,transparent 45%),
       radial-gradient(circle at 80% 30%,rgba(140,8,18,.18) 0%,transparent 45%),
@@ -27,7 +26,6 @@
     0%,100%{background-position:0% 0%,100% 0%,50% 100%,0% 50%}
     33%{background-position:100% 50%,0% 100%,0% 0%,100% 0%}
     66%{background-position:50% 100%,50% 50%,100% 50%,50% 100%}}
-
   .bg-orbs{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden}
   .bg-orbs .orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5}
   .bg-orbs .orb1{width:400px;height:400px;top:-100px;left:-100px;
@@ -42,7 +40,6 @@
   @keyframes orb1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(80px,60px) scale(1.2)}}
   @keyframes orb2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-70px,-50px) scale(1.15)}}
   @keyframes orb3{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-30%,-70%) scale(1.3)}}
-
   .bg-lines{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;opacity:.4}
   .bg-lines span{position:absolute;width:2px;height:200%;top:-50%;
     background:linear-gradient(180deg,transparent,rgba(220,20,30,.6),transparent);
@@ -56,7 +53,6 @@
     0%{transform:translateY(-50%) rotate(-12deg);opacity:0}
     50%{opacity:.8}
     100%{transform:translateY(50%) rotate(-12deg);opacity:0}}
-
   .bg-dots{position:fixed;inset:0;z-index:-1;pointer-events:none;
     background-image:radial-gradient(circle,rgba(220,20,30,.15) 1px,transparent 1px);
     background-size:38px 38px;opacity:.4;
@@ -75,7 +71,6 @@
   @keyframes splashGlow{
     0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.5}
     50%{transform:translate(-50%,-50%) scale(1.4);opacity:1}}
-
   .loader{position:relative;width:120px;height:120px;margin-bottom:24px;z-index:2}
   .loader svg.spin{width:100%;height:100%;animation:rot 1.8s linear infinite}
   @keyframes rot{to{transform:rotate(360deg)}}
@@ -89,7 +84,6 @@
     background:#0d0405;display:flex;justify-content:center;align-items:center;
     padding:8px;overflow:hidden;box-shadow:0 0 25px rgba(220,20,30,.4) inset}
   .loader .logo-circle img{width:100%;height:100%;object-fit:contain;border-radius:50%}
-
   .brand-name{color:#fff;font-size:28px;font-weight:900;letter-spacing:2.5px;
     margin-bottom:8px;text-align:center;z-index:2;
     background:linear-gradient(90deg,#fff 0%,#ff4757 50%,#fff 100%);
@@ -98,17 +92,14 @@
     animation:brandShine 3s linear infinite;
     filter:drop-shadow(0 0 20px rgba(220,20,30,.6))}
   @keyframes brandShine{to{background-position:200% 0}}
-
   .welcome-text{color:#fff;font-size:18px;font-weight:800;margin-bottom:22px;
     z-index:2;letter-spacing:1.5px;text-shadow:0 0 20px rgba(220,20,30,.7);
     animation:welcomeIn 1.2s ease forwards;opacity:0}
   @keyframes welcomeIn{
     0%{opacity:0;transform:translateY(15px)}
     100%{opacity:1;transform:translateY(0)}}
-
   .loading-text{color:#b89fa1;font-size:13px;font-weight:600;margin-bottom:16px;
     letter-spacing:.3px;opacity:.85;z-index:2}
-
   .loading-bar{width:240px;max-width:80%;height:3px;
     background:rgba(220,20,30,.15);border-radius:3px;overflow:hidden;z-index:2}
   .loading-bar .fill{height:100%;width:0;
@@ -120,7 +111,6 @@
   #app{display:none;opacity:0;transition:opacity .9s;
        min-height:100vh;padding:20px 16px;position:relative;z-index:1}
   #app.show{display:block;opacity:1}
-
   .main-header{max-width:1200px;margin:0 auto 20px;
     display:flex;justify-content:space-between;align-items:center;
     padding:14px 20px;
@@ -135,7 +125,6 @@
   .header-brand .text .name{color:#fff;font-size:17px;font-weight:900;
     letter-spacing:1px;line-height:1.2}
   .header-brand .text .sub{color:#b89fa1;font-size:11px;font-weight:600;letter-spacing:.3px}
-
   .header-tg{display:inline-flex;align-items:center;gap:8px;
     background:linear-gradient(135deg,#0088cc,#00a3e0);
     color:#fff;padding:9px 16px;border-radius:12px;
@@ -157,14 +146,12 @@
   @keyframes supportGlow{
     0%,100%{transform:scale(1);opacity:.6}
     50%{transform:scale(1.3);opacity:1}}
-
   .support-banner .title{color:#fff;font-size:16px;font-weight:900;margin-bottom:10px;
     display:flex;align-items:center;gap:10px;letter-spacing:.3px;
     position:relative;z-index:2}
   .support-banner .title svg{width:22px;height:22px;fill:#dc1420;flex-shrink:0}
   .support-banner .body{color:#c9a5a7;font-size:13px;line-height:1.85;
     font-weight:600;margin-bottom:14px;position:relative;z-index:2}
-
   .support-btn{display:inline-flex;align-items:center;gap:8px;
     background:linear-gradient(135deg,#8b0000,#dc1420);
     color:#fff;padding:10px 22px;border-radius:12px;
@@ -198,7 +185,6 @@
   @keyframes shine{to{background-position:200% 0}}
   .match-tile:hover{transform:translateY(-4px);border-color:#dc1420;
     box-shadow:0 14px 40px rgba(190,15,25,.28)}
-
   .match-tile .top-info{display:flex;justify-content:space-between;align-items:center;
     margin-bottom:16px;font-size:12px;gap:8px}
   .match-tile .top-info .title{color:#b89fa1;font-weight:600}
@@ -210,7 +196,6 @@
   .match-tile .top-info .live-tag::before{content:'';width:5px;height:5px;
     border-radius:50%;background:#fff;animation:blink 1s infinite}
   @keyframes blink{50%{opacity:.25}}
-
   .match-tile .teams{display:flex;justify-content:space-between;align-items:center;gap:12px}
   .match-tile .team{flex:1;text-align:center}
   .match-tile .team img{width:74px;height:74px;object-fit:contain;
@@ -219,7 +204,6 @@
   .match-tile:hover .team img{border-color:#dc1420;transform:scale(1.06)}
   .match-tile .team .name{margin-top:10px;font-weight:700;font-size:13px;color:#fff}
   .match-tile .vs{font-weight:900;color:#dc1420;font-size:16px;letter-spacing:1px}
-
   .match-tile .watch-btn{margin-top:16px;padding:11px;border-radius:10px;
     text-align:center;font-weight:700;font-size:13px;
     background:linear-gradient(90deg,#8b0000,#dc1420);
@@ -238,138 +222,37 @@
   #streamView{display:none;position:fixed;inset:0;background:#000;z-index:100;
     flex-direction:column}
   #streamView.show{display:flex}
-
-  .stream-player-wrap{
-    flex:1;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:#000;
-    padding:0;
-    min-height:0;
-    overflow:hidden;
-  }
-
-  .player-box{
-    position:relative;
-    width:100%;
-    height:100%;
-    max-width:none;
-    max-height:none;
-    background:#000;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    overflow:hidden;
-  }
-
-  .player-box:fullscreen,
-  .player-box:-webkit-full-screen{
-    width:100vw !important;
-    height:100vh !important;
-    background:#000;
-  }
-
-  .video-aspect{
-    position:relative;
-    aspect-ratio:16/9;
-    width:100%;
-    max-width:calc(100vh * 16 / 9);
-    background:#000;
-    overflow:hidden;
-  }
-
-  .video-aspect video{
-    width:100%;
-    height:100%;
-    display:block;
-    object-fit:contain;
-    background:#000;
-    pointer-events:none;
-  }
-
-  .back-btn{
-    position: absolute;
-    top: 3%;
-    left: 2%;
-    z-index: 9999;
-    background: rgba(0,0,0,.65);
-    color: #fff;
-    border: 1px solid rgba(255,255,255,.3);
-    padding: 3px 8px;
-    font-size: 11px;
-    font-family: 'Cairo', sans-serif;
-    font-weight: 700;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: .2s;
-    letter-spacing: .3px;
-    pointer-events: auto;
-  }
-  .back-btn:hover{ background:#dc1420; border-color:#dc1420; }
-
-  .channel-logo{
-    position:absolute;
-    top: 5%;
-    right: 5%;
-    width:26%;
-    max-width:280px;
-    height:auto;
-    pointer-events:none;
-    user-select:none;
-    z-index:20;
-    background:#000;
-    padding: 0;
-    border-radius: 6px;
-    filter: drop-shadow(0 2px 6px rgba(0,0,0,.8));
-    transition:none;
-  }
-
-  .custom-controls{
-    position:absolute;
-    bottom:0;
-    left:0;
-    right:0;
-    z-index:15;
-    display:flex;
-    align-items:center;
-    gap:8px;
-    padding:12px 14px 14px;
+  .stream-player-wrap{flex:1;display:flex;justify-content:center;align-items:center;
+    background:#000;padding:0;min-height:0;overflow:hidden}
+  .player-box{position:relative;width:100%;height:100%;max-width:none;max-height:none;
+    background:#000;display:flex;justify-content:center;align-items:center;overflow:hidden}
+  .player-box:fullscreen,.player-box:-webkit-full-screen{
+    width:100vw !important;height:100vh !important;background:#000}
+  .video-aspect{position:relative;aspect-ratio:16/9;width:100%;
+    max-width:calc(100vh * 16 / 9);background:#000;overflow:hidden}
+  .video-aspect video{width:100%;height:100%;display:block;object-fit:contain;
+    background:#000;pointer-events:none}
+  .back-btn{position:absolute;top:3%;left:2%;z-index:9999;
+    background:rgba(0,0,0,.65);color:#fff;border:1px solid rgba(255,255,255,.3);
+    padding:3px 8px;font-size:11px;font-family:'Cairo',sans-serif;
+    font-weight:700;border-radius:5px;cursor:pointer;transition:.2s}
+  .back-btn:hover{background:#dc1420;border-color:#dc1420}
+  .channel-logo{position:absolute;top:5%;right:5%;width:26%;max-width:280px;
+    height:auto;pointer-events:none;user-select:none;z-index:20;
+    background:#000;padding:0;border-radius:6px;
+    filter:drop-shadow(0 2px 6px rgba(0,0,0,.8))}
+  .custom-controls{position:absolute;bottom:0;left:0;right:0;z-index:15;
+    display:flex;align-items:center;gap:8px;padding:12px 14px 14px;
     background:linear-gradient(transparent,rgba(0,0,0,.88));
-    opacity:1;
-    pointer-events:auto;
-    transition:opacity .3s;
-  }
-  .custom-controls.hidden{
-    opacity:0;
-    pointer-events:none;
-  }
-
-  .ctrl-btn{
-    background:rgba(220,20,30,.16);
-    color:#fff;
-    border:1px solid rgba(220,20,30,.3);
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    cursor:pointer;
-    transition:.22s;
-    padding:0;
-    flex-shrink:0;
-  }
+    opacity:1;pointer-events:auto;transition:opacity .3s}
+  .custom-controls.hidden{opacity:0;pointer-events:none}
+  .ctrl-btn{background:rgba(220,20,30,.16);color:#fff;
+    border:1px solid rgba(220,20,30,.3);width:40px;height:40px;border-radius:50%;
+    display:flex;justify-content:center;align-items:center;cursor:pointer;
+    transition:.22s;padding:0;flex-shrink:0}
   .ctrl-btn:hover{background:#dc1420;border-color:#dc1420;transform:scale(1.06)}
   .ctrl-btn svg{width:18px;height:18px;fill:currentColor;display:block}
-
-  .progress-wrap{
-    flex:1;
-    cursor:grab;
-    padding:12px 4px;
-    min-width:60px;
-    touch-action:none;
-  }
+  .progress-wrap{flex:1;cursor:grab;padding:12px 4px;min-width:60px;touch-action:none}
   .progress-wrap:active{cursor:grabbing}
   .progress-bar{height:4px;background:rgba(255,255,255,.22);
     border-radius:4px;overflow:hidden;position:relative;transition:height .2s}
@@ -378,24 +261,19 @@
     background:linear-gradient(90deg,#8b0000,#dc1420,#ff4757);
     border-radius:4px;transition:width .1s;
     box-shadow:0 0 10px rgba(220,20,30,.85)}
-
-  .time-display{color:#fff;font-size:12px;font-weight:600;
-    white-space:nowrap;padding:0 6px;opacity:.9;
-    display:flex;align-items:center;gap:5px}
+  .time-display{color:#fff;font-size:12px;font-weight:600;white-space:nowrap;
+    padding:0 6px;opacity:.9;display:flex;align-items:center;gap:5px}
   .time-display .live-dot{width:6px;height:6px;border-radius:50%;
     background:#dc1420;display:inline-block;
     box-shadow:0 0 6px rgba(220,20,30,.9);animation:blink 1.2s infinite}
-
   .placeholder{position:absolute;inset:0;display:flex;flex-direction:column;
     justify-content:center;align-items:center;gap:14px;
     background:#000;color:#5a3b3d;text-align:center;padding:20px;z-index:2}
   .placeholder svg{width:56px;height:56px;fill:#3a2224;opacity:.7}
   .placeholder span{font-size:14px;font-weight:600}
-
   .match-info-bar{padding:16px;flex-shrink:0;
     background:linear-gradient(180deg,rgba(0,0,0,.4),rgba(0,0,0,.92));
-    backdrop-filter:blur(10px);
-    border-top:1px solid rgba(220,20,30,.2)}
+    backdrop-filter:blur(10px);border-top:1px solid rgba(220,20,30,.2)}
   .match-info-bar .teams-row{display:flex;justify-content:space-around;align-items:center;
     max-width:640px;margin:0 auto}
   .match-info-bar .team-sm{text-align:center}
@@ -404,7 +282,6 @@
     border:1px solid rgba(220,20,30,.4)}
   .match-info-bar .team-sm .n{margin-top:8px;font-size:12px;font-weight:700;color:#fff}
   .match-info-bar .vs-sm{color:#dc1420;font-weight:900;font-size:19px;letter-spacing:1px}
-
   .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);
     background:linear-gradient(90deg,#8b0000,#dc1420);
     color:#fff;padding:11px 24px;border-radius:26px;
@@ -413,7 +290,6 @@
     box-shadow:0 10px 30px rgba(190,15,25,.5);
     pointer-events:none;font-family:'Cairo',sans-serif}
   .toast.show{opacity:1;bottom:38px}
-
   @media(max-width:600px){
     .main-header{padding:12px 14px;flex-wrap:wrap;gap:10px}
     .header-brand .logo-sm{width:40px;height:40px}
@@ -427,7 +303,7 @@
     .support-btn{padding:9px 18px;font-size:12px}
     .match-tile .team img{width:62px;height:62px}
     .channel-logo{width:32%;max-width:200px;top:5%;right:5%}
-    .back-btn{top:2%;left:2%;font-size:10px;padding:2px 6px;}
+    .back-btn{top:2%;left:2%;font-size:10px;padding:2px 6px}
     .ctrl-btn{width:36px;height:36px}
     .ctrl-btn svg{width:16px;height:16px}
     .time-display{font-size:11px;padding:0 3px}
@@ -511,12 +387,9 @@
     <div class="player-box" id="playerBox">
       <div class="video-aspect" id="videoAspect">
         <video id="video" playsinline webkit-playsinline></video>
-
         <button class="back-btn" onclick="closeStream()">رجوع</button>
-
         <img class="channel-logo" id="channelLogo"
              src="https://i.postimg.cc/XvJLp6xV/elankbotsports.png" alt="">
-
         <div class="custom-controls" id="customControls">
           <button class="ctrl-btn" onclick="togglePlay()" id="playBtn">
             <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -531,7 +404,6 @@
             <svg id="volIcon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
           </button>
         </div>
-
         <div class="placeholder" id="playerPlaceholder">
           <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>
           <span>في انتظار بدء البث</span>
@@ -539,7 +411,6 @@
       </div>
     </div>
   </div>
-
   <div class="match-info-bar" id="matchInfoBar" style="display:none">
     <div class="teams-row">
       <div class="team-sm">
@@ -556,12 +427,14 @@
 <div class="toast" id="toast">هذا المحتوى محمي</div>
 
 <script>
-  /* =========================================================
-     إعدادات البروكسي / التوكن
-     ========================================================= */
-  const PROXY_BASE = 'https://REPLACE-WITH-YOUR-WORKER.workers.dev';
+  /* ========== إعدادات الـ Worker ========== */
+  const PROXY_BASE = 'https://alankaboot-proxy.kamlnot61.workers.dev';
 
-  /* ===== منع أدوات المطور + Ctrl+U ===== */
+  function tokenToUrl(tok){
+    return PROXY_BASE + '/s?t=' + encodeURIComponent(tok);
+  }
+
+  /* ===== منع أدوات المطور ===== */
   document.addEventListener('keydown', e=>{
     if((e.ctrlKey||e.metaKey) && (e.key === 'u' || e.key === 'U')) e.preventDefault();
     if((e.ctrlKey||e.metaKey) && ['+','-','=','0'].includes(e.key)) e.preventDefault();
@@ -569,16 +442,6 @@
   });
   document.addEventListener('wheel', e=>{ if(e.ctrlKey) e.preventDefault(); },{passive:false});
   document.addEventListener('contextmenu', e=>e.preventDefault());
-
-  /* ===== كتم الكونسول (خليها false لو بتعمل صيانة) ===== */
-  const SILENT = true;
-  if (SILENT) {
-    try {
-      ['log','info','warn','error','debug','table','dir','trace','group','groupEnd'].forEach(k=>{
-        if (console[k]) console[k] = function(){};
-      });
-    } catch(e){}
-  }
 
   /* ===== MQTT ===== */
   const BROKER = 'wss://broker.emqx.io:8084/mqtt';
@@ -598,11 +461,6 @@
 
   let hls = null, currentMatchId = null, matchesData = [], isStreamViewOpen = false;
 
-  /* التوكن -> رابط البروكسي (الرابط الأصلي مش بيتحط في الصفحة خالص) */
-  function tokenToUrl(tok){
-    return PROXY_BASE + '/s?t=' + encodeURIComponent(tok);
-  }
-
   function showToast(msg){
     toast.textContent = msg;
     toast.classList.add('show');
@@ -617,7 +475,6 @@
     }, 800);
   }, 2800);
 
-  /* MQTT */
   const client = mqtt.connect(BROKER, { clientId: MY_ID });
   client.on('connect', ()=>{
     client.subscribe(TOPIC_CMD);
@@ -638,7 +495,6 @@
     }catch(e){}
   });
 
-  /* عرض المباريات */
   function renderMatches(){
     if(!matchesData.length){
       grid.innerHTML = '<div style="text-align:center;color:#8a5b5e;padding:40px;grid-column:1/-1">لا توجد مباريات</div>';
@@ -667,7 +523,6 @@
     `).join('');
   }
 
-  /* فتح مباراة */
   function openMatch(i){
     const m = matchesData[i];
     if(!m) return;
@@ -689,7 +544,6 @@
 
     history.pushState({stream: true}, '');
     requestFs();
-    setTimeout(speakWelcome, 2000);
   }
 
   function requestFs(){
@@ -738,7 +592,6 @@
     }
   }
 
-  /* تشغيل / إيقاف */
   function playStream(url){
     if(!url){ stopStream(); return; }
     placeholder.style.display = 'none';
@@ -770,7 +623,6 @@
     placeholder.innerHTML = '<svg viewBox="0 0 24 24" style="width:56px;height:56px;fill:#3a2224;opacity:.7"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg><span>تم إيقاف البث</span>';
   }
 
-  /* شريط التحكم */
   function togglePlay(){ video.paused ? video.play().catch(()=>{}) : video.pause(); }
   video.addEventListener('play', ()=>{ playIcon.innerHTML = '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>'; });
   video.addEventListener('pause', ()=>{ playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>'; });
@@ -841,35 +693,6 @@
       controlsVisible = true;
     }
   });
-
-  /* ===== صوت الترحيب ===== */
-  function speakWelcome() {
-    if (!('speechSynthesis' in window)) return;
-    window.speechSynthesis.cancel();
-
-    const text = "أهلاً بيكم في مشاهدة جميع المباريات. عبارة موقع عنكبوت سبورت. لا تنسوا تشير الأصدقائكم هذا الموقع. ومشاهدة ممتعة.";
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'ar-EG';
-    utterance.rate = 0.9;
-    utterance.pitch = 1;
-    utterance.volume = 1;
-
-    const voices = window.speechSynthesis.getVoices();
-    const arabicVoice = voices.find(v => v.lang && v.lang.startsWith('ar'));
-    if (arabicVoice) utterance.voice = arabicVoice;
-
-    window.speechSynthesis.speak(utterance);
-  }
-
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.onvoiceschanged = () => {
-      window.speechSynthesis.getVoices();
-    };
-    window.speechSynthesis.getVoices();
-  }
-
-  setInterval(speakWelcome, 1800000);
 </script>
 </body>
 </html>
