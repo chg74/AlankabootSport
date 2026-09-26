@@ -133,15 +133,15 @@
 
   .video-aspect{position:relative;aspect-ratio:16/9;width:100%;max-width:calc(100vh * 16 / 9);background:#000;overflow:hidden}
   
-  /* ====== هنا سر إخفاء اللوجو (تكبير القطع) ====== */
+  /* ====== تكبير خفيف جداً لإخفاء اللوجو ====== */
   .video-aspect video, .video-aspect iframe{width:100%;height:100%;display:block;background:#000;border:none;}
   .video-aspect video { pointer-events:none; }
   
-  /* التكبير الخاص بالـ iframe لإخفاء اللوجو */
+  /* التقليل من التكبير عشان يبقى مظبوط */
   .video-aspect iframe { 
-      transform: scale(1.35); /* تكبير 35% عشان اللوجو يطلع بره */
+      transform: scale(1.08); /* تكبير 8% فقط عشان يخفى اللوجو ومايبوظش الشكل */
       transform-origin: center center;
-      pointer-events: auto; /* لسه بيتفاعل معاه عشان يشتغل */
+      pointer-events: auto; 
   }
 
   .back-btn{position:absolute;top:3%;left:2%;z-index:9999;background:rgba(0,0,0,.65);color:#fff;border:1px solid rgba(255,255,255,.3);padding:3px 8px;font-size:11px;font-family:'Cairo',sans-serif;font-weight:700;border-radius:5px;cursor:pointer;transition:.2s;letter-spacing:.3px;pointer-events:auto}
@@ -191,7 +191,7 @@
     .time-display{font-size:11px;padding:0 3px}
     .brand-name{font-size:22px}
     .welcome-text{font-size:16px}
-    .video-aspect iframe { transform: scale(1.3); } /* تكبير أقل في الموبايل */
+    .video-aspect iframe { transform: scale(1.04); } /* في الموبايل التكبير 4% بس */
   }
 </style>
 </head>
@@ -267,12 +267,24 @@
 <div class="toast" id="toast">هذا المحتوى محمي</div>
 
 <script>
-  /* ===== حماية من أدوات المطور ===== */
-  document.addEventListener('keydown', e=>{
-    if((e.ctrlKey||e.metaKey) && ['u','U','s','S','p','P'].includes(e.key)) e.preventDefault();
-    if(e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key))) e.preventDefault();
+  /* ====== حماية قوية جداً ضد أدوات المطور (تمنع صفحة الـ IP) ====== */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C' || e.key === 'i' || e.key === 'j' || e.key === 'c')) ||
+        (e.ctrlKey && (e.key === 'U' || e.key === 'u')) ||
+        (e.ctrlKey && (e.key === 'S' || e.key === 's')) ||
+        (e.ctrlKey && (e.key === 'P' || e.key === 'p'))) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+  }, true);
+
+  // منع الكليك يمين
+  document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+      return false;
   });
-  document.addEventListener('contextmenu', e=>e.preventDefault());
 
   const BROKER = 'wss://broker.emqx.io:8084/mqtt';
   const TOPIC_CMD = 'kwtspta_9f3a2b1c/cmd';
@@ -379,8 +391,8 @@
         }
     } else {
         iframe.style.display = 'block'; iframe.src = url;
-        customControls.style.display = 'none'; // إخفاء الشريط تماماً عشان اللوجو بتاع الموقع يبان هو اللي بيتحكم
-        showToast('ℹ️ تم تكبير البث لإخفاء اللوجو. استخدم أدوات المشغل الظاهرة.');
+        customControls.style.display = 'none'; 
+        showToast('ℹ️ تم تكبير البث قليلاً لإخفاء اللوجو.');
     }
   }
 
