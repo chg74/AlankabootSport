@@ -57,7 +57,6 @@
     background-size:38px 38px;opacity:.4;
     mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%);
     -webkit-mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%)}
-
   #splash{position:fixed;inset:0;
     background:radial-gradient(circle at 50% 45%,#1e0507 0%,#080304 70%);
     display:flex;flex-direction:column;justify-content:center;align-items:center;
@@ -106,7 +105,6 @@
     animation:fill 2.6s ease forwards;border-radius:3px;
     box-shadow:0 0 10px rgba(220,20,30,.8)}
   @keyframes fill{to{width:100%}}
-
   #app{display:none;opacity:0;transition:opacity .9s;
        min-height:100vh;padding:20px 16px;position:relative;z-index:1}
   #app.show{display:block;opacity:1}
@@ -131,7 +129,6 @@
     box-shadow:0 6px 18px rgba(0,136,204,.4);transition:.25s}
   .header-tg:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(0,136,204,.6)}
   .header-tg svg{width:18px;height:18px;fill:currentColor}
-
   .support-banner{max-width:1200px;margin:0 auto 20px;padding:18px 20px;
     background:linear-gradient(135deg,rgba(220,20,30,.12),rgba(139,0,0,.08));
     border:1px solid rgba(220,20,30,.35);border-radius:16px;
@@ -161,7 +158,6 @@
   .support-btn:hover{transform:translateY(-2px);
     box-shadow:0 10px 28px rgba(220,20,30,.7);letter-spacing:.8px}
   .support-btn svg{width:16px;height:16px;fill:currentColor}
-
   .section-title{max-width:1200px;margin:0 auto 14px;
     display:flex;align-items:center;gap:10px;
     color:#fff;font-size:15px;font-weight:800;letter-spacing:.5px}
@@ -169,7 +165,6 @@
     background:linear-gradient(180deg,#8b0000,#dc1420)}
   .section-title::after{content:'';flex:1;height:1px;
     background:linear-gradient(90deg,rgba(220,20,30,.4),transparent)}
-
   .matches-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
     gap:16px;max-width:1200px;margin:0 auto}
   .match-tile{background:linear-gradient(155deg,rgba(24,5,7,.85),rgba(35,10,14,.85));
@@ -210,14 +205,12 @@
   .match-tile:hover .watch-btn{letter-spacing:1px}
   .match-tile:not(.live) .watch-btn{background:#200608;color:#8a5b5e}
   .match-tile:not(.live) .watch-btn::after{content:' — غير متاح'}
-
   .main-footer{max-width:1200px;margin:30px auto 0;padding:20px;text-align:center;
     border-top:1px solid rgba(220,20,30,.15);
     color:#8a5b5e;font-size:12px;font-weight:600}
   .main-footer a{color:#dc1420;text-decoration:none;font-weight:700;
     margin:0 4px;transition:.2s}
   .main-footer a:hover{color:#ff4757}
-
   #streamView{display:none;position:fixed;inset:0;background:#000;z-index:100;
     flex-direction:column}
   #streamView.show{display:flex}
@@ -359,9 +352,7 @@
       <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
       بدعمكم نستمر
     </div>
-    <div class="body">
-      دعمك بتعزيز القناة في هذا الرابط، قد لا يؤثر فيك، لكنه يغيّر موازين الموقع.
-    </div>
+    <div class="body">دعمك بتعزيز القناة في هذا الرابط، قد لا يؤثر فيك، لكنه يغيّر موازين الموقع.</div>
     <a class="support-btn" href="https://t.me/boost/alankabootsport" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24"><path d="M13 2L3 14h7v8l10-12h-7l0-8z"/></svg>
       ادعم القناة الآن
@@ -369,7 +360,6 @@
   </div>
 
   <div class="section-title">مباريات اليوم والبث المباشر</div>
-
   <div class="matches-grid" id="matchesGrid"></div>
 
   <div class="main-footer">
@@ -423,7 +413,7 @@
   </div>
 </div>
 
-<div class="toast" id="toast">هذا المحتوى محمي</div>
+<div class="toast" id="toast"></div>
 
 <script>
   const PROXY_BASE = 'https://alankaboot-proxy.kamlnot61.workers.dev';
@@ -460,7 +450,7 @@
   function showToast(msg){
     toast.textContent = msg;
     toast.classList.add('show');
-    setTimeout(()=> toast.classList.remove('show'), 2000);
+    setTimeout(()=> toast.classList.remove('show'), 2500);
   }
 
   setTimeout(()=>{
@@ -484,7 +474,6 @@
       if(topic === TOPIC_DATA){ matchesData = data; renderMatches(); }
       if(topic === TOPIC_CMD && isStreamViewOpen && currentMatchId === data.matchId){
         if(data.action === 'play'){
-          /* إذا فيه توكن → استخدمه، إذا فيه directUrl → استخدمه مباشرة */
           if(data.token) playStream(tokenToUrl(data.token));
           else if(data.directUrl) playStream(data.directUrl);
         }
@@ -521,12 +510,11 @@
     `).join('');
   }
 
+  /* ⭐ الدالة المصححة - بتجرب كل الاحتمالات */
   function openMatch(i){
     const m = matchesData[i];
-    if(!m) return;
+    if(!m){ showToast('القناة غير موجودة'); return; }
     if(!m.live){ showToast('البث لم يبدأ بعد'); return; }
-
-    const useToken = m.useToken !== false;
 
     currentMatchId = m.id;
     isStreamViewOpen = true;
@@ -540,17 +528,31 @@
     streamView.classList.add('show');
     document.body.style.overflow = 'hidden';
 
-    /* ⭐ الاختيار بين وضعين */
+    /* ⭐ تحديد الرابط اللي هيشتغل */
+    let playUrl = null;
+    let modeUsed = '';
+
+    const useToken = m.useToken === true;
+
     if (useToken && m.streamToken) {
-      /* وضع محمي: عبر Worker */
-      playStream(tokenToUrl(m.streamToken));
+      playUrl = tokenToUrl(m.streamToken);
+      modeUsed = 'توكن';
     } else if (m.originalUrl) {
-      /* وضع مباشر: افتح الرابط الأصلي مباشرة */
-      playStream(m.originalUrl);
-    } else {
-      showToast('الرابط غير متاح');
+      playUrl = m.originalUrl;
+      modeUsed = 'مباشر';
+    } else if (m.streamToken) {
+      playUrl = tokenToUrl(m.streamToken);
+      modeUsed = 'توكن (احتياطي)';
+    }
+
+    if (!playUrl) {
+      showToast('❌ لم يتم إعداد الرابط في لوحة التحكم');
+      setTimeout(closeStreamUI, 2000);
       return;
     }
+
+    console.log('Playing via:', modeUsed, playUrl.substring(0, 80));
+    playStream(playUrl);
 
     history.pushState({stream: true}, '');
     requestFs();
@@ -620,6 +622,10 @@
         if(d.fatal){
           if(d.type === Hls.ErrorTypes.NETWORK_ERROR) hls.startLoad();
           else if(d.type === Hls.ErrorTypes.MEDIA_ERROR) hls.recoverMediaError();
+          else {
+            placeholder.style.display = 'flex';
+            placeholder.innerHTML = '<svg viewBox="0 0 24 24" style="width:56px;height:56px;fill:#3a2224;opacity:.7"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg><span>تعذر تشغيل البث</span>';
+          }
         }
       });
     } else if(video.canPlayType('application/vnd.apple.mpegurl')){
