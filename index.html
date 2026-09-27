@@ -484,7 +484,9 @@
       if(topic === TOPIC_DATA){ matchesData = data; renderMatches(); }
       if(topic === TOPIC_CMD && isStreamViewOpen && currentMatchId === data.matchId){
         if(data.action === 'play'){
+          /* إذا فيه توكن → استخدمه، إذا فيه directUrl → استخدمه مباشرة */
           if(data.token) playStream(tokenToUrl(data.token));
+          else if(data.directUrl) playStream(data.directUrl);
         }
         else if(data.action === 'stop') stopStream();
       }
@@ -523,7 +525,8 @@
     const m = matchesData[i];
     if(!m) return;
     if(!m.live){ showToast('البث لم يبدأ بعد'); return; }
-    if(!m.streamToken){ showToast('البث غير متاح حالياً'); return; }
+
+    const useToken = m.useToken !== false;
 
     currentMatchId = m.id;
     isStreamViewOpen = true;
@@ -536,7 +539,18 @@
 
     streamView.classList.add('show');
     document.body.style.overflow = 'hidden';
-    playStream(tokenToUrl(m.streamToken));
+
+    /* ⭐ الاختيار بين وضعين */
+    if (useToken && m.streamToken) {
+      /* وضع محمي: عبر Worker */
+      playStream(tokenToUrl(m.streamToken));
+    } else if (m.originalUrl) {
+      /* وضع مباشر: افتح الرابط الأصلي مباشرة */
+      playStream(m.originalUrl);
+    } else {
+      showToast('الرابط غير متاح');
+      return;
+    }
 
     history.pushState({stream: true}, '');
     requestFs();
@@ -597,9 +611,7 @@
       hls = new Hls({
         lowLatencyMode:true,
         enableWorker:true,
-        xhrSetup: function(xhr){
-          xhr.withCredentials = false;
-        }
+        xhrSetup: function(xhr){ xhr.withCredentials = false; }
       });
       hls.loadSource(url);
       hls.attachMedia(video);
