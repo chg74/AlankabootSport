@@ -13,7 +13,6 @@
     touch-action:manipulation}
   html,body{overflow-x:hidden;width:100%;position:relative}
   body{background:#080304;color:#fff;min-height:100vh;position:relative}
-
   .bg-layer{position:fixed;inset:0;z-index:-3;
     background:
       radial-gradient(circle at 20% 20%,rgba(220,20,30,.22) 0%,transparent 45%),
@@ -598,7 +597,9 @@
       hls = new Hls({
         lowLatencyMode:true,
         enableWorker:true,
-        xhrSetup: function(xhr){ xhr.withCredentials = false; }
+        xhrSetup: function(xhr){
+          xhr.withCredentials = false;
+        }
       });
       hls.loadSource(url);
       hls.attachMedia(video);
