@@ -427,9 +427,6 @@
 <div class="toast" id="toast">هذا المحتوى محمي</div>
 
 <script>
-  /* =========================================================
-     ⭐⭐⭐ إعدادات أساسية
-     ========================================================= */
   const PROXY_BASE = 'https://alankaboot-proxy.kamlnot61.workers.dev';
 
   function tokenToUrl(tok){
@@ -460,12 +457,11 @@
   const toast = $('toast');
 
   let hls = null, currentMatchId = null, matchesData = [], isStreamViewOpen = false;
-  let fallbackTimer = null;
 
   function showToast(msg){
     toast.textContent = msg;
     toast.classList.add('show');
-    setTimeout(()=> toast.classList.remove('show'), 2500);
+    setTimeout(()=> toast.classList.remove('show'), 2000);
   }
 
   setTimeout(()=>{
@@ -476,9 +472,6 @@
     }, 800);
   }, 2800);
 
-  /* =========================================================
-     MQTT
-     ========================================================= */
   const client = mqtt.connect(BROKER, { clientId: MY_ID });
   client.on('connect', ()=>{
     client.subscribe(TOPIC_CMD);
@@ -492,17 +485,13 @@
       if(topic === TOPIC_DATA){ matchesData = data; renderMatches(); }
       if(topic === TOPIC_CMD && isStreamViewOpen && currentMatchId === data.matchId){
         if(data.action === 'play'){
-          if(data.directUrl) smartPlay(data.directUrl);
-          else if(data.token) smartPlay(null, data.token);
+          if(data.token) playStream(tokenToUrl(data.token));
         }
         else if(data.action === 'stop') stopStream();
       }
     }catch(e){}
   });
 
-  /* =========================================================
-     عرض القنوات
-     ========================================================= */
   function renderMatches(){
     if(!matchesData.length){
       grid.innerHTML = '<div style="text-align:center;color:#8a5b5e;padding:40px;grid-column:1/-1">لا توجد مباريات</div>';
@@ -531,17 +520,11 @@
     `).join('');
   }
 
-  /* =========================================================
-     فتح القناة
-     ========================================================= */
   function openMatch(i){
     const m = matchesData[i];
     if(!m) return;
     if(!m.live){ showToast('البث لم يبدأ بعد'); return; }
-    if(!m.streamToken && !m.originalUrl){
-      showToast('البث غير متاح حالياً');
-      return;
-    }
+    if(!m.streamToken){ showToast('البث غير متاح حالياً'); return; }
 
     currentMatchId = m.id;
     isStreamViewOpen = true;
@@ -554,98 +537,13 @@
 
     streamView.classList.add('show');
     document.body.style.overflow = 'hidden';
-
-    smartPlay(m.originalUrl, m.streamToken);
+    playStream(tokenToUrl(m.streamToken));
 
     history.pushState({stream: true}, '');
     requestFs();
     setTimeout(speakWelcome, 2000);
   }
 
-  /* =========================================================
-     ⭐⭐⭐ التشغيل الذكي - بيجرب كل الاحتمالات
-     ========================================================= */
-  function smartPlay(originalUrl, token){
-    if(!originalUrl && !token){ stopStream(); return; }
-
-    const attempts = [];
-
-    /* 1. التوكن (لو موجود) */
-    if(token){
-      attempts.push({ label: '🔐 توكن محمي', url: tokenToUrl(token) });
-    }
-
-    /* 2. الرابط الأصلي */
-    if(originalUrl){
-      const isHTTPS = originalUrl.startsWith('https://');
-      const hasPort = /:\d{2,5}(\/|$)/.test(originalUrl);
-      const isHTTP  = originalUrl.startsWith('http://');
-
-      if(isHTTPS && !hasPort){
-        /* HTTPS نظيف → مباشر أولاً */
-        attempts.push({ label: '⚡ مباشر', url: originalUrl });
-        attempts.push({ label: '🔄 Worker', url: PROXY_BASE + '/direct?url=' + encodeURIComponent(originalUrl) });
-      } else if(hasPort){
-        /* فيه بورت → Worker أولاً */
-        attempts.push({ label: '🔄 Worker (port)', url: PROXY_BASE + '/direct?url=' + encodeURIComponent(originalUrl) });
-        attempts.push({ label: '⚡ مباشر', url: originalUrl });
-      } else if(isHTTP){
-        /* HTTP → HTTPS بديل ثم مباشر ثم Worker */
-        attempts.push({ label: '🔒 HTTPS بديل', url: 'https://' + originalUrl.substring(7) });
-        attempts.push({ label: '⚡ مباشر HTTP', url: originalUrl });
-        attempts.push({ label: '🔄 Worker', url: PROXY_BASE + '/direct?url=' + encodeURIComponent(originalUrl) });
-      }
-    }
-
-    /* 3. احتياطي: Worker /s برابط جديد */
-    if(originalUrl && !token){
-      attempts.push({
-        label: '🔄 Worker احتياطي',
-        url: PROXY_BASE + '/direct?url=' + encodeURIComponent(originalUrl)
-      });
-    }
-
-    console.log('🎬 المحاولات:', attempts.map(a => a.label));
-    let idx = 0;
-
-    function runAttempt(){
-      if(idx >= attempts.length){
-        placeholder.style.display = 'flex';
-        placeholder.innerHTML =
-          '<svg viewBox="0 0 24 24" style="width:56px;height:56px;fill:#3a2224;opacity:.7"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>' +
-          '<span>تعذر تشغيل البث - جرب قناة أخرى</span>';
-        showToast('❌ تعذر التشغيل');
-        return;
-      }
-
-      const attempt = attempts[idx];
-      console.log('▶️ محاولة', idx + 1, ':', attempt.label);
-      showToast('⏳ ' + attempt.label);
-
-      playStream(attempt.url);
-
-      if(fallbackTimer) clearTimeout(fallbackTimer);
-      fallbackTimer = setTimeout(() => {
-        /* لو الفيديو شغال → إلغاء */
-        if(video.currentTime > 0 && !video.paused) return;
-        /* فشل → التالي */
-        idx++;
-        runAttempt();
-      }, 4500);
-
-      video.addEventListener('playing', () => {
-        if(fallbackTimer){ clearTimeout(fallbackTimer); fallbackTimer = null; }
-        console.log('✅ نجح:', attempt.label);
-        showToast('✅ شغال');
-      }, { once: true });
-    }
-
-    runAttempt();
-  }
-
-  /* =========================================================
-     مشغل الفيديو
-     ========================================================= */
   function requestFs(){
     try {
       if (playerBox.requestFullscreen) playerBox.requestFullscreen().catch(()=>{});
@@ -681,7 +579,6 @@
   function closeStreamUI(){
     isStreamViewOpen = false;
     currentMatchId = null;
-    if(fallbackTimer){ clearTimeout(fallbackTimer); fallbackTimer = null; }
     streamView.classList.remove('show');
     document.body.style.overflow = '';
     stopStream();
@@ -696,36 +593,29 @@
   function playStream(url){
     if(!url){ stopStream(); return; }
     placeholder.style.display = 'none';
-    if(hls){ try{ hls.destroy(); }catch(e){} hls = null; }
-    video.pause();
-    video.removeAttribute('src');
-    video.load();
-
+    if(hls){ hls.destroy(); hls = null; }
     if(Hls.isSupported()){
       hls = new Hls({
-        lowLatencyMode: true,
-        enableWorker: true,
-        manifestLoadingTimeOut: 8000,
-        manifestLoadingMaxRetry: 2,
+        lowLatencyMode:true,
+        enableWorker:true,
         xhrSetup: function(xhr){ xhr.withCredentials = false; }
       });
       hls.loadSource(url);
       hls.attachMedia(video);
       hls.on(Hls.Events.MANIFEST_PARSED, ()=> video.play().catch(()=>{}));
       hls.on(Hls.Events.ERROR, (e,d)=>{
-        if(d.fatal && d.type === Hls.ErrorTypes.MEDIA_ERROR) hls.recoverMediaError();
+        if(d.fatal){
+          if(d.type === Hls.ErrorTypes.NETWORK_ERROR) hls.startLoad();
+          else if(d.type === Hls.ErrorTypes.MEDIA_ERROR) hls.recoverMediaError();
+        }
       });
     } else if(video.canPlayType('application/vnd.apple.mpegurl')){
-      video.src = url;
-      video.play().catch(()=>{});
-    } else {
-      video.src = url;
-      video.play().catch(()=>{});
+      video.src = url; video.play().catch(()=>{});
     }
   }
 
   function stopStream(){
-    if(hls){ try{ hls.destroy(); }catch(e){} hls = null; }
+    if(hls){ hls.destroy(); hls = null; }
     video.pause(); video.removeAttribute('src'); video.load();
     placeholder.style.display = 'flex';
     placeholder.innerHTML = '<svg viewBox="0 0 24 24" style="width:56px;height:56px;fill:#3a2224;opacity:.7"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg><span>تم إيقاف البث</span>';
@@ -802,21 +692,22 @@
     }
   });
 
-  /* =========================================================
-     الترحيب الصوتي
-     ========================================================= */
   function speakWelcome() {
     if (!('speechSynthesis' in window)) return;
     window.speechSynthesis.cancel();
+
     const text = "أهلاً بيكم في مشاهدة جميع المباريات. عبارة موقع عنكبوت سبورت. لا تنسوا تشير الأصدقائكم هذا الموقع. ومشاهدة ممتعة.";
+
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'ar-EG';
     utterance.rate = 0.9;
     utterance.pitch = 1;
     utterance.volume = 1;
+
     const voices = window.speechSynthesis.getVoices();
     const arabicVoice = voices.find(v => v.lang && v.lang.startsWith('ar'));
     if (arabicVoice) utterance.voice = arabicVoice;
+
     window.speechSynthesis.speak(utterance);
   }
 
