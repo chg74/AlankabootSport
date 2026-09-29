@@ -539,7 +539,6 @@
     streamView.classList.add('show');
     document.body.style.overflow = 'hidden';
     
-    // Logic to handle both proxy token and direct URL
     if (m.streamToken) {
         playStream(tokenToUrl(m.streamToken));
     } else if (m.originalUrl) {
