@@ -485,7 +485,8 @@
       if(topic === TOPIC_DATA){ matchesData = data; renderMatches(); }
       if(topic === TOPIC_CMD && isStreamViewOpen && currentMatchId === data.matchId){
         if(data.action === 'play'){
-          if(data.token) playStream(tokenToUrl(data.token));
+          if(data.directUrl) playStream(data.directUrl);
+          else if(data.token) playStream(tokenToUrl(data.token));
         }
         else if(data.action === 'stop') stopStream();
       }
@@ -524,7 +525,7 @@
     const m = matchesData[i];
     if(!m) return;
     if(!m.live){ showToast('البث لم يبدأ بعد'); return; }
-    if(!m.streamToken){ showToast('البث غير متاح حالياً'); return; }
+    if(!m.streamToken && !m.originalUrl){ showToast('البث غير متاح حالياً'); return; }
 
     currentMatchId = m.id;
     isStreamViewOpen = true;
@@ -537,7 +538,13 @@
 
     streamView.classList.add('show');
     document.body.style.overflow = 'hidden';
-    playStream(tokenToUrl(m.streamToken));
+    
+    // Logic to handle both proxy token and direct URL
+    if (m.streamToken) {
+        playStream(tokenToUrl(m.streamToken));
+    } else if (m.originalUrl) {
+        playStream(m.originalUrl);
+    }
 
     history.pushState({stream: true}, '');
     requestFs();
