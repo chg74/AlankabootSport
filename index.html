@@ -4,332 +4,435 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Alankaboot Sport | البث المباشر</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js"></script>
 <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
 <style>
   *{box-sizing:border-box;font-family:'Cairo',sans-serif;margin:0;padding:0;
     -webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;
-    touch-action:manipulation}
+    touch-action:manipulation;-webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale}
+  :root{
+    --bg:#0a0a0f;
+    --card:rgba(255,255,255,0.035);
+    --card-2:rgba(255,255,255,0.055);
+    --border:rgba(255,255,255,0.08);
+    --border-hi:rgba(255,255,255,0.14);
+    --accent:#e11d2e;
+    --accent-2:#ff3b52;
+    --accent-glow:rgba(225,29,46,.45);
+    --green:#22c55e;
+    --green-glow:rgba(34,197,94,.4);
+    --text:#ffffff;
+    --text-dim:#8a8a9a;
+    --r-sm:10px;
+    --r:16px;
+    --r-lg:20px;
+    --r-xl:26px;
+  }
   html,body{overflow-x:hidden;width:100%;position:relative}
-  body{background:#080304;color:#fff;min-height:100vh;position:relative}
+  body{
+    background:#0a0a0f;color:var(--text);min-height:100vh;
+    position:relative}
 
-  .bg-layer{position:fixed;inset:0;z-index:-3;
+  .bg-layer{
+    position:fixed;inset:0;z-index:-3;
     background:
-      radial-gradient(circle at 20% 20%,rgba(220,20,30,.22) 0%,transparent 45%),
-      radial-gradient(circle at 80% 30%,rgba(140,8,18,.18) 0%,transparent 45%),
-      radial-gradient(circle at 50% 90%,rgba(190,15,25,.14) 0%,transparent 45%),
-      linear-gradient(135deg,#080304 0%,#1a0507 50%,#080304 100%);
-    background-size:200% 200%,200% 200%,200% 200%,400% 400%;
-    animation:bgMove 20s ease-in-out infinite}
+      radial-gradient(1200px 600px at 20% 0%,rgba(225,29,46,.18),transparent 55%),
+      radial-gradient(1000px 500px at 90% 30%,rgba(225,29,46,.10),transparent 55%),
+      radial-gradient(900px 500px at 50% 100%,rgba(225,29,46,.08),transparent 55%),
+      #0a0a0f;
+    background-size:200% 200%,200% 200%,200% 200%;
+    animation:bgMove 25s ease-in-out infinite}
   @keyframes bgMove{
-    0%,100%{background-position:0% 0%,100% 0%,50% 100%,0% 50%}
-    33%{background-position:100% 50%,0% 100%,0% 0%,100% 0%}
-    66%{background-position:50% 100%,50% 50%,100% 50%,50% 100%}}
-  .bg-orbs{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden}
-  .bg-orbs .orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5}
-  .bg-orbs .orb1{width:400px;height:400px;top:-100px;left:-100px;
-    background:radial-gradient(circle,rgba(220,20,30,.7) 0%,transparent 70%);
-    animation:orb1 18s ease-in-out infinite}
-  .bg-orbs .orb2{width:500px;height:500px;bottom:-150px;right:-150px;
-    background:radial-gradient(circle,rgba(139,0,0,.6) 0%,transparent 70%);
-    animation:orb2 22s ease-in-out infinite}
-  .bg-orbs .orb3{width:300px;height:300px;top:40%;left:50%;
-    background:radial-gradient(circle,rgba(255,71,87,.4) 0%,transparent 70%);
-    animation:orb3 25s ease-in-out infinite}
-  @keyframes orb1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(80px,60px) scale(1.2)}}
-  @keyframes orb2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-70px,-50px) scale(1.15)}}
-  @keyframes orb3{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-30%,-70%) scale(1.3)}}
-  .bg-lines{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;opacity:.4}
-  .bg-lines span{position:absolute;width:2px;height:200%;top:-50%;
-    background:linear-gradient(180deg,transparent,rgba(220,20,30,.6),transparent);
-    animation:lineFlow 10s linear infinite}
-  .bg-lines span:nth-child(1){left:8%;animation-delay:0s}
-  .bg-lines span:nth-child(2){left:28%;animation-delay:-3s;animation-duration:14s}
-  .bg-lines span:nth-child(3){left:52%;animation-delay:-6s;animation-duration:11s}
-  .bg-lines span:nth-child(4){left:76%;animation-delay:-2s;animation-duration:13s}
-  .bg-lines span:nth-child(5){left:92%;animation-delay:-8s;animation-duration:16s}
-  @keyframes lineFlow{
-    0%{transform:translateY(-50%) rotate(-12deg);opacity:0}
-    50%{opacity:.8}
-    100%{transform:translateY(50%) rotate(-12deg);opacity:0}}
-  .bg-dots{position:fixed;inset:0;z-index:-1;pointer-events:none;
-    background-image:radial-gradient(circle,rgba(220,20,30,.15) 1px,transparent 1px);
-    background-size:38px 38px;opacity:.4;
-    mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%);
-    -webkit-mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%)}
+    0%,100%{background-position:0% 0%,100% 0%,50% 100%}
+    50%{background-position:100% 50%,0% 100%,100% 50%}}
 
-  #splash{position:fixed;inset:0;
-    background:radial-gradient(circle at 50% 45%,#1e0507 0%,#080304 70%);
+  .bg-grid{
+    position:fixed;inset:0;z-index:-2;pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
+    background-size:50px 50px;
+    mask-image:radial-gradient(ellipse at 50% 0%,black 20%,transparent 75%);
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 20%,transparent 75%)}
+
+  .bg-orbs{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden}
+  .bg-orbs .orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55}
+  .bg-orbs .orb1{width:500px;height:500px;top:-150px;left:-150px;
+    background:radial-gradient(circle,rgba(225,29,46,.6) 0%,transparent 70%);
+    animation:orb1 20s ease-in-out infinite}
+  .bg-orbs .orb2{width:600px;height:600px;bottom:-200px;right:-200px;
+    background:radial-gradient(circle,rgba(225,29,46,.4) 0%,transparent 70%);
+    animation:orb2 24s ease-in-out infinite}
+  @keyframes orb1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(100px,80px) scale(1.15)}}
+  @keyframes orb2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-90px,-70px) scale(1.1)}}
+
+  #splash{
+    position:fixed;inset:0;
+    background:radial-gradient(circle at 50% 45%,#1a0207 0%,#0a0a0f 70%);
     display:flex;flex-direction:column;justify-content:center;align-items:center;
     z-index:9999;transition:opacity .9s;padding:20px;overflow:hidden}
   #splash.hide{opacity:0;pointer-events:none}
-  #splash::before{content:'';position:absolute;width:400px;height:400px;
+  #splash::before{content:'';position:absolute;width:500px;height:500px;
     top:50%;left:50%;transform:translate(-50%,-50%);
-    background:radial-gradient(circle,rgba(220,20,30,.3),transparent 65%);
-    border-radius:50%;animation:splashGlow 3s ease-in-out infinite;pointer-events:none}
+    background:radial-gradient(circle,rgba(225,29,46,.25),transparent 65%);
+    border-radius:50%;animation:splashGlow 3.5s ease-in-out infinite;pointer-events:none}
   @keyframes splashGlow{
     0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.5}
-    50%{transform:translate(-50%,-50%) scale(1.4);opacity:1}}
-  .loader{position:relative;width:120px;height:120px;margin-bottom:24px;z-index:2}
+    50%{transform:translate(-50%,-50%) scale(1.35);opacity:1}}
+  .loader{position:relative;width:120px;height:120px;margin-bottom:26px;z-index:2}
   .loader svg.spin{width:100%;height:100%;animation:rot 1.8s linear infinite}
   @keyframes rot{to{transform:rotate(360deg)}}
-  .loader svg.spin circle{fill:none;stroke-width:3;stroke-linecap:round;stroke:#dc1420;
-    stroke-dasharray:1 200;animation:dash 1.6s ease-in-out infinite}
+  .loader svg.spin circle{fill:none;stroke-width:3;stroke-linecap:round;
+    stroke:var(--accent-2);
+    stroke-dasharray:1 200;animation:dash 1.6s ease-in-out infinite;
+    filter:drop-shadow(0 0 8px var(--accent-glow))}
   @keyframes dash{
     0%{stroke-dasharray:1 200;stroke-dashoffset:0}
     50%{stroke-dasharray:90 200;stroke-dashoffset:-35}
     100%{stroke-dasharray:90 200;stroke-dashoffset:-124}}
   .loader .logo-circle{position:absolute;inset:22px;border-radius:50%;
-    background:#0d0405;display:flex;justify-content:center;align-items:center;
-    padding:8px;overflow:hidden;box-shadow:0 0 25px rgba(220,20,30,.4) inset}
+    background:transparent;display:flex;justify-content:center;align-items:center;
+    padding:8px;overflow:hidden}
   .loader .logo-circle img{width:100%;height:100%;object-fit:contain;border-radius:50%}
-  .brand-name{color:#fff;font-size:28px;font-weight:900;letter-spacing:2.5px;
+  .brand-name{color:#fff;font-size:30px;font-weight:800;letter-spacing:-.5px;
     margin-bottom:8px;text-align:center;z-index:2;
-    background:linear-gradient(90deg,#fff 0%,#ff4757 50%,#fff 100%);
-    background-size:200% 100%;-webkit-background-clip:text;background-clip:text;
-    -webkit-text-fill-color:transparent;
-    animation:brandShine 3s linear infinite;
-    filter:drop-shadow(0 0 20px rgba(220,20,30,.6))}
-  @keyframes brandShine{to{background-position:200% 0}}
-  .welcome-text{color:#fff;font-size:18px;font-weight:800;margin-bottom:22px;
-    z-index:2;letter-spacing:1.5px;text-shadow:0 0 20px rgba(220,20,30,.7);
+    background:linear-gradient(180deg,#fff 40%,#a0a0b0 100%);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent}
+  .welcome-text{color:#fff;font-size:17px;font-weight:700;margin-bottom:22px;
+    z-index:2;letter-spacing:.3px;text-shadow:0 0 20px rgba(225,29,46,.6);
     animation:welcomeIn 1.2s ease forwards;opacity:0}
   @keyframes welcomeIn{
     0%{opacity:0;transform:translateY(15px)}
     100%{opacity:1;transform:translateY(0)}}
-  .loading-text{color:#b89fa1;font-size:13px;font-weight:600;margin-bottom:16px;
-    letter-spacing:.3px;opacity:.85;z-index:2}
+  .loading-text{color:var(--text-dim);font-size:12.5px;font-weight:600;
+    margin-bottom:16px;letter-spacing:.2px;opacity:.85;z-index:2}
   .loading-bar{width:240px;max-width:80%;height:3px;
-    background:rgba(220,20,30,.15);border-radius:3px;overflow:hidden;z-index:2}
+    background:rgba(255,255,255,.06);border-radius:100px;overflow:hidden;z-index:2}
   .loading-bar .fill{height:100%;width:0;
-    background:linear-gradient(90deg,#8b0000,#dc1420,#ff4757);
-    animation:fill 2.6s ease forwards;border-radius:3px;
-    box-shadow:0 0 10px rgba(220,20,30,.8)}
+    background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    animation:fill 2.6s ease forwards;border-radius:100px;
+    box-shadow:0 0 12px var(--accent-glow)}
   @keyframes fill{to{width:100%}}
 
   #app{display:none;opacity:0;transition:opacity .9s;
        min-height:100vh;padding:20px 16px;position:relative;z-index:1}
   #app.show{display:block;opacity:1}
-  .main-header{max-width:1200px;margin:0 auto 20px;
+
+  .main-header{
+    max-width:1200px;margin:0 auto 18px;
     display:flex;justify-content:space-between;align-items:center;
-    padding:14px 20px;
-    background:linear-gradient(155deg,rgba(24,5,7,.85),rgba(35,10,14,.85));
-    border:1px solid rgba(220,20,30,.25);border-radius:16px;
-    box-shadow:0 10px 30px rgba(0,0,0,.5);
-    backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px)}
+    padding:14px 18px;
+    background:linear-gradient(180deg,var(--card-2),var(--card));
+    border:1px solid var(--border);border-radius:var(--r-xl);
+    backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+    box-shadow:0 20px 60px rgba(0,0,0,.4);
+    position:relative;overflow:hidden}
+  .main-header::before{
+    content:'';position:absolute;inset:0;border-radius:inherit;
+    padding:1px;background:linear-gradient(180deg,rgba(255,255,255,.1),transparent 60%);
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
   .header-brand{display:flex;align-items:center;gap:12px}
-  .header-brand .logo-sm{width:46px;height:46px;border-radius:50%;
-    background:#0c0304;padding:5px;border:1px solid rgba(220,20,30,.4);
-    object-fit:contain}
-  .header-brand .text .name{color:#fff;font-size:17px;font-weight:900;
-    letter-spacing:1px;line-height:1.2}
-  .header-brand .text .sub{color:#b89fa1;font-size:11px;font-weight:600;letter-spacing:.3px}
-  .header-tg{display:inline-flex;align-items:center;gap:8px;
-    background:linear-gradient(135deg,#0088cc,#00a3e0);
-    color:#fff;padding:9px 16px;border-radius:12px;
+  .header-brand .logo-sm{
+    width:48px;height:48px;border-radius:14px;
+    background:rgba(255,255,255,.03);padding:6px;
+    border:1px solid var(--border);object-fit:contain;
+    box-shadow:0 4px 12px rgba(0,0,0,.3)}
+  .header-brand .text .name{color:#fff;font-size:16px;font-weight:800;
+    letter-spacing:-.2px;line-height:1.2}
+  .header-brand .text .sub{color:var(--text-dim);font-size:11px;
+    font-weight:600;letter-spacing:.2px;margin-top:2px}
+  .header-tg{
+    display:inline-flex;align-items:center;gap:8px;
+    background:linear-gradient(180deg,#3aa8e0,#0088cc);
+    color:#fff;padding:10px 16px;border-radius:100px;
     font-weight:700;font-size:13px;text-decoration:none;
-    box-shadow:0 6px 18px rgba(0,136,204,.4);transition:.25s}
-  .header-tg:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(0,136,204,.6)}
+    box-shadow:0 6px 20px rgba(0,136,204,.35),
+               inset 0 1px 0 rgba(255,255,255,.2);
+    transition:.25s;letter-spacing:.2px}
+  .header-tg:hover{transform:translateY(-2px);
+    box-shadow:0 10px 26px rgba(0,136,204,.5),
+               inset 0 1px 0 rgba(255,255,255,.25)}
   .header-tg svg{width:18px;height:18px;fill:currentColor}
 
-  .support-banner{max-width:1200px;margin:0 auto 20px;padding:18px 20px;
-    background:linear-gradient(135deg,rgba(220,20,30,.12),rgba(139,0,0,.08));
-    border:1px solid rgba(220,20,30,.35);border-radius:16px;
+  .support-banner{
+    max-width:1200px;margin:0 auto 18px;padding:18px 22px;
+    background:linear-gradient(135deg,rgba(225,29,46,.10),rgba(225,29,46,.02));
+    border:1px solid rgba(225,29,46,.22);border-radius:var(--r-xl);
     position:relative;overflow:hidden;
-    box-shadow:0 8px 25px rgba(0,0,0,.4);
-    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-  .support-banner::before{content:'';position:absolute;top:-50%;right:-10%;
-    width:200px;height:200px;border-radius:50%;
-    background:radial-gradient(circle,rgba(220,20,30,.25),transparent 70%);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    box-shadow:0 20px 60px rgba(0,0,0,.35)}
+  .support-banner::before{content:'';position:absolute;top:-60%;right:-10%;
+    width:280px;height:280px;border-radius:50%;
+    background:radial-gradient(circle,rgba(225,29,46,.22),transparent 70%);
     pointer-events:none;animation:supportGlow 4s ease-in-out infinite}
   @keyframes supportGlow{
     0%,100%{transform:scale(1);opacity:.6}
     50%{transform:scale(1.3);opacity:1}}
-  .support-banner .title{color:#fff;font-size:16px;font-weight:900;margin-bottom:10px;
-    display:flex;align-items:center;gap:10px;letter-spacing:.3px;
-    position:relative;z-index:2}
-  .support-banner .title svg{width:22px;height:22px;fill:#dc1420;flex-shrink:0}
-  .support-banner .body{color:#c9a5a7;font-size:13px;line-height:1.85;
-    font-weight:600;margin-bottom:14px;position:relative;z-index:2}
-  .support-btn{display:inline-flex;align-items:center;gap:8px;
-    background:linear-gradient(135deg,#8b0000,#dc1420);
-    color:#fff;padding:10px 22px;border-radius:12px;
-    font-weight:800;font-size:13px;text-decoration:none;
-    box-shadow:0 6px 20px rgba(220,20,30,.45);transition:.25s;
-    letter-spacing:.4px;font-family:'Cairo',sans-serif;
+  .support-banner .title{color:#fff;font-size:16px;font-weight:800;
+    margin-bottom:10px;display:flex;align-items:center;gap:10px;
+    letter-spacing:.2px;position:relative;z-index:2}
+  .support-banner .title svg{width:22px;height:22px;fill:var(--accent-2);
+    flex-shrink:0;filter:drop-shadow(0 0 8px var(--accent-glow))}
+  .support-banner .body{color:#c9b5b8;font-size:13px;line-height:1.85;
+    font-weight:500;margin-bottom:16px;position:relative;z-index:2}
+  .support-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    background:linear-gradient(180deg,var(--accent-2),var(--accent));
+    color:#fff;padding:11px 22px;border-radius:100px;
+    font-weight:700;font-size:13px;text-decoration:none;
+    box-shadow:0 8px 24px var(--accent-glow),inset 0 1px 0 rgba(255,255,255,.2);
+    transition:.25s;letter-spacing:.2px;font-family:'Cairo',sans-serif;
     position:relative;z-index:2}
   .support-btn:hover{transform:translateY(-2px);
-    box-shadow:0 10px 28px rgba(220,20,30,.7);letter-spacing:.8px}
+    box-shadow:0 12px 32px var(--accent-glow),inset 0 1px 0 rgba(255,255,255,.25)}
   .support-btn svg{width:16px;height:16px;fill:currentColor}
 
-  .section-title{max-width:1200px;margin:0 auto 14px;
+  .section-title{
+    max-width:1200px;margin:0 auto 14px;
     display:flex;align-items:center;gap:10px;
-    color:#fff;font-size:15px;font-weight:800;letter-spacing:.5px}
-  .section-title::before{content:'';width:4px;height:20px;border-radius:4px;
-    background:linear-gradient(180deg,#8b0000,#dc1420)}
+    color:#fff;font-size:15px;font-weight:800;letter-spacing:-.1px}
+  .section-title::before{
+    content:'';width:3px;height:18px;border-radius:4px;
+    background:linear-gradient(180deg,var(--accent-2),var(--accent));
+    box-shadow:0 0 12px var(--accent-glow)}
   .section-title::after{content:'';flex:1;height:1px;
-    background:linear-gradient(90deg,rgba(220,20,30,.4),transparent)}
+    background:linear-gradient(90deg,rgba(225,29,46,.35),transparent)}
 
-  .matches-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  .back-row{max-width:1200px;margin:0 auto 14px}
+  .back-cat-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(255,255,255,.05);color:#fff;
+    padding:10px 18px;border-radius:100px;
+    border:1px solid var(--border);
+    font-weight:700;font-size:13px;cursor:pointer;
+    font-family:'Cairo',sans-serif;transition:.25s;
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .back-cat-btn:hover{background:rgba(225,29,46,.12);
+    border-color:rgba(225,29,46,.4);color:var(--accent-2);
+    box-shadow:0 4px 14px rgba(225,29,46,.2)}
+
+  .cats-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
     gap:16px;max-width:1200px;margin:0 auto}
-  .match-tile{background:linear-gradient(155deg,rgba(24,5,7,.85),rgba(35,10,14,.85));
-    border:1px solid rgba(220,20,30,.22);border-radius:16px;padding:20px;
-    cursor:pointer;transition:.32s;box-shadow:0 10px 32px rgba(0,0,0,.55);
-    position:relative;overflow:hidden;
-    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-  .match-tile::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
-    background:linear-gradient(90deg,#8b0000,#dc1420,#ff4757,#dc1420,#8b0000);
-    background-size:200% 100%;opacity:.75}
-  .match-tile.live::before{opacity:1;animation:shine 2s linear infinite}
-  @keyframes shine{to{background-position:200% 0}}
-  .match-tile:hover{transform:translateY(-4px);border-color:#dc1420;
-    box-shadow:0 14px 40px rgba(190,15,25,.28)}
-  .match-tile .top-info{display:flex;justify-content:space-between;align-items:center;
-    margin-bottom:16px;font-size:12px;gap:8px}
-  .match-tile .top-info .title{color:#b89fa1;font-weight:600}
-  .match-tile .top-info .time-tag{color:#dc1420;font-weight:700;font-size:13px}
-  .match-tile .top-info .live-tag{background:linear-gradient(135deg,#8b0000,#dc1420);
-    color:#fff;padding:3px 11px;border-radius:11px;
-    font-weight:700;font-size:10px;letter-spacing:.4px;
-    display:inline-flex;align-items:center;gap:4px}
-  .match-tile .top-info .live-tag::before{content:'';width:5px;height:5px;
-    border-radius:50%;background:#fff;animation:blink 1s infinite}
-  @keyframes blink{50%{opacity:.25}}
-  .match-tile .teams{display:flex;justify-content:space-between;align-items:center;gap:12px}
-  .match-tile .team{flex:1;text-align:center}
-  .match-tile .team img{width:74px;height:74px;object-fit:contain;
-    border-radius:50%;background:#0c0304;padding:6px;
-    border:1px solid rgba(220,20,30,.35);transition:.32s}
-  .match-tile:hover .team img{border-color:#dc1420;transform:scale(1.06)}
-  .match-tile .team .name{margin-top:10px;font-weight:700;font-size:13px;color:#fff}
-  .match-tile .vs{font-weight:900;color:#dc1420;font-size:16px;letter-spacing:1px}
-  .match-tile .watch-btn{margin-top:16px;padding:11px;border-radius:10px;
-    text-align:center;font-weight:700;font-size:13px;
-    background:linear-gradient(90deg,#8b0000,#dc1420);
-    color:#fff;letter-spacing:.5px;transition:.3s}
-  .match-tile:hover .watch-btn{letter-spacing:1px}
-  .match-tile:not(.live) .watch-btn{background:#200608;color:#8a5b5e}
-  .match-tile:not(.live) .watch-btn::after{content:' — غير متاح'}
+  .cat-tile{
+    background:linear-gradient(180deg,var(--card-2),var(--card));
+    border:1px solid var(--border);border-radius:var(--r-xl);
+    padding:26px 16px;cursor:pointer;transition:.35s;
+    box-shadow:0 20px 50px rgba(0,0,0,.4);
+    position:relative;overflow:hidden;text-align:center;
+    backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px)}
+  .cat-tile::before{
+    content:'';position:absolute;inset:0;border-radius:inherit;
+    padding:1px;background:linear-gradient(180deg,rgba(255,255,255,.12),transparent 60%);
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+  .cat-tile::after{
+    content:'';position:absolute;top:-50%;left:50%;transform:translateX(-50%);
+    width:200px;height:200px;border-radius:50%;
+    background:radial-gradient(circle,rgba(225,29,46,.15),transparent 70%);
+    pointer-events:none;opacity:0;transition:.4s}
+  .cat-tile:hover{transform:translateY(-6px);
+    border-color:rgba(225,29,46,.4);
+    box-shadow:0 30px 70px rgba(0,0,0,.5),0 0 40px rgba(225,29,46,.15)}
+  .cat-tile:hover::after{opacity:1}
+  .cat-tile .cat-logo{
+    width:110px;height:110px;object-fit:contain;
+    margin:0 auto 16px;display:block;position:relative;z-index:1;
+    filter:drop-shadow(0 8px 20px rgba(0,0,0,.5));transition:.35s}
+  .cat-tile:hover .cat-logo{transform:scale(1.06)}
+  .cat-tile .cat-name{color:#fff;font-weight:800;font-size:16px;
+    margin-bottom:10px;line-height:1.3;position:relative;z-index:1;
+    letter-spacing:-.2px}
+  .cat-tile .cat-count{
+    color:var(--accent-2);font-size:11.5px;font-weight:700;
+    display:inline-flex;align-items:center;gap:5px;
+    background:rgba(225,29,46,.12);padding:5px 14px;border-radius:100px;
+    border:1px solid rgba(225,29,46,.3);
+    position:relative;z-index:1;letter-spacing:.2px}
 
-  .main-footer{max-width:1200px;margin:30px auto 0;padding:20px;text-align:center;
-    border-top:1px solid rgba(220,20,30,.15);
-    color:#8a5b5e;font-size:12px;font-weight:600}
-  .main-footer a{color:#dc1420;text-decoration:none;font-weight:700;
-    margin:0 4px;transition:.2s}
-  .main-footer a:hover{color:#ff4757}
+  .channels-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+    gap:16px;max-width:1200px;margin:0 auto}
+  .channel-tile{
+    background:linear-gradient(180deg,var(--card-2),var(--card));
+    border:1px solid var(--border);border-radius:var(--r-xl);
+    padding:22px 14px;cursor:pointer;transition:.35s;
+    box-shadow:0 20px 50px rgba(0,0,0,.4);
+    position:relative;overflow:hidden;text-align:center;
+    backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px)}
+  .channel-tile::before{
+    content:'';position:absolute;inset:0;border-radius:inherit;
+    padding:1px;background:linear-gradient(180deg,rgba(255,255,255,.12),transparent 60%);
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+  .channel-tile:hover{transform:translateY(-6px);
+    border-color:rgba(225,29,46,.4);
+    box-shadow:0 30px 70px rgba(0,0,0,.5),0 0 40px rgba(225,29,46,.15)}
+  .channel-tile:not(.live){opacity:.75}
+  .channel-tile:not(.live):hover{opacity:1;border-color:var(--border-hi);
+    box-shadow:0 30px 70px rgba(0,0,0,.5)}
+  .channel-tile .logo{
+    width:100px;height:100px;object-fit:contain;
+    margin:0 auto 14px;display:block;position:relative;z-index:1;
+    filter:drop-shadow(0 8px 18px rgba(0,0,0,.5));transition:.35s}
+  .channel-tile:hover .logo{transform:scale(1.05)}
+  .channel-tile .name{color:#fff;font-weight:800;font-size:14px;
+    margin-bottom:12px;line-height:1.3;position:relative;z-index:1;
+    letter-spacing:-.1px}
+  .channel-tile .status{
+    display:inline-flex;align-items:center;gap:5px;
+    padding:5px 14px;border-radius:100px;font-size:11px;font-weight:700;
+    position:relative;z-index:1;letter-spacing:.2px}
+  .channel-tile.live .status{
+    background:linear-gradient(180deg,#4ade80,#16a34a);color:#fff;
+    box-shadow:0 6px 18px var(--green-glow)}
+  .channel-tile.live .status::before{
+    content:'';width:6px;height:6px;border-radius:50%;
+    background:#fff;animation:blink 1.2s infinite}
+  @keyframes blink{50%{opacity:.35}}
+  .channel-tile:not(.live) .status{
+    background:rgba(255,255,255,.05);color:var(--text-dim);
+    border:1px solid var(--border)}
+  .empty-msg{grid-column:1/-1;text-align:center;color:var(--text-dim);
+    padding:60px 20px;font-size:14px;line-height:2;font-weight:500}
 
-  #streamView{display:none;position:fixed;inset:0;background:#000;z-index:100;
+  .main-footer{
+    max-width:1200px;margin:30px auto 0;padding:24px 20px;
+    text-align:center;border-top:1px solid var(--border);
+    color:var(--text-dim);font-size:12px;font-weight:600;line-height:2}
+  .main-footer a{color:var(--accent-2);text-decoration:none;
+    font-weight:700;margin:0 6px;transition:.2s}
+  .main-footer a:hover{color:#ff5c6e;text-shadow:0 0 12px var(--accent-glow)}
+
+  #streamView{
+    display:none;position:fixed;inset:0;background:#000;z-index:100;
     flex-direction:column}
   #streamView.show{display:flex}
-  .stream-player-wrap{flex:1;display:flex;justify-content:center;align-items:center;
-    background:#000;padding:0;min-height:0;overflow:hidden}
-  .player-box{position:relative;width:100%;height:100%;max-width:none;max-height:none;
-    background:#000;display:flex;justify-content:center;align-items:center;overflow:hidden}
+  .stream-player-wrap{
+    flex:1;display:flex;justify-content:center;align-items:center;
+    background:transparent;padding:0;min-height:0;overflow:hidden}
+  .player-box{
+    position:relative;width:100%;height:100%;max-width:none;max-height:none;
+    background:transparent;display:flex;justify-content:center;align-items:center;
+    overflow:hidden}
   .player-box:fullscreen,.player-box:-webkit-full-screen{
     width:100vw !important;height:100vh !important;background:#000}
-  .video-aspect{position:relative;aspect-ratio:16/9;width:100%;
-    max-width:calc(100vh * 16 / 9);background:#000;overflow:hidden}
-  .video-aspect video{width:100%;height:100%;display:block;object-fit:contain;
-    background:#000;pointer-events:none}
-  .back-btn{position:absolute;top:3%;left:2%;z-index:9999;
-    background:rgba(0,0,0,.65);color:#fff;border:1px solid rgba(255,255,255,.3);
-    padding:3px 8px;font-size:11px;font-family:'Cairo',sans-serif;
-    font-weight:700;border-radius:5px;cursor:pointer;transition:.2s}
-  .back-btn:hover{background:#dc1420;border-color:#dc1420}
-  .channel-logo{position:absolute;top:5%;right:5%;width:26%;max-width:280px;
-    height:auto;pointer-events:none;user-select:none;z-index:20;
-    background:#000;padding:0;border-radius:6px;
-    filter:drop-shadow(0 2px 6px rgba(0,0,0,.8))}
-  .custom-controls{position:absolute;bottom:0;left:0;right:0;z-index:15;
-    display:flex;align-items:center;gap:8px;padding:12px 14px 14px;
-    background:linear-gradient(transparent,rgba(0,0,0,.88));
+  .video-aspect{
+    position:relative;aspect-ratio:16/9;width:100%;
+    max-width:calc(100vh * 16 / 9);background:transparent;overflow:hidden}
+  .video-aspect video{
+    width:100%;height:100%;display:block;object-fit:contain;
+    background:transparent;pointer-events:none}
+  .back-btn{
+    position:absolute;top:3%;left:2%;z-index:9999;
+    background:rgba(10,10,15,.7);color:#fff;
+    border:1px solid rgba(255,255,255,.15);
+    padding:6px 14px;font-size:12px;font-family:'Cairo',sans-serif;
+    font-weight:700;border-radius:100px;cursor:pointer;
+    transition:.25s;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+  .back-btn:hover{background:var(--accent);border-color:var(--accent);
+    box-shadow:0 6px 20px var(--accent-glow)}
+  .custom-controls{
+    position:absolute;bottom:0;left:0;right:0;z-index:15;
+    display:flex;align-items:center;gap:10px;padding:14px 16px 16px;
+    background:linear-gradient(transparent,rgba(0,0,0,.9));
     opacity:1;pointer-events:auto;transition:opacity .3s}
   .custom-controls.hidden{opacity:0;pointer-events:none}
-  .ctrl-btn{background:rgba(220,20,30,.16);color:#fff;
-    border:1px solid rgba(220,20,30,.3);width:40px;height:40px;border-radius:50%;
+  .ctrl-btn{
+    background:rgba(255,255,255,.08);color:#fff;
+    border:1px solid rgba(255,255,255,.12);
+    width:42px;height:42px;border-radius:50%;
     display:flex;justify-content:center;align-items:center;cursor:pointer;
-    transition:.22s;padding:0;flex-shrink:0}
-  .ctrl-btn:hover{background:#dc1420;border-color:#dc1420;transform:scale(1.06)}
+    transition:.25s;padding:0;flex-shrink:0;
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+  .ctrl-btn:hover{background:var(--accent);border-color:var(--accent);
+    transform:scale(1.08);box-shadow:0 6px 20px var(--accent-glow)}
   .ctrl-btn svg{width:18px;height:18px;fill:currentColor;display:block}
   .progress-wrap{flex:1;cursor:grab;padding:12px 4px;min-width:60px;touch-action:none}
   .progress-wrap:active{cursor:grabbing}
-  .progress-bar{height:4px;background:rgba(255,255,255,.22);
-    border-radius:4px;overflow:hidden;position:relative;transition:height .2s}
+  .progress-bar{
+    height:4px;background:rgba(255,255,255,.15);
+    border-radius:100px;overflow:hidden;position:relative;
+    transition:height .25s}
   .progress-wrap:hover .progress-bar{height:6px}
-  .progress-fill{height:100%;width:0;
-    background:linear-gradient(90deg,#8b0000,#dc1420,#ff4757);
-    border-radius:4px;transition:width .1s;
-    box-shadow:0 0 10px rgba(220,20,30,.85)}
-  .time-display{color:#fff;font-size:12px;font-weight:600;white-space:nowrap;
-    padding:0 6px;opacity:.9;display:flex;align-items:center;gap:5px}
-  .time-display .live-dot{width:6px;height:6px;border-radius:50%;
-    background:#dc1420;display:inline-block;
-    box-shadow:0 0 6px rgba(220,20,30,.9);animation:blink 1.2s infinite}
-  .placeholder{position:absolute;inset:0;display:flex;flex-direction:column;
+  .progress-fill{
+    height:100%;width:0;
+    background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    border-radius:100px;transition:width .1s;
+    box-shadow:0 0 12px var(--accent-glow)}
+  .time-display{
+    color:#fff;font-size:12.5px;font-weight:700;white-space:nowrap;
+    padding:0 8px;display:flex;align-items:center;gap:6px;
+    letter-spacing:.3px}
+  .time-display .live-dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--accent-2);display:inline-block;
+    box-shadow:0 0 10px var(--accent-glow);
+    animation:blink 1.2s infinite}
+  .placeholder{
+    position:absolute;inset:0;display:flex;flex-direction:column;
     justify-content:center;align-items:center;gap:14px;
-    background:#000;color:#5a3b3d;text-align:center;padding:20px;z-index:2}
-  .placeholder svg{width:56px;height:56px;fill:#3a2224;opacity:.7}
+    background:transparent;color:var(--text-mute);text-align:center;
+    padding:20px;z-index:2}
+  .placeholder svg{width:56px;height:56px;fill:#2a2a34;opacity:.7}
   .placeholder span{font-size:14px;font-weight:600}
-  .match-info-bar{padding:16px;flex-shrink:0;
-    background:linear-gradient(180deg,rgba(0,0,0,.4),rgba(0,0,0,.92));
-    backdrop-filter:blur(10px);border-top:1px solid rgba(220,20,30,.2)}
-  .match-info-bar .teams-row{display:flex;justify-content:space-around;align-items:center;
-    max-width:640px;margin:0 auto}
-  .match-info-bar .team-sm{text-align:center}
-  .match-info-bar .team-sm img{width:56px;height:56px;object-fit:contain;
-    border-radius:50%;background:#0c0304;padding:5px;
-    border:1px solid rgba(220,20,30,.4)}
-  .match-info-bar .team-sm .n{margin-top:8px;font-size:12px;font-weight:700;color:#fff}
-  .match-info-bar .vs-sm{color:#dc1420;font-weight:900;font-size:19px;letter-spacing:1px}
-  .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);
-    background:linear-gradient(90deg,#8b0000,#dc1420);
-    color:#fff;padding:11px 24px;border-radius:26px;
+
+  .toast{
+    position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(10px);
+    background:linear-gradient(180deg,var(--accent-2),var(--accent));
+    color:#fff;padding:12px 26px;border-radius:100px;
     font-weight:700;font-size:13px;z-index:999999;
-    opacity:0;transition:.3s;
-    box-shadow:0 10px 30px rgba(190,15,25,.5);
-    pointer-events:none;font-family:'Cairo',sans-serif}
-  .toast.show{opacity:1;bottom:38px}
+    opacity:0;transition:.35s cubic-bezier(.34,1.56,.64,1);
+    box-shadow:0 12px 32px var(--accent-glow),
+               inset 0 1px 0 rgba(255,255,255,.2);
+    pointer-events:none;font-family:'Cairo',sans-serif;
+    letter-spacing:.2px}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
   @media(max-width:600px){
     .main-header{padding:12px 14px;flex-wrap:wrap;gap:10px}
-    .header-brand .logo-sm{width:40px;height:40px}
+    .header-brand .logo-sm{width:42px;height:42px;border-radius:12px}
     .header-brand .text .name{font-size:15px}
-    .header-brand .text .sub{font-size:10px}
-    .header-tg{padding:8px 12px;font-size:12px}
+    .header-brand .text .sub{font-size:10.5px}
+    .header-tg{padding:9px 14px;font-size:12px}
     .header-tg svg{width:16px;height:16px}
-    .support-banner{padding:16px 16px}
+    .support-banner{padding:16px 18px}
     .support-banner .title{font-size:14px}
     .support-banner .body{font-size:12px;line-height:1.7}
-    .support-btn{padding:9px 18px;font-size:12px}
-    .match-tile .team img{width:62px;height:62px}
-    .channel-logo{width:32%;max-width:200px;top:5%;right:5%}
-    .back-btn{top:2%;left:2%;font-size:10px;padding:2px 6px}
-    .ctrl-btn{width:36px;height:36px}
+    .support-btn{padding:10px 18px;font-size:12px}
+    .cats-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+    .cat-tile{padding:20px 12px;border-radius:var(--r-lg)}
+    .cat-tile .cat-logo{width:80px;height:80px}
+    .cat-tile .cat-name{font-size:14px}
+    .channels-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+    .channel-tile{padding:18px 10px;border-radius:var(--r-lg)}
+    .channel-tile .logo{width:80px;height:80px}
+    .channel-tile .name{font-size:13px}
+    .back-btn{top:2%;left:2%;font-size:11px;padding:5px 12px}
+    .ctrl-btn{width:38px;height:38px}
     .ctrl-btn svg{width:16px;height:16px}
-    .time-display{font-size:11px;padding:0 3px}
-    .brand-name{font-size:22px}
-    .welcome-text{font-size:16px}
+    .time-display{font-size:11.5px;padding:0 5px}
+    .brand-name{font-size:24px}
+    .welcome-text{font-size:15px}
   }
 </style>
 </head>
 <body>
 
 <div class="bg-layer"></div>
+<div class="bg-grid"></div>
 <div class="bg-orbs">
   <div class="orb orb1"></div>
   <div class="orb orb2"></div>
-  <div class="orb orb3"></div>
 </div>
-<div class="bg-lines">
-  <span></span><span></span><span></span><span></span><span></span>
-</div>
-<div class="bg-dots"></div>
 
 <div id="splash">
   <div class="loader">
-    <svg class="spin" viewBox="0 0 100 100">
-      <circle cx="50" cy="50" r="45"/>
-    </svg>
+    <svg class="spin" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45"/></svg>
     <div class="logo-circle">
       <img src="https://i.postimg.cc/xT8rcsT1/file-000000008bb4820ebcd371e64fff0469.png" alt="">
     </div>
@@ -346,7 +449,7 @@
       <img class="logo-sm" src="https://i.postimg.cc/xT8rcsT1/file-000000008bb4820ebcd371e64fff0469.png" alt="">
       <div class="text">
         <div class="name">Alankaboot Sport</div>
-        <div class="sub">البث المباشر للمباريات</div>
+        <div class="sub">البث المباشر للقنوات</div>
       </div>
     </div>
     <a class="header-tg" href="https://t.me/alankabootsport" target="_blank" rel="noopener">
@@ -369,9 +472,18 @@
     </a>
   </div>
 
-  <div class="section-title">مباريات اليوم والبث المباشر</div>
+  <div id="viewCategories">
+    <div class="section-title">الأقسام</div>
+    <div class="cats-grid" id="catsGrid"></div>
+  </div>
 
-  <div class="matches-grid" id="matchesGrid"></div>
+  <div id="viewChannels" style="display:none">
+    <div class="back-row">
+      <button class="back-cat-btn" onclick="backToCategories()">← رجوع للأقسام</button>
+    </div>
+    <div class="section-title" id="catTitle">قنوات القسم</div>
+    <div class="channels-grid" id="channelsGrid"></div>
+  </div>
 
   <div class="main-footer">
     © 2026 Alankaboot Sport — جميع الحقوق محفوظة
@@ -385,22 +497,18 @@
 <div id="streamView">
   <div class="stream-player-wrap">
     <div class="player-box" id="playerBox">
-      <div class="video-aspect" id="videoAspect">
+      <div class="video-aspect">
         <video id="video" playsinline webkit-playsinline></video>
         <button class="back-btn" onclick="closeStream()">رجوع</button>
-        <img class="channel-logo" id="channelLogo"
-             src="https://i.postimg.cc/XvJLp6xV/elankbotsports.png" alt="">
         <div class="custom-controls" id="customControls">
-          <button class="ctrl-btn" onclick="togglePlay()" id="playBtn">
+          <button class="ctrl-btn" onclick="togglePlay()">
             <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
           </button>
           <div class="progress-wrap" id="progressWrap">
             <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
           </div>
-          <span class="time-display" id="timeDisplay">
-            <span class="live-dot"></span> مباشر
-          </span>
-          <button class="ctrl-btn" onclick="toggleMute()" id="muteBtn">
+          <span class="time-display" id="timeDisplay"><span class="live-dot"></span> مباشر</span>
+          <button class="ctrl-btn" onclick="toggleMute()">
             <svg id="volIcon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
           </button>
         </div>
@@ -411,27 +519,13 @@
       </div>
     </div>
   </div>
-  <div class="match-info-bar" id="matchInfoBar" style="display:none">
-    <div class="teams-row">
-      <div class="team-sm">
-        <img id="infoTeam1Img" src=""><div class="n" id="infoTeam1">-</div>
-      </div>
-      <div class="vs-sm">VS</div>
-      <div class="team-sm">
-        <img id="infoTeam2Img" src=""><div class="n" id="infoTeam2">-</div>
-      </div>
-    </div>
-  </div>
 </div>
 
 <div class="toast" id="toast">هذا المحتوى محمي</div>
 
 <script>
   const PROXY_BASE = 'https://alankaboot-proxy.kamlnot61.workers.dev';
-
-  function tokenToUrl(tok){
-    return PROXY_BASE + '/s?t=' + encodeURIComponent(tok);
-  }
+  const tokenToUrl = t => PROXY_BASE + '/s?t=' + encodeURIComponent(t);
 
   document.addEventListener('keydown', e=>{
     if((e.ctrlKey||e.metaKey) && (e.key === 'u' || e.key === 'U')) e.preventDefault();
@@ -442,21 +536,24 @@
   document.addEventListener('contextmenu', e=>e.preventDefault());
 
   const BROKER = 'wss://broker.emqx.io:8084/mqtt';
-  const TOPIC_CMD = 'kwtspta_9f3a2b1c/cmd';
+  const TOPIC_CMD  = 'kwtspta_9f3a2b1c/cmd';
   const TOPIC_DATA = 'kwtspta_9f3a2b1c/data';
-  const TOPIC_HB = 'kwtspta_9f3a2b1c/hb';
+  const TOPIC_HB   = 'kwtspta_9f3a2b1c/hb';
   const MY_ID = 'v_' + Math.random().toString(36).slice(2,10);
 
   const $ = id => document.getElementById(id);
-  const splash = $('splash'), app = $('app'), grid = $('matchesGrid');
+  const splash = $('splash'), app = $('app');
+  const catsGrid = $('catsGrid'), channelsGrid = $('channelsGrid');
+  const viewCategories = $('viewCategories'), viewChannels = $('viewChannels');
+  const catTitle = $('catTitle');
   const streamView = $('streamView'), video = $('video'), playerBox = $('playerBox');
-  const placeholder = $('playerPlaceholder'), matchInfoBar = $('matchInfoBar');
-  const customControls = $('customControls'), playBtn = $('playBtn');
-  const playIcon = $('playIcon'), muteBtn = $('muteBtn'), volIcon = $('volIcon');
+  const placeholder = $('playerPlaceholder'), customControls = $('customControls');
+  const playIcon = $('playIcon'), volIcon = $('volIcon');
   const progressFill = $('progressFill'), timeDisplay = $('timeDisplay');
   const toast = $('toast');
 
-  let hls = null, currentMatchId = null, matchesData = [], isStreamViewOpen = false;
+  let hls = null, currentChannelId = null, categoriesData = [];
+  let currentCatIndex = -1, isStreamViewOpen = false;
 
   function showToast(msg){
     toast.textContent = msg;
@@ -466,10 +563,7 @@
 
   setTimeout(()=>{
     splash.classList.add('hide');
-    setTimeout(()=>{
-      splash.style.display = 'none';
-      app.classList.add('show');
-    }, 800);
+    setTimeout(()=>{ splash.style.display = 'none'; app.classList.add('show'); }, 800);
   }, 2800);
 
   const client = mqtt.connect(BROKER, { clientId: MY_ID });
@@ -482,62 +576,106 @@
   client.on('message', (topic, msg)=>{
     try{
       const data = JSON.parse(msg.toString());
-      if(topic === TOPIC_DATA){ matchesData = data; renderMatches(); }
-      if(topic === TOPIC_CMD && isStreamViewOpen && currentMatchId === data.matchId){
-        if(data.action === 'play'){
-          if(data.token) playStream(tokenToUrl(data.token));
+      if(topic === TOPIC_DATA){
+        categoriesData = Array.isArray(data) ? data : [];
+        renderCurrentView();
+      }
+      if(topic === TOPIC_CMD && isStreamViewOpen){
+        if(data.action === 'stopAll'){ closeStreamUI(); return; }
+        if(currentChannelId === data.channelId){
+          if(data.action === 'play' && data.token) playStream(tokenToUrl(data.token));
+          else if(data.action === 'stop') stopStream();
         }
-        else if(data.action === 'stop') stopStream();
       }
     }catch(e){}
   });
 
-  function renderMatches(){
-    if(!matchesData.length){
-      grid.innerHTML = '<div style="text-align:center;color:#8a5b5e;padding:40px;grid-column:1/-1">لا توجد مباريات</div>';
+  function renderCurrentView(){
+    if(currentCatIndex === -1) renderCategories();
+    else renderChannels(currentCatIndex);
+  }
+
+  function renderCategories(){
+    if(!categoriesData.length){
+      catsGrid.innerHTML = '<div class="empty-msg">📺<br>لا توجد أقسام متاحة حالياً<br>تابع قناتنا على تيليجرام ليصلك كل جديد</div>';
       return;
     }
-    grid.innerHTML = matchesData.map((m,i)=>`
-      <div class="match-tile ${m.live?'live':''}" onclick="openMatch(${i})">
-        <div class="top-info">
-          <span class="title">${m.title||'قناة'}</span>
-          <span class="time-tag">${m.time||''}</span>
-          ${m.live?'<span class="live-tag">مباشر</span>':''}
+    catsGrid.innerHTML = categoriesData.map((cat,i)=>{
+      const count = (cat.channels || []).length;
+      const liveCount = (cat.channels || []).filter(c => c.live).length;
+      const countText = liveCount > 0 ? `${liveCount} مباشر • ${count} قناة` : `${count} قناة`;
+      return `
+        <div class="cat-tile" onclick="openCategory(${i})">
+          <img class="cat-logo" src="${cat.logo||''}"
+               onerror="this.style.opacity=.15"
+               alt="${escapeAttr(cat.name||'')}">
+          <div class="cat-name">${escapeHtml(cat.name||'قسم')}</div>
+          <span class="cat-count">${countText}</span>
         </div>
-        <div class="teams">
-          <div class="team">
-            <img src="${m.team1Img||''}" onerror="this.style.opacity=0">
-            <div class="name">${m.team1||''}</div>
-          </div>
-          <div class="vs">VS</div>
-          <div class="team">
-            <img src="${m.team2Img||''}" onerror="this.style.opacity=0">
-            <div class="name">${m.team2||''}</div>
-          </div>
-        </div>
-        <div class="watch-btn">${m.live?'مشاهدة الآن':'انتظر البث'}</div>
+      `;
+    }).join('');
+  }
+
+  function renderChannels(ci){
+    const cat = categoriesData[ci];
+    if(!cat){ backToCategories(); return; }
+
+    catTitle.textContent = cat.name || 'قنوات القسم';
+    const list = cat.channels || [];
+
+    if(!list.length){
+      channelsGrid.innerHTML = '<div class="empty-msg">لا توجد قنوات في هذا القسم حالياً</div>';
+      return;
+    }
+
+    channelsGrid.innerHTML = list.map((ch,chi)=>`
+      <div class="channel-tile ${ch.live?'live':''}" onclick="openChannel(${chi})">
+        <img class="logo" src="${ch.logo||''}"
+             onerror="this.style.opacity=.15"
+             alt="${escapeAttr(ch.name||'')}">
+        <div class="name">${escapeHtml(ch.name||'قناة')}</div>
+        <span class="status">${ch.live?'مباشر الآن':'غير متاح'}</span>
       </div>
     `).join('');
   }
 
-  function openMatch(i){
-    const m = matchesData[i];
-    if(!m) return;
-    if(!m.live){ showToast('البث لم يبدأ بعد'); return; }
-    if(!m.streamToken){ showToast('البث غير متاح حالياً'); return; }
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, ch => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[ch]));
+  }
+  function escapeAttr(s) { return escapeHtml(s); }
 
-    currentMatchId = m.id;
+  function openCategory(i){
+    currentCatIndex = i;
+    viewCategories.style.display = 'none';
+    viewChannels.style.display = 'block';
+    renderChannels(i);
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  function backToCategories(){
+    currentCatIndex = -1;
+    viewCategories.style.display = 'block';
+    viewChannels.style.display = 'none';
+    renderCategories();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  function openChannel(chi){
+    const cat = categoriesData[currentCatIndex];
+    if(!cat) return;
+    const ch = cat.channels[chi];
+    if(!ch) return;
+    if(!ch.live){ showToast('القناة غير متاحة حالياً'); return; }
+    if(!ch.token){ showToast('لا يوجد توكن للبث'); return; }
+
+    currentChannelId = ch.id;
     isStreamViewOpen = true;
-
-    $('infoTeam1Img').src = m.team1Img || '';
-    $('infoTeam1').textContent = m.team1 || '';
-    $('infoTeam2Img').src = m.team2Img || '';
-    $('infoTeam2').textContent = m.team2 || '';
-    matchInfoBar.style.display = 'block';
 
     streamView.classList.add('show');
     document.body.style.overflow = 'hidden';
-    playStream(tokenToUrl(m.streamToken));
+    playStream(tokenToUrl(ch.token));
 
     history.pushState({stream: true}, '');
     requestFs();
@@ -578,7 +716,7 @@
 
   function closeStreamUI(){
     isStreamViewOpen = false;
-    currentMatchId = null;
+    currentChannelId = null;
     streamView.classList.remove('show');
     document.body.style.overflow = '';
     stopStream();
@@ -595,11 +733,7 @@
     placeholder.style.display = 'none';
     if(hls){ hls.destroy(); hls = null; }
     if(Hls.isSupported()){
-      hls = new Hls({
-        lowLatencyMode:true,
-        enableWorker:true,
-        xhrSetup: function(xhr){ xhr.withCredentials = false; }
-      });
+      hls = new Hls({ lowLatencyMode:true, enableWorker:true });
       hls.loadSource(url);
       hls.attachMedia(video);
       hls.on(Hls.Events.MANIFEST_PARSED, ()=> video.play().catch(()=>{}));
@@ -618,7 +752,7 @@
     if(hls){ hls.destroy(); hls = null; }
     video.pause(); video.removeAttribute('src'); video.load();
     placeholder.style.display = 'flex';
-    placeholder.innerHTML = '<svg viewBox="0 0 24 24" style="width:56px;height:56px;fill:#3a2224;opacity:.7"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg><span>تم إيقاف البث</span>';
+    placeholder.innerHTML = '<svg viewBox="0 0 24 24" style="width:56px;height:56px;fill:#2a2a34;opacity:.7"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg><span>تم إيقاف البث</span>';
   }
 
   function togglePlay(){ video.paused ? video.play().catch(()=>{}) : video.pause(); }
@@ -651,7 +785,6 @@
 
   const progressWrap = document.getElementById('progressWrap');
   let isDraggingSeek = false;
-
   function seekVideo(e) {
     if (!video.duration || !isFinite(video.duration)) return;
     const rect = progressWrap.getBoundingClientRect();
@@ -660,12 +793,10 @@
     video.currentTime = percent * video.duration;
     progressFill.style.width = (percent * 100) + '%';
   }
-
   progressWrap.addEventListener('pointerdown', (e) => {
     isDraggingSeek = true;
     try { progressWrap.setPointerCapture(e.pointerId); } catch(err){}
-    seekVideo(e);
-    e.preventDefault();
+    seekVideo(e); e.preventDefault();
   });
   progressWrap.addEventListener('pointermove', (e) => {
     if (isDraggingSeek) { seekVideo(e); e.preventDefault(); }
@@ -677,48 +808,33 @@
   progressWrap.addEventListener('pointercancel', () => { isDraggingSeek = false; });
 
   let controlsVisible = true;
-
   playerBox.addEventListener('click', (e) => {
     if (customControls.contains(e.target)) return;
     if (e.target.classList.contains('back-btn')) return;
     if (isDraggingSeek) return;
-
     if (controlsVisible) {
-      customControls.classList.add('hidden');
-      controlsVisible = false;
+      customControls.classList.add('hidden'); controlsVisible = false;
     } else {
-      customControls.classList.remove('hidden');
-      controlsVisible = true;
+      customControls.classList.remove('hidden'); controlsVisible = true;
     }
   });
 
   function speakWelcome() {
     if (!('speechSynthesis' in window)) return;
     window.speechSynthesis.cancel();
-
-    const text = "أهلاً بيكم في مشاهدة جميع المباريات. عبارة موقع عنكبوت سبورت. لا تنسوا تشير الأصدقائكم هذا الموقع. ومشاهدة ممتعة.";
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'ar-EG';
-    utterance.rate = 0.9;
-    utterance.pitch = 1;
-    utterance.volume = 1;
-
+    const text = "أهلاً بيكم في مشاهدة جميع القنوات. عبارة موقع عنكبوت سبورت. لا تنسوا تشير الأصدقائكم هذا الموقع. ومشاهدة ممتعة.";
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'ar-EG'; u.rate = 0.9; u.pitch = 1; u.volume = 1;
     const voices = window.speechSynthesis.getVoices();
-    const arabicVoice = voices.find(v => v.lang && v.lang.startsWith('ar'));
-    if (arabicVoice) utterance.voice = arabicVoice;
-
-    window.speechSynthesis.speak(utterance);
+    const ar = voices.find(v => v.lang && v.lang.startsWith('ar'));
+    if (ar) u.voice = ar;
+    window.speechSynthesis.speak(u);
   }
-
   if ('speechSynthesis' in window) {
-    window.speechSynthesis.onvoiceschanged = () => {
-      window.speechSynthesis.getVoices();
-    };
+    window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
     window.speechSynthesis.getVoices();
   }
-
   setInterval(speakWelcome, 1800000);
 </script>
 </body>
-</html>
+ </html>
